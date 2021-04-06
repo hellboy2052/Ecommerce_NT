@@ -36,7 +36,9 @@ namespace ServerSite.Data
             {
                 new Cart{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
                         new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},},UserId="user1" } };
-                new Cart{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10} }
+            new Cart
+            {
+                Products = { new Product { Name = "IPhone", CategoryId = 1, Description = "Iphone", Price = 20000, BrandId = 1, Inventory = 10 } }
             };
 
             context.Carts.AddRange(carts);
@@ -77,6 +79,26 @@ namespace ServerSite.Data
             };
 
             context.Users.AddRange(users);
+            context.SaveChanges();
+
+            var orders = new Order[]
+           {
+                new Order{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
+                        new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},
+                    },UserId="user1" },
+                new Order{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
+                    },UserId="user2" }
+           };
+
+            context.Orders.AddRange(orders);
+            context.SaveChanges();
+            var orderDetails = new OrderDetail[]
+           {
+                new OrderDetail{ OrderId=1,Status=true,totalPrice=10000,UserPhone="00001",CraeteDate=DateTime.Parse("01-01-2021"),Address="add1" },
+                new OrderDetail{ OrderId=2,Status=true,totalPrice=20000,UserPhone="00002",CraeteDate=DateTime.Parse("02-02-2022"),Address="add2" }
+           };
+
+            context.OrderDetails.AddRange(orderDetails);
             context.SaveChanges();
         }
     }

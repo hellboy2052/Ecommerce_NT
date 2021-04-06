@@ -1,3 +1,6 @@
+
+using CustomerSite.Services.Apis;
+using CustomerSite.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -54,6 +57,7 @@ namespace CustomerSite
                         RoleClaimType = "role"
                     };
                 });
+            services.AddTransient<IBrandApiClient, BrandApiClient>();
             services.AddControllersWithViews();
         }
 

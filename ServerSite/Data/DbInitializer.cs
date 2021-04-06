@@ -34,8 +34,9 @@ namespace ServerSite.Data
 
             var carts = new Cart[]
             {
-                new Cart{ Products={1,2},UserId="user1" },
-                new Cart{ Products={1},UserId="user2" },
+                new Cart{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
+                        new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},},UserId="user1" } };
+                new Cart{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10} }
             };
 
             context.Carts.AddRange(carts);

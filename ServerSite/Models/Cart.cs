@@ -10,6 +10,7 @@ namespace ServerSite.Models
         public string UserId { get; set; }
         public User User { get; set; }
         public int Id { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public IList<int> Products { get; set; }
+        
     }
 }

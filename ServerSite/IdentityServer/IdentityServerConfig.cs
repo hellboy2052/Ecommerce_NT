@@ -2,7 +2,7 @@
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace BackEnd.IdentityServer
+namespace ServerSite.IdentityServer
 {
     public static class IdentityServerConfig
     {

@@ -4,7 +4,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using BackEnd.Models;
+using ServerSite.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace BackEnd.IdentityServer
+namespace ServerSite.IdentityServer
 {
     public class CustomProfileService : IProfileService
     {

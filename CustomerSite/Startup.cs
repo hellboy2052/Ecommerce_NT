@@ -58,6 +58,7 @@ namespace CustomerSite
                     };
                 });
             services.AddTransient<IBrandApiClient, BrandApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddControllersWithViews();
         }
 

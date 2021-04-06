@@ -1,0 +1,15 @@
+﻿@model IList<SharedVm.CategoryVm>
+
+<div class="row">
+
+    <div class="col-4">
+
+        @foreach (var x in Model)
+        {
+            <li>@x.Id</li>
+            <li>@x.Name</li>
+        }
+
+    </div>
+
+</div>

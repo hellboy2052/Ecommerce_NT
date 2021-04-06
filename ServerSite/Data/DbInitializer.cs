@@ -12,7 +12,10 @@ namespace ServerSite.Data
         {
             context.Database.EnsureCreated();
 
-
+            if (context.Categories.Any())
+            {
+                return;
+            }
 
             var categories = new Category[]
             {
@@ -32,16 +35,13 @@ namespace ServerSite.Data
             context.Brands.AddRange(brands);
             context.SaveChanges();
 
-            var carts = new Cart[]
+            var product = new Product[]
             {
-                new Cart{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
-                        new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},},UserId="user1" } };
-            new Cart
-            {
-                Products = { new Product { Name = "IPhone", CategoryId = 1, Description = "Iphone", Price = 20000, BrandId = 1, Inventory = 10 } }
+                new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
+                new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},
             };
 
-            context.Carts.AddRange(carts);
+            context.Products.AddRange(product);
             context.SaveChanges();
 
             var images = new Image[]
@@ -53,23 +53,7 @@ namespace ServerSite.Data
             context.Images.AddRange(images);
             context.SaveChanges();
 
-            var products = new Product[]
-            {
-                new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
-                new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},
-            };
 
-            context.Products.AddRange(products);
-            context.SaveChanges();
-
-            var rates = new Rate[]
-            {
-                new Rate{ ProductId=1,UserId="user1",Comment="this good",totalStar=5,CreateDate=DateTime.Parse("01-01-2021")},
-                new Rate{ ProductId=2,UserId="user2",Comment="this good too",totalStar=5,CreateDate=DateTime.Parse("02-02-2021")},
-            };
-
-            context.Rates.AddRange(rates);
-            context.SaveChanges();
 
 
             var users = new User[]
@@ -81,14 +65,36 @@ namespace ServerSite.Data
             context.Users.AddRange(users);
             context.SaveChanges();
 
+            var products = new List<Product>() {
+                new Product(){ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
+                new Product(){ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10}
+            };
+
+            var carts = new Cart()
+            {
+                UserId = "5cb251f5-4412-41c1-9934-30523309dcae",
+                Products = products
+            };
+
+            context.Carts.AddRange(carts);
+            context.SaveChanges();
+
+            var rates = new Rate[]
+            {
+                new Rate{ ProductId=1,UserId="5cb251f5-4412-41c1-9934-30523309dcae",Comment="this good",totalStar=5,CreateDate=DateTime.Parse("01-01-2021")},
+                new Rate{ ProductId=2,UserId="d6c5ce25-c81c-4e39-8ced-a60a1bb47bb5",Comment="this good too",totalStar=5,CreateDate=DateTime.Parse("02-02-2021")},
+            };
+
+            context.Rates.AddRange(rates);
+            context.SaveChanges();
+
+
             var orders = new Order[]
-           {
-                new Order{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
-                        new Product{ Name = "Samsung",  CategoryId = 1, Description = "Samsung", Price = 25000,BrandId=2,Inventory=10},
-                    },UserId="user1" },
-                new Order{ Products={new Product{ Name = "IPhone",  CategoryId = 1, Description = "Iphone", Price = 20000,BrandId=1,Inventory=10},
-                    },UserId="user2" }
-           };
+        {
+                new Order{ Products=products
+                    ,UserId="5cb251f5-4412-41c1-9934-30523309dcae" },
+                new Order{ Products=products,UserId="d6c5ce25-c81c-4e39-8ced-a60a1bb47bb5" }
+        };
 
             context.Orders.AddRange(orders);
             context.SaveChanges();

@@ -1,4 +1,4 @@
-﻿@model IList<SharedVm.BrandVm>
+﻿@model IList<SharedVm.ProductVm>
 
 <div class="row">
 
@@ -7,8 +7,8 @@
         <ul>
             @foreach (var x in Model)
             {
-            <li>@x.Id >@x.Name</li>
-                
+                <li>@x.Id >@x.Name @x.Price @x.Inventory @x.Description @x.CategoryId @x.BrandId</li>
+
             }
         </ul>
 

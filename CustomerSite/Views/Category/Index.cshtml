@@ -4,11 +4,13 @@
 
     <div class="col-4">
 
-        @foreach (var x in Model)
-        {
-            <li>@x.Id</li>
-            <li>@x.Name</li>
-        }
+        <ul>
+            @foreach (var x in Model)
+            {
+            <li>@x.Id @x.Name</li>
+                
+            }
+        </ul>
 
     </div>
 

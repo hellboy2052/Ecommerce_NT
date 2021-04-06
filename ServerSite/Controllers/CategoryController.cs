@@ -14,55 +14,55 @@ namespace ServerSite.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize("Bearer")]
-    public class BrandController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public BrandController(ApplicationDbContext context)
+        public CategoryController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BrandVm>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryVm>>> Get()
         {
-            return await _context.Brands
-                .Select(x => new BrandVm { Name = x.Name })
+            return await _context.Categories
+                .Select(x => new CategoryVm { Name = x.Name })
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
         //[Authorize(Roles ="admin")]
-        public async Task<ActionResult<BrandVm>> GetId(int id)
+        public async Task<ActionResult<CategoryVm>> GetId(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (brand == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            var brandVm = new BrandVm
+            var categoryVm = new CategoryVm
             {
-                Id = brand.Id,
-                Name = brand.Name
+                Id = category.Id,
+                Name = category.Name
             };
 
-            return brandVm;
+            return categoryVm;
         }
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, BrandVm brandVm)
+        public async Task<IActionResult> Put(int id, CategoryVm categoryVm)
         {
-            var brand = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (brand == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            brand.Name = brandVm.Name;
+            category.Name = categoryVm.Name;
             await _context.SaveChangesAsync();
 
             return Accepted();
@@ -70,30 +70,30 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> Post(BrandVm brandVm)
+        public async Task<ActionResult<CategoryVm>> Post(CategoryVm categoryVm)
         {
-            var brand = new Brand
+            var category = new Category
             {
-                Name = brandVm.Name
+                Name = categoryVm.Name
             };
 
-            _context.Brands.Add(brand);
+            _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBR", new { id = brand.Id }, new BrandVm { Id = brand.Id, Name = brand.Name });
+            return CreatedAtAction("GetCR", new { id = category.Id }, new BrandVm { Id = category.Id, Name = category.Name });
         }
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
             return Accepted();

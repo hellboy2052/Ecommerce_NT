@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ServerSite.Data
 {
-    public class ApplicationDbContext : IdentityUserContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,7 +18,6 @@ namespace ServerSite.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Rate> Rates { get; set; }
-        
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
     }

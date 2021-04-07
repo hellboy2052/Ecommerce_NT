@@ -20,5 +20,6 @@ namespace ServerSite.Data
         public DbSet<Rate> Rates { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Banner> Banners { get; set; }
     }
 }

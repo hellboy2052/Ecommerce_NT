@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace ServerSite.Models
 {
-    public class Brand
+    public class Banner
     {
         public int Id { get; set; }
-        public string Name { get; set; }    
-        public virtual ICollection<Product> Products { get; set; }
-
+        public int ProductID { get; set; }
+        public Product Product { get; set; }
+        public string ImagePath { get; set; }
     }
 }

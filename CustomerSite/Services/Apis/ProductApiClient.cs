@@ -27,5 +27,13 @@ namespace CustomerSite.Services.Apis
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsAsync<IList<ProductVm>>();
         }
+
+        public async Task<IList<ProductVm>> GetHot()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<IList<ProductVm>>();
+        }
     }
 }

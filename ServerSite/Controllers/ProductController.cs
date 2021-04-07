@@ -26,10 +26,29 @@ namespace ServerSite.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ProductVm>>> Get()
         {
-            return await _context.Products
-                .Select(x => new ProductVm { Name = x.Name,Id=x.Id,BrandId=x.BrandId,
-                    CategoryId=x.CategoryId,Description=x.Description,Inventory=x.Inventory,Price=x.Price })
-                .ToListAsync();
+            var products = await _context.Products.Include(p => p.Image).ToListAsync();
+            List<ProductVm> productListVm = new List<ProductVm>();
+            foreach(var product in products)
+            {
+                ProductVm productVm = new ProductVm
+                {
+
+                    BrandId = product.BrandId,
+                    CategoryId = product.CategoryId,
+                    Description=product.Description,
+                    Id=product.Id,
+                    Inventory=product.Inventory,
+                    Name=product.Name,
+                    Price=product.Price,
+                    ImageLocation=new List<string>()
+                };
+                for(int i = 0; i < product.Image.Count(); i++)
+                {
+                    productVm.ImageLocation.Add(product.Image.ElementAt(i).ImagePath);
+                }
+                productListVm.Add(productVm);
+            }
+            return productListVm;
         }
 
         [HttpGet("{id}")]
@@ -51,8 +70,14 @@ namespace ServerSite.Controllers
                 CategoryId = product.CategoryId,
                 Description = product.Description,
                 Inventory = product.Inventory,
-                Price = product.Price
+                Price = product.Price,
+                ImageLocation = new List<string>()
             };
+            for (int i = 0; i < product.Image.Count(); i++)
+            {
+                productVm.ImageLocation.Add(product.Image.ElementAt(i).ImagePath);
+            }
+            
 
             return productVm;
         }

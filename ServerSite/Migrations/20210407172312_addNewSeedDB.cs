@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ServerSite.Migrations
 {
-    public partial class demoSeed : Migration
+    public partial class addNewSeedDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -329,19 +329,68 @@ namespace ServerSite.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Categories",
+                table: "Brands",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Phone" });
+                values: new object[,]
+                {
+                    { 1, "Samsung" },
+                    { 3, "Xiaomi" },
+                    { 2, "Iphone" },
+                    { 4, "Lenovo" },
+                    { 5, "Huwei" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Tablet" });
+                values: new object[,]
+                {
+                    { 1, "Phone" },
+                    { 2, "Tablet" },
+                    { 3, "Laptop" }
+                });
 
             migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "Laptop" });
+                table: "Products",
+                columns: new[] { "Id", "BrandId", "CategoryId", "Description", "Inventory", "Name", "OrderId", "Price" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "Samsung Galaxy A32 4G là chiếc điện thoại thuộc phân khúc tầm trung nhưng sở hữu nhiều ưu điểm vượt trội về màn hình lớn sắc nét, bộ bốn camera 64 MP cùng vi xử lý hiệu năng cao và được bán ra với mức giá vô cùng tốt.", 100, "Samsung Galaxy A32", null, 6690000.0 },
+                    { 2, 2, 1, "Trong những tháng cuối năm 2020 Apple đã chính thức giới thiệu đến người dùng cũng như iFan thế hệ iPhone 12 series mới với hàng loạt tính năng bức phá, thiết kế được lột xác hoàn toàn, hiệu năng đầy mạnh mẽ và một trong số đó chính là iPhone 12 64GB.", 100, "iPhone 12 64GB", null, 21990000.0 },
+                    { 3, 3, 1, "Xiaomi đã trình làng chiếc điện thoại mang tên gọi là Xiaomi Redmi Note 10 với điểm nhấn chính là cụm 4 camera 48 MP, chip rồng Snapdragon 678 mạnh mẽ cùng nhiều nâng cấp như dung lượng pin 5.000 mAh và hỗ trợ sạc nhanh 33 W tiện lợi.", 100, "Xiaomi Redmi Note 10", null, 5370000.0 },
+                    { 4, 5, 2, "Chiếc máy tính bảng giá rẻ đáng mong chờ của Huawei, Huawei MatePad T10s cuối cùng cũng đã chính thức ra mắt. Với vi xử lý 8 nhân mở ra một thế giới giải trí mượt mà, sống động từng khoảnh khắc với màn hình cực lớn, hé lộ một chiếc máy tính bảng tốt trong tầm giá mà bất kỳ ai cũng đều yêu thích.", 100, "Huawei MatePad T10s", null, 5290000.0 },
+                    { 5, 1, 2, "Samsung Galaxy Tab A7 (2020) là một chiếc máy tính bảng có thiết kế đẹp, cấu hình khá, nhiều tính năng tiện ích, một công cụ đắc lực hỗ trợ bạn trong công việc cũng như trong học tập hay giải trí.", 100, "Samsung Galaxy Tab A7", null, 6390000.0 },
+                    { 6, 4, 2, "Từ việc sử dụng các thiết bị điện tử đa dạng của các gia đình hiện nay, Lenovo đã nắm bắt được nhu cầu thiết yếu này và cho ra mắt chiếc máy tính bảng Lenovo Tab M10 - FHD Plus với những tính năng tiện ích ấn tượng, “khoác chiếc áo” của thời đại và có mức giá siêu ưu đãi.", 100, "Lenovo Tab M10", null, 5190000.0 },
+                    { 7, 4, 3, "Lenovo IdeaPad S340 14IIL (81VV003VVN) sở hữu cấu hình khá, hiệu năng ổn định và thiết kế tinh tế đẹp mắt. Đây sẽ là chiếc laptop văn phòng phù hợp với đối tượng sinh viên, dân văn phòng thường xuyên xử lý các tác vụ văn phòng, học tập và chỉnh sửa hình ảnh cơ bản.", 100, "Lenovo IdeaPad S340", null, 13990000.0 },
+                    { 8, 4, 3, "Với bộ xử lý Intel Core i3 thế hệ thứ 10 tiên tiến cũng như các tùy chọn ổ cứng siêu nhanh, lưu trữ rộng lớn, Lenovo IdeaPad Flex 5 14IIL05 i3 chắc chắn là một lựa chọn tuyệt vời để bạn sử dụng hàng ngày.", 100, "Lenovo IdeaPad Flex 5", null, 16490000.0 },
+                    { 9, 4, 3, "Laptop Lenovo ThinkBook 15IIL i3 (20SM00D9VN) sở hữu thiết kế từ kim loại toát lên vẻ sang trọng, sắc sảo, cấu hình lí tưởng cho học tập, trình duyệt web khi trang bị bộ vi xử lý Intel thế hệ thứ 10 mới và ổ cứng SSD cực nhanh", 100, "Lenovo ThinkBook 15IIL", null, 11690000.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Banners",
+                columns: new[] { "Id", "ImagePath", "ProductID" },
+                values: new object[,]
+                {
+                    { 1, "/images/Banner/bn1.png", 1 },
+                    { 2, "/images/Banner/bn2.png", 2 },
+                    { 3, "/images/Banner/bn3.png", 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Images",
+                columns: new[] { "Id", "ImagePath", "ProductId" },
+                values: new object[,]
+                {
+                    { 1, "/images/Phone/p1.png", 1 },
+                    { 2, "/images/Phone/p2.png", 2 },
+                    { 3, "/images/Phone/p3.png", 3 },
+                    { 4, "/images/Tablet/tl1.png", 4 },
+                    { 5, "/images/Tablet/tl2.png", 5 },
+                    { 6, "/images/Tablet/tl3.png", 6 },
+                    { 7, "/images/Laptop/lt1.png", 7 },
+                    { 8, "/images/Laptop/lt2.png", 8 },
+                    { 9, "/images/Laptop/lt3.png", 9 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

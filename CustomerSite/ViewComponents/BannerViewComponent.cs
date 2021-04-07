@@ -1,0 +1,26 @@
+﻿using CustomerSite.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CustomerSite.ViewComponents
+{
+    public class BannerViewComponent: ViewComponent
+    {
+        private readonly IBannerApiClient _bannerApiClient;
+
+        public BannerViewComponent(IBannerApiClient bannerApiClient)
+        {
+            _bannerApiClient = bannerApiClient;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var banners = await _bannerApiClient.Get();
+
+            return View(banners);
+        }
+    }
+}

@@ -9,24 +9,23 @@ using System.Threading.Tasks;
 
 namespace CustomerSite.Services.Apis
 {
-    public class ProductApiClient:IProductApiClient
+    public class BannerApiClient:IBannerApiClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
 
-        public ProductApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public BannerApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
         }
 
-        public async Task<IList<ProductVm>> Get()
+        public async Task<IList<BannerVm>> Get()
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product");
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Banner");
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<IList<ProductVm>>();
+            return await response.Content.ReadAsAsync<IList<BannerVm>>();
         }
-
     }
 }

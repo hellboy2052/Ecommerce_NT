@@ -18,7 +18,7 @@ namespace ServerSite.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Rate> Rates { get; set; }
-        public DbSet<Cart> Carts { get; set; }
+        
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
     }

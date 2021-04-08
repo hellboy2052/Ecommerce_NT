@@ -9,5 +9,6 @@ namespace CustomerSite.Services.Interfaces
     public interface IProductApiClient
     {
         Task<IList<ProductVm>> Get();
+        Task<ProductVm> GetId(int id);
     }
 }

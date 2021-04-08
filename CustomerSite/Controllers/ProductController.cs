@@ -25,5 +25,17 @@ namespace CustomerSite.Controllers
 
             return View(products);
         }
+        public async Task<IActionResult> Detail(int id)
+        {
+            var product = await _productApiClient.GetId(id);
+
+            for (int i = 0; i < product.ImageLocation.Count; i++)
+            {
+                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
+                product.ImageLocation[i] = setUrl;
+            }
+
+            return View(product);
+        }
     }
 }

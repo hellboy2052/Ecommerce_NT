@@ -55,7 +55,7 @@ namespace ServerSite.Controllers
         //[Authorize(Roles ="admin")]
         public async Task<ActionResult<ProductVm>> GetId(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p=>p.Id==id);
 
             if (product == null)
             {

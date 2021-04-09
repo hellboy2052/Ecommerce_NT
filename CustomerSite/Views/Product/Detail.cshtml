@@ -37,12 +37,22 @@
                     <li class="list-group-item">@Model.BrandId</li>
                     <li class="list-group-item">@Model.Price</li>
 
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="list-group-item">
+                            <button type="button" class="btn btn-warning">Mua Ngay</button>
+                            <button type="button" class="btn btn-success" asp-controller="Cart" asp-action="">Thêm Vào Giỏ Hàng</button>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">
+                            <button type="button" class="btn btn-warning">Mua Ngay</button>
+                            <button type="button" class="btn btn-success" asp-controller="Product" asp-action="AddCart">Thêm Vào Giỏ Hàng</button>
+                        </li>
+                    }
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-warning">Mua Ngay</button>
-                        <button type="button" class="btn btn-success">Thêm Vào Giỏ Hàng</button>
-                    </li>
-                    <li class="list-group-item">
-    
+
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Rating</label>
                             <select class="form-control" id="exampleFormControlSelect1">
@@ -54,9 +64,9 @@
                             </select>
                             <button type="button" class="btn btn-success">Rate</button>
                         </div>
-                        </liclass="list-group-item">
-
-</ul>
+                        </li class="list-group-item">
+                        
+                </ul>
             </div>
             
         </div>

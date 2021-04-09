@@ -1,10 +1,13 @@
 ﻿using CustomerSite.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using SharedVm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace CustomerSite.Controllers
 {
@@ -37,5 +40,7 @@ namespace CustomerSite.Controllers
 
             return View(product);
         }
+
+
     }
 }

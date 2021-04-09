@@ -1,4 +1,4 @@
-
+﻿
 using CustomerSite.Services.Apis;
 using CustomerSite.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +27,11 @@ namespace CustomerSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+                cfg.Cookie.Name = "Cart";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+                cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
+            });
             services.AddHttpClient();
             
             services.AddAuthentication(options =>
@@ -81,6 +86,8 @@ namespace CustomerSite
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

@@ -26,43 +26,45 @@ namespace ServerSite.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RateVm>>> Get()
         {
-            return await _context.Brands
-                .Select(x => new BrandVm { Name = x.Name })
+            return await _context.Rates
+                .Select(x => new RateVm { Id=x.Id,ProductId=x.ProductId,totalStar=x.totalStar,UserId=x.UserId })
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
         //[Authorize(Roles ="admin")]
-        public async Task<ActionResult<BrandVm>> GetId(int id)
+        public async Task<ActionResult<RateVm>> GetId(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var rate = await _context.Rates.FindAsync(id);
 
-            if (brand == null)
+            if (rate == null)
             {
                 return NotFound();
             }
 
-            var brandVm = new BrandVm
+            var rateVm = new RateVm
             {
-                Id = brand.Id,
-                Name = brand.Name
+                UserId = rate.UserId,
+                totalStar=rate.totalStar,
+                ProductId=rate.ProductId,
+                Id=rate.Id
             };
 
-            return brandVm;
+            return rateVm;
         }
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, BrandVm brandVm)
+        public async Task<IActionResult> Put(int id, RateVm rateVm)
         {
-            var brand = await _context.Categories.FindAsync(id);
+            var rate = await _context.Rates.FindAsync(id);
 
-            if (brand == null)
+            if (rate == null)
             {
                 return NotFound();
             }
 
-            brand.Name = brandVm.Name;
+            rate.totalStar = rateVm.totalStar;
             await _context.SaveChangesAsync();
 
             return Accepted();
@@ -70,30 +72,37 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> Post(BrandVm brandVm)
+        public async Task<ActionResult<RateVm>> Post(RateVm rateVm)
         {
-            var brand = new Brand
+            var rate = new Rate
             {
-                Name = brandVm.Name
+                totalStar=rateVm.totalStar,
+                Id=rateVm.Id,
+                ProductId=rateVm.ProductId,
+                UserId=rateVm.UserId
             };
 
-            _context.Brands.Add(brand);
+            _context.Rates.Add(rate);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBR", new { id = brand.Id }, new BrandVm { Id = brand.Id, Name = brand.Name });
+            return CreatedAtAction("GetRate", new { id = rate.Id }, new RateVm { Id = rate.Id,
+                totalStar = rate.totalStar,
+                ProductId = rate.ProductId,
+                UserId = rate.UserId
+            });
         }
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var rate = await _context.Rates.FindAsync(id);
+            if (rate == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Rates.Remove(rate);
             await _context.SaveChangesAsync();
 
             return Accepted();

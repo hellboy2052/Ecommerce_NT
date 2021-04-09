@@ -35,6 +35,7 @@ namespace CustomerSite.Controllers
                 {
                     string setUrl = _configuration["BackendUrl:Default"] + x.ImageLocation[i];
                     x.ImageLocation[i] = setUrl;
+
                 }
 
             }

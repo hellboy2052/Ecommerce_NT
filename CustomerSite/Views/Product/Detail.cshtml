@@ -37,20 +37,24 @@
                     <li class="list-group-item">@Model.BrandId</li>
                     <li class="list-group-item">@Model.Price</li>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
+                    @*@if (User.Identity.IsAuthenticated)
+        {
+            <li class="list-group-item">
+                <button type="button" class="btn btn-warning">Mua Ngay</button>
+                <button type="button" class="btn btn-success" asp-controller="Cart" asp-action="">Thêm Vào Giỏ Hàng</button>
+            </li>
+        }
+        else
+        {*@
+                    <form action="" method="post">
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-warning">Mua Ngay</button>
-                            <button type="button" class="btn btn-success" asp-controller="Cart" asp-action="">Thêm Vào Giỏ Hàng</button>
+                            
+                            <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
                         </li>
-                    }
-                    else
-                    {
-                        <li class="list-group-item">
-                            <button type="button" class="btn btn-warning">Mua Ngay</button>
-                            <button type="button" class="btn btn-success" asp-controller="Product" asp-action="AddCart">Thêm Vào Giỏ Hàng</button>
-                        </li>
-                    }
+                    </form>
+                    
+
+
                     <li class="list-group-item">
 
                         <div class="form-group">
@@ -64,8 +68,8 @@
                             </select>
                             <button type="button" class="btn btn-success">Rate</button>
                         </div>
-                        </li class="list-group-item">
-                        
+                    </li>
+
                 </ul>
             </div>
             

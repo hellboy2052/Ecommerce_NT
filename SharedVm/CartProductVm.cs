@@ -12,9 +12,9 @@ namespace SharedVm
 
         public string ProductName { get; set; }
 
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
-        public int Quantity { get; set; }
+        //public int Quantity { get; set; }
 
         public List<string> ImageLocation { get; set; }
 

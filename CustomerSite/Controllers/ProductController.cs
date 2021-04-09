@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using CustomerSite.Services;
+
 
 namespace CustomerSite.Controllers
 {
@@ -40,7 +42,37 @@ namespace CustomerSite.Controllers
 
             return View(product);
         }
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddsSession(int id)
+        {
+            List<CartProductVm> ListProduct = HttpContext.Session.Get<List<CartProductVm>>("SessionCart");
 
+            if (ListProduct == null)
+            {
+                ListProduct = new List<CartProductVm>();
+            }
+
+            var product = await _productApiClient.GetId(id);
+            for (int i = 0; i < product.ImageLocation.Count; i++)
+            {
+                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
+                product.ImageLocation[i] = setUrl;
+            }
+
+            CartProductVm x = new CartProductVm();
+            x.ImageLocation = product.ImageLocation;
+            x.ProductID = product.Id;
+            //x.Quantity = quantity;
+            x.Price = product.Price;
+            x.ProductName = product.Name;
+            ListProduct.Add(x);
+            HttpContext.Session.Set("SessionCart", ListProduct);
+
+            string referer = Request.Headers["Referer"].ToString();
+            return Redirect(referer);
+        }
+
+        
 
     }
 }

@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ServerSite.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ServerSite.Data
 {
@@ -74,12 +71,15 @@ namespace ServerSite.Data
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
-                    Name= "Samsung Galaxy A32",
-                    Description= "Samsung Galaxy A32 4G là chiếc điện thoại thuộc phân khúc tầm trung nhưng sở hữu nhiều ưu điểm vượt " +
+                    Name = "Samsung Galaxy A32",
+                    Description = "Samsung Galaxy A32 4G là chiếc điện thoại thuộc phân khúc tầm trung nhưng sở hữu nhiều ưu điểm vượt " +
                     "trội về màn hình lớn sắc nét, bộ bốn camera 64 MP cùng vi xử lý hiệu năng cao và được bán ra với mức giá vô cùng " +
                     "tốt.",
-                    BrandId=1,
-                    CategoryId=1,Inventory=100,Id=1,Price=6690000
+                    BrandId = 1,
+                    CategoryId = 1,
+                    Inventory = 100,
+                    Id = 1,
+                    Price = 6690000
 
                 },
                 new Product
@@ -182,9 +182,9 @@ namespace ServerSite.Data
             modelBuilder.Entity<Image>().HasData(
                 new Image
                 {
-                    Id=1,
-                    ImagePath="/images/Phone/p1.png",
-                    ProductId=1
+                    Id = 1,
+                    ImagePath = "/images/Phone/p1.png",
+                    ProductId = 1
                 },
                 new Image
                 {
@@ -241,9 +241,9 @@ namespace ServerSite.Data
             modelBuilder.Entity<Banner>().HasData(
                 new Banner
                 {
-                    ImagePath= "/images/Banner/bn1.png",
-                    Id=1,
-                    ProductID=1
+                    ImagePath = "/images/Banner/bn1.png",
+                    Id = 1,
+                    ProductID = 1
                 },
                 new Banner
                 {

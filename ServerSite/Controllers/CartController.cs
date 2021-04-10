@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerSite.Data;
-using ServerSite.Models;
-using SharedVm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServerSite.Controllers
 {
@@ -30,9 +24,9 @@ namespace ServerSite.Controllers
         //        Total = cartVm.Total,
         //        UserId = cartVm.UserId,
         //        cartProducts = new List<CartProductVm>()
-                
+
         //    };
-            
+
         //    _context.Carts.Add(cart);
         //    await _context.SaveChangesAsync();
 
@@ -53,7 +47,7 @@ namespace ServerSite.Controllers
         ////    cart.UserId = cartVm.UserId;
         ////    cart.Total = cartVm.Total;
         ////    cart.cartProducts = cartProducts;
-           
+
         ////    await _context.SaveChangesAsync();
 
         ////    return Accepted();
@@ -69,9 +63,9 @@ namespace ServerSite.Controllers
         //        return NotFound();
         //    }
 
-            
+
         //        cart.cartProducts.Remove(cartProductVm);
-            
+
 
         //    await _context.SaveChangesAsync();
 
@@ -88,9 +82,9 @@ namespace ServerSite.Controllers
         //        return NotFound();
         //    }
 
-           
+
         //        cart.cartProducts.Add(cartProductVm);
-            
+
 
         //    await _context.SaveChangesAsync();
 

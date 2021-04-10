@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
-using ServerSite.Models;
 using SharedVm;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +26,7 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<IEnumerable<BannerVm>>> Get()
         {
             return await _context.Banners
-                .Select(x => new BannerVm { Id=x.Id,ImagePath=x.ImagePath,ProductID=x.ProductID})
+                .Select(x => new BannerVm { Id = x.Id, ImagePath = x.ImagePath, ProductID = x.ProductID })
                 .ToListAsync();
         }
 

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
 using ServerSite.Models;
 using SharedVm;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,21 +27,21 @@ namespace ServerSite.Controllers
         {
             var products = await _context.Products.Include(p => p.Images).ToListAsync();
             List<ProductVm> productListVm = new List<ProductVm>();
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 ProductVm productVm = new ProductVm
                 {
 
                     BrandId = product.BrandId,
                     CategoryId = product.CategoryId,
-                    Description=product.Description,
-                    Id=product.Id,
-                    Inventory=product.Inventory,
-                    Name=product.Name,
-                    Price=product.Price,
-                    ImageLocation=new List<string>()
+                    Description = product.Description,
+                    Id = product.Id,
+                    Inventory = product.Inventory,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ImageLocation = new List<string>()
                 };
-                for(int i = 0; i < product.Images.Count(); i++)
+                for (int i = 0; i < product.Images.Count(); i++)
                 {
                     productVm.ImageLocation.Add(product.Images.ElementAt(i).ImagePath);
                 }
@@ -55,7 +54,7 @@ namespace ServerSite.Controllers
         //[Authorize(Roles ="admin")]
         public async Task<ActionResult<ProductVm>> GetId(int id)
         {
-            var product = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p=>p.Id==id);
+            var product = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
             {
@@ -77,7 +76,7 @@ namespace ServerSite.Controllers
             {
                 productVm.ImageLocation.Add(product.Images.ElementAt(i).ImagePath);
             }
-            
+
 
             return productVm;
         }
@@ -122,8 +121,17 @@ namespace ServerSite.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPR", new { id = product.Id }, new ProductVm { Id = product.Id, Name = product.Name,Price=product.Price
-            ,Inventory=product.Inventory,Description=product.Description,BrandId=product.BrandId,CategoryId=product.CategoryId});
+            return CreatedAtAction("GetPR", new { id = product.Id }, new ProductVm
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            ,
+                Inventory = product.Inventory,
+                Description = product.Description,
+                BrandId = product.BrandId,
+                CategoryId = product.CategoryId
+            });
         }
 
         [HttpDelete("{id}")]

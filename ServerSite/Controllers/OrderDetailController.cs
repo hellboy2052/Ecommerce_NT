@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
 using ServerSite.Models;
 using SharedVm;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,11 +28,11 @@ namespace ServerSite.Controllers
             return await _context.OrderDetails
                 .Select(x => new OrderDetailVm
                 {
-                    Id=x.Id,
-                    OrderId=x.OrderId,
-                    ProductId=x.ProductId,
-                    Quantity=x.Quantity,
-                    UnitPrice=x.UnitPrice
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity,
+                    UnitPrice = x.UnitPrice
                 })
                 .ToListAsync();
         }
@@ -92,7 +91,7 @@ namespace ServerSite.Controllers
                 ProductId = orderDetailVm.ProductId,
                 Quantity = orderDetailVm.Quantity,
                 UnitPrice = orderDetailVm.UnitPrice,
-                
+
             };
 
             _context.OrderDetails.Add(orderDetail);

@@ -3,15 +3,11 @@ using CustomerSite.Services.Apis;
 using CustomerSite.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CustomerSite
 {
@@ -27,14 +23,15 @@ namespace CustomerSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDistributedMemoryCache();           
-            services.AddSession(cfg => {
+            services.AddDistributedMemoryCache();
+            services.AddSession(cfg =>
+            {
                 cfg.Cookie.HttpOnly = true;
                 cfg.Cookie.IsEssential = true;
-                cfg.IdleTimeout = new TimeSpan(0, 30, 0);    
+                cfg.IdleTimeout = new TimeSpan(0, 30, 0);
             });
             services.AddHttpClient();
-            
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
 using ServerSite.Models;
 using SharedVm;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<IEnumerable<RateVm>>> Get()
         {
             return await _context.Rates
-                .Select(x => new RateVm { Id=x.Id,ProductId=x.ProductId,totalStar=x.totalStar,UserId=x.UserId })
+                .Select(x => new RateVm { Id = x.Id, ProductId = x.ProductId, totalStar = x.totalStar, UserId = x.UserId })
                 .ToListAsync();
         }
 
@@ -45,9 +44,9 @@ namespace ServerSite.Controllers
             var rateVm = new RateVm
             {
                 UserId = rate.UserId,
-                totalStar=rate.totalStar,
-                ProductId=rate.ProductId,
-                Id=rate.Id
+                totalStar = rate.totalStar,
+                ProductId = rate.ProductId,
+                Id = rate.Id
             };
 
             return rateVm;
@@ -76,16 +75,18 @@ namespace ServerSite.Controllers
         {
             var rate = new Rate
             {
-                totalStar=rateVm.totalStar,
-                Id=rateVm.Id,
-                ProductId=rateVm.ProductId,
-                UserId=rateVm.UserId
+                totalStar = rateVm.totalStar,
+                Id = rateVm.Id,
+                ProductId = rateVm.ProductId,
+                UserId = rateVm.UserId
             };
 
             _context.Rates.Add(rate);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRate", new { id = rate.Id }, new RateVm { Id = rate.Id,
+            return CreatedAtAction("GetRate", new { id = rate.Id }, new RateVm
+            {
+                Id = rate.Id,
                 totalStar = rate.totalStar,
                 ProductId = rate.ProductId,
                 UserId = rate.UserId

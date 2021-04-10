@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
 using ServerSite.Models;
 using SharedVm;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,8 +26,16 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<IEnumerable<OrderVm>>> Get()
         {
             return await _context.Orders
-                .Select(x => new OrderVm { UserId=x.UserId,Address=x.Address,
-                    CraeteDate=x.CraeteDate,Id=x.Id,Status=x.Status,totalPrice=x.totalPrice,UserPhone=x.UserPhone })
+                .Select(x => new OrderVm
+                {
+                    UserId = x.UserId,
+                    Address = x.Address,
+                    CraeteDate = x.CraeteDate,
+                    Id = x.Id,
+                    Status = x.Status,
+                    totalPrice = x.totalPrice,
+                    UserPhone = x.UserPhone
+                })
                 .ToListAsync();
         }
 
@@ -45,13 +52,13 @@ namespace ServerSite.Controllers
 
             var orderVm = new OrderVm
             {
-                UserPhone=order.UserPhone,
-                totalPrice=order.totalPrice,
-                Status=order.Status,
-                Id=order.Id,
-                Address=order.Address,
-                CraeteDate=order.CraeteDate,
-                UserId=order.UserId
+                UserPhone = order.UserPhone,
+                totalPrice = order.totalPrice,
+                Status = order.Status,
+                Id = order.Id,
+                Address = order.Address,
+                CraeteDate = order.CraeteDate,
+                UserId = order.UserId
             };
 
             return orderVm;
@@ -68,12 +75,12 @@ namespace ServerSite.Controllers
                 return NotFound();
             }
 
-            order.UserId=orderVm.UserId;
+            order.UserId = orderVm.UserId;
             order.totalPrice = orderVm.totalPrice;
             order.Status = orderVm.Status;
             order.Address = orderVm.Address;
             order.CraeteDate = orderVm.CraeteDate;
-       
+
             await _context.SaveChangesAsync();
 
             return Accepted();
@@ -90,14 +97,15 @@ namespace ServerSite.Controllers
                 Status = orderVm.Status,
                 Address = orderVm.Address,
                 CraeteDate = orderVm.CraeteDate,
-                Id=orderVm.Id,
-                UserPhone=orderVm.UserPhone
-        };
+                Id = orderVm.Id,
+                UserPhone = orderVm.UserPhone
+            };
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOD", new { id = order.Id }, new OrderVm {
+            return CreatedAtAction("GetOD", new { id = order.Id }, new OrderVm
+            {
                 UserId = orderVm.UserId,
                 totalPrice = orderVm.totalPrice,
                 Status = orderVm.Status,

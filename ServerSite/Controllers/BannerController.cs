@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
+using ServerSite.Models;
 using SharedVm;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ServerSite.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class BannerController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,80 +24,86 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BannerVm>>> Get()
+        public async Task<ActionResult<IEnumerable<BannerVm>>> GetAllBanner()
         {
             return await _context.Banners
                 .Select(x => new BannerVm { Id = x.Id, ImagePath = x.ImagePath, ProductID = x.ProductID })
                 .ToListAsync();
         }
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BannerVm>> GetBannerById(int id)
+        {
+            var banner = await _context.Banners.FindAsync(id);
 
-        //[HttpGet("{id}")]
-        ////[Authorize(Roles ="admin")]
-        //public async Task<ActionResult<BrandVm>> GetId(int id)
-        //{
-        //    var brand = await _context.Brands.FindAsync(id);
+            if (banner == null)
+            {
+                return NotFound();
+            }
 
-        //    if (brand == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var bannerVm = new BannerVm
+            {
+                Id=banner.Id,
+                ImagePath=banner.ImagePath,
+                ProductID=banner.ProductID
+            };
 
-        //    var brandVm = new BrandVm
-        //    {
-        //        Id = brand.Id,
-        //        Name = brand.Name
-        //    };
+            return bannerVm;
+        }
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BrandVm>> CreateBanner(BannerVm bannerVm)
+        {
+            var banner = new Banner
+            {
+                ImagePath = bannerVm.ImagePath,
+                Id=bannerVm.Id,
+                ProductID=bannerVm.ProductID
+            };
 
-        //    return brandVm;
-        //}
+            _context.Banners.Add(banner);
+            await _context.SaveChangesAsync();
 
-        //[HttpPut("{id}")]
-        ////[Authorize(Roles = "admin")]
-        //public async Task<IActionResult> Put(int id, BrandVm brandVm)
-        //{
-        //    var brand = await _context.Categories.FindAsync(id);
+            return CreatedAtAction("GetBannerById", new { id = banner.Id }, new BannerVm
+            {
+                Id = banner.Id,
+                ImagePath = banner.ImagePath,
+                ProductID = banner.ProductID
+            });
+        }
+        [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> PutBanner(int id, BannerVm bannerVm)
+        {
+            var banner = await _context.Banners.FindAsync(id);
 
-        //    if (brand == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (banner == null)
+            {
+                return NotFound();
+            }
+            banner.ImagePath = bannerVm.ImagePath;
+            banner.Id = bannerVm.Id;
+            banner.ProductID = bannerVm.ProductID;
 
-        //    brand.Name = brandVm.Name;
-        //    await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-        //    return Accepted();
-        //}
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var banner = await _context.Banners.FindAsync(id);
 
-        //[HttpPost]
-        ////[Authorize(Roles = "admin")]
-        //public async Task<ActionResult<BrandVm>> Post(BrandVm brandVm)
-        //{
-        //    var brand = new Brand
-        //    {
-        //        Name = brandVm.Name
-        //    };
+            if (banner == null)
+            {
+                return NotFound();
+            }
 
-        //    _context.Brands.Add(brand);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetBR", new { id = brand.Id }, new BrandVm { Id = brand.Id, Name = brand.Name });
-        //}
-
-        //[HttpDelete("{id}")]
-        ////[Authorize(Roles = "admin")]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    var brand = await _context.Brands.FindAsync(id);
-        //    if (brand == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Brands.Remove(brand);
-        //    await _context.SaveChangesAsync();
-
-        //    return Accepted();
-        //}
+            _context.Banners.Remove(banner);
+            await _context.SaveChangesAsync();
+            return Accepted();
+        }
 
     }
 }

@@ -21,9 +21,9 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
-            var products = await _productApiClient.Get();
+            var products = await _productApiClient.GetAllProduct();
 
             //Set url backend for image
             foreach (var x in products)

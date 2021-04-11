@@ -13,7 +13,7 @@ namespace ServerSite.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class BannerController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -31,7 +31,7 @@ namespace ServerSite.Controllers
                 .ToListAsync();
         }
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<BannerVm>> GetBannerById(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
@@ -51,7 +51,7 @@ namespace ServerSite.Controllers
             return bannerVm;
         }
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<BrandVm>> CreateBanner(BannerVm bannerVm)
         {
             var banner = new Banner
@@ -71,7 +71,7 @@ namespace ServerSite.Controllers
             });
         }
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateBanner(int id, BannerVm bannerVm)
         {
             var banner = await _context.Banners.FindAsync(id);
@@ -89,7 +89,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteBanner(int id)
         {
             var banner = await _context.Banners.FindAsync(id);

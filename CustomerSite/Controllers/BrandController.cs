@@ -15,13 +15,13 @@ namespace CustomerSite.Controllers
             _brandApiClient = brandApiClient;
             _configuration = configuration;
         }
-        public async Task<IActionResult> IndexAsync()
-        {
-            var brands = await _brandApiClient.Get();
+        //public async Task<IActionResult> IndexAsync()
+        //{
+        //    var brands = await _brandApiClient.Get();
 
 
-            return View(brands);
-        }
+        //    return View(brands);
+        //}
 
         //public async Task<IActionResult> GetProductByCategory(int idCate)
         //{

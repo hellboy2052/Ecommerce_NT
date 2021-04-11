@@ -20,25 +20,25 @@ namespace CustomerSite.Controllers
             _productApiClient = productApiClient;
             _configuration = configuration;
         }
-        public async Task<IActionResult> IndexAsync()
-        {
-            var products = await _productApiClient.Get();
+        //public async Task<IActionResult> IndexAsync()
+        //{
+        //    var products = await _productApiClient.Get();
 
 
-            return View(products);
-        }
-        public async Task<IActionResult> Detail(int id)
-        {
-            var product = await _productApiClient.GetId(id);
+        //    return View(products);
+        //}
+        //public async Task<IActionResult> Detail(int id)
+        //{
+        //    var product = await _productApiClient.GetId(id);
 
-            for (int i = 0; i < product.ImageLocation.Count; i++)
-            {
-                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
-                product.ImageLocation[i] = setUrl;
-            }
+        //    for (int i = 0; i < product.ImageLocation.Count; i++)
+        //    {
+        //        string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
+        //        product.ImageLocation[i] = setUrl;
+        //    }
 
-            return View(product);
-        }
+        //    return View(product);
+        //}
         //[HttpPost("{id}")]
         //public async Task<IActionResult> AddsSession(int id)
         //{

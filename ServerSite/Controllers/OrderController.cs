@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class OrderController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -38,7 +38,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<OrderVm>> GetOderById(int id)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -60,7 +60,7 @@ namespace ServerSite.Controllers
             return orderVm;
         }
         [HttpGet("{userId}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<OrderVm>> GetOderByUserId(string userId)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -82,7 +82,7 @@ namespace ServerSite.Controllers
             return orderVm;
         }
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateOrder(int id, OrderVm orderVm)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -102,7 +102,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         public async Task<ActionResult<OrderVm>> CreateOrder(OrderVm orderVm)
         {
             var order = new Order
@@ -128,7 +128,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);

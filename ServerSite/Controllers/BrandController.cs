@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class BrandController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -31,7 +31,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<BrandVm>> GetBrandById(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
@@ -51,7 +51,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateBrand(int id, BrandVm brandVm)
         {
             var brand = await _context.Brands.FindAsync(id);
@@ -68,7 +68,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<BrandVm>> CreateBrand(BrandVm brandVm)
         {
             var brand = new Brand
@@ -83,7 +83,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var brand = await _context.Brands.FindAsync(id);

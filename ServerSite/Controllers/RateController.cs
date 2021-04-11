@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class RateController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -31,7 +31,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<RateVm>> GetRateById(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
@@ -53,7 +53,7 @@ namespace ServerSite.Controllers
             return rateVm;
         }
         [HttpGet("{userId}")]
-        [Authorize(Roles = "user")]
+        //[Authorize(Roles = "User")]
         public async Task<ActionResult<RateVm>> GetRateByUserId(string userId)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -76,7 +76,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{userId}")]
-        [Authorize(Roles = "user")]
+        //[Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateRateByUserId(string userId, RateVm rateVm)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -94,7 +94,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "user")]
+        //[Authorize(Roles = "User")]
         public async Task<ActionResult<RateVm>> CreateRate(RateVm rateVm)
         {
             var rate = new Rate
@@ -118,7 +118,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var rate = await _context.Rates.FindAsync(id);

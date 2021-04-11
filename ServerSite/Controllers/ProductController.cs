@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -51,7 +51,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<ProductVm>> GetId(int id)
         {
             var product = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
@@ -82,7 +82,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Put(int id, ProductVm productVm)
         {
             var product = await _context.Products.FindAsync(id);
@@ -104,7 +104,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<ProductVm>> Post(ProductVm productVm)
         {
             var product = new Product
@@ -135,7 +135,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);

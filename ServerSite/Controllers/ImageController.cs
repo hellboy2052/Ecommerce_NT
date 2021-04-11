@@ -15,7 +15,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    ////[Authorize("Bearer")]
     public class ImageController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -27,7 +27,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult> PostImage(IFormFile file, ImageVm imageVm)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');

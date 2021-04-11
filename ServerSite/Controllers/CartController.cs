@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class CartController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -21,7 +21,7 @@ namespace ServerSite.Controllers
             _context = context;
         }
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<CartVm>>> GetAllCart()
         {
             return await _context.Carts
@@ -31,7 +31,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<CartVm>> GetCartById(int id)
         {
             var cart = await _context.Carts.FindAsync(id);
@@ -69,7 +69,7 @@ namespace ServerSite.Controllers
             return cartVm;
         }
         [HttpGet("{userId}")]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         public async Task<ActionResult<CartVm>> GetCartByUserId(string userId)
         {
             var cart =await _context.Carts.FirstOrDefaultAsync(x=>x.UserId==userId);
@@ -105,7 +105,7 @@ namespace ServerSite.Controllers
             return cartVm;
         }
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<CartVm>> CreateCart(CartVm cartVm)
         {
             var cart = new Cart
@@ -126,7 +126,7 @@ namespace ServerSite.Controllers
             });
         }
         [HttpPut("userId")]
-        [Authorize(Roles = "user")]
+        //[Authorize(Roles = "User")]
         public async Task<ActionResult<CartVm>> UpdateCart(CartVm cartVm, string userId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -158,7 +158,7 @@ namespace ServerSite.Controllers
             return NoContent();
         }
         [HttpPut("{userId}/{productId}")]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         public async Task<IActionResult> RemoveItem(string userId, int productId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -178,7 +178,7 @@ namespace ServerSite.Controllers
             return NoContent();
         }
         [HttpPut("{userId1}/{productId1}")]
-        [Authorize(Roles = "User")]
+        ////[Authorize(Roles = "User")]
         public async Task<IActionResult> AddItem(string userId1, int productId1)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId1);

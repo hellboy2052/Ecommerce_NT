@@ -26,12 +26,12 @@ namespace CustomerSite.Services.Apis
             return await response.Content.ReadAsAsync<IList<ProductVm>>();
         }
 
-        //public async Task<ProductVm> GetId(int id)
-        //{
-        //    var client = _httpClientFactory.CreateClient();
-        //    var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + id);
-        //    response.EnsureSuccessStatusCode();
-        //    return await response.Content.ReadAsAsync<ProductVm>();
-        //}
+        public async Task<ProductVm> GetProductById(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + id);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<ProductVm>();
+        }
     }
 }

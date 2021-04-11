@@ -27,47 +27,46 @@ namespace CustomerSite.Controllers
 
         //    return View(products);
         //}
-        //public async Task<IActionResult> Detail(int id)
-        //{
-        //    var product = await _productApiClient.GetId(id);
+        public async Task<IActionResult> Detail(int id)
+        {
+            var product = await _productApiClient.GetProductById(id);
 
-        //    for (int i = 0; i < product.ImageLocation.Count; i++)
-        //    {
-        //        string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
-        //        product.ImageLocation[i] = setUrl;
-        //    }
+            for (int i = 0; i < product.ImageLocation.Count; i++)
+            {
+                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
+                product.ImageLocation[i] = setUrl;
+            }
 
-        //    return View(product);
-        //}
-        //[HttpPost("{id}")]
-        //public async Task<IActionResult> AddsSession(int id)
-        //{
-        //    List<CartProductVm> ListProduct = HttpContext.Session.Get<List<CartProductVm>>("SessionCart");
+            return View(product);
+        }
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddsSession(int id)
+        {
+            List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
 
-        //    if (ListProduct == null)
-        //    {
-        //        ListProduct = new List<CartProductVm>();
-        //    }
+            if (ListProduct == null)
+            {
+                ListProduct = new List<ProductVm>();
+            }
 
-        //    var product = await _productApiClient.GetId(id);
-        //    for (int i = 0; i < product.ImageLocation.Count; i++)
-        //    {
-        //        string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
-        //        product.ImageLocation[i] = setUrl;
-        //    }
+            var product = await _productApiClient.GetProductById(id);
+            for (int i = 0; i < product.ImageLocation.Count; i++)
+            {
+                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
+                product.ImageLocation[i] = setUrl;
+            }
 
-        //    CartProductVm x = new CartProductVm();
-        //    x.ImageLocation = product.ImageLocation;
-        //    x.ProductID = product.Id;
-        //    //x.Quantity = quantity;
-        //    x.Price = product.Price;
-        //    x.ProductName = product.Name;
-        //    ListProduct.Add(x);
-        //    HttpContext.Session.Set("SessionCart", ListProduct);
+            ProductVm x = new ProductVm();
+            x.ImageLocation = product.ImageLocation;
+            x.Name = product.Name;
+            //x.Quantity = quantity;
+            x.Price = product.Price;
+            ListProduct.Add(x);
+            HttpContext.Session.Set("SessionCart", ListProduct);
 
-        //    string referer = Request.Headers["Referer"].ToString();
-        //    return Redirect(referer);
-        //}
+            string referer = Request.Headers["Referer"].ToString();
+            return Redirect(referer);
+        }
 
 
 

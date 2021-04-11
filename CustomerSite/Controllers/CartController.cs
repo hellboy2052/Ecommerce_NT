@@ -18,16 +18,16 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
         //add Session
-        //public IActionResult Index()
-        //{
-        //    List<CartProductVm> ListProduct = HttpContext.Session.Get<List<CartProductVm>>("SessionCart");
-        //    if (ListProduct == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(ListProduct);
-        //}
+        public IActionResult Index()
+        {
+            List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
+            if (ListProduct == null)
+            {
+                return NotFound();
+            }
+            return View(ListProduct);
+            }
 
 
-    }
+        }
 }

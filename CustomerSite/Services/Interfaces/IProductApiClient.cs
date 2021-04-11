@@ -7,6 +7,6 @@ namespace CustomerSite.Services.Interfaces
     public interface IProductApiClient
     {
         Task<IList<ProductVm>> GetAllProduct();
-        //Task<ProductVm> GetId(int id);
+        Task<ProductVm> GetProductById(int id);
     }
 }

@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class OrderController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -59,7 +59,7 @@ namespace ServerSite.Controllers
 
             return orderVm;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<OrderVm>> GetOderByUserId(string userId)
         {

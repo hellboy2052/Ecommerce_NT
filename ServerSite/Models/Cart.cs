@@ -9,6 +9,6 @@ namespace ServerSite.Models
         public double TotalPrice { get; set; }
         public ICollection<Product> Product { get; set; }
         public string UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }

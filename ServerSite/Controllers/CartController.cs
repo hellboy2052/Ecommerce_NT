@@ -25,7 +25,7 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<IEnumerable<CartVm>>> GetAllCart()
         {
             return await _context.Carts
-                .Select(x => new CartVm { Id=x.Id,TotalPrice=x.TotalPrice,UserId=x.UserId })
+                .Select(x => new CartVm { Id = x.Id, TotalPrice = x.TotalPrice, UserId = x.UserId })
                 .ToListAsync();
 
         }
@@ -68,11 +68,11 @@ namespace ServerSite.Controllers
 
             return cartVm;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [Authorize(Roles = "User")]
         public async Task<ActionResult<CartVm>> GetCartByUserId(string userId)
         {
-            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+            var cart =await _context.Carts.FirstOrDefaultAsync(x=>x.UserId==userId);
 
             if (cart == null)
             {
@@ -83,7 +83,7 @@ namespace ServerSite.Controllers
                 Id = cart.Id,
                 TotalPrice = cart.TotalPrice,
                 UserId = cart.UserId
-                
+
             };
             var pVm = new ProductVm();
             List<ProductVm> lstProducts = new();
@@ -125,9 +125,9 @@ namespace ServerSite.Controllers
 
             });
         }
-        [HttpPut]
+        [HttpPut("userId")]
         [Authorize(Roles = "user")]
-        public async Task<ActionResult<CartVm>> UpdateCart(CartVm cartVm,string userId)
+        public async Task<ActionResult<CartVm>> UpdateCart(CartVm cartVm, string userId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
             var cartCreate = new Cart
@@ -157,12 +157,12 @@ namespace ServerSite.Controllers
 
             return NoContent();
         }
-        [HttpPut]
+        [HttpPut("{userId}/{productId}")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> RemoveItem(string userId,int productId)
+        public async Task<IActionResult> RemoveItem(string userId, int productId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
-            foreach(Product p in cart.Product)
+            foreach (Product p in cart.Product)
             {
                 if (p.Id == productId)
                 {
@@ -177,14 +177,14 @@ namespace ServerSite.Controllers
 
             return NoContent();
         }
-        [HttpPut]
+        [HttpPut("{userId1}/{productId1}")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> AddItem(string userId, int productId)
+        public async Task<IActionResult> AddItem(string userId1, int productId1)
         {
-            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId1);
             foreach (Product p in cart.Product)
             {
-                if (p.Id == productId)
+                if (p.Id == productId1)
                 {
                     p.Quantity++;
                 }

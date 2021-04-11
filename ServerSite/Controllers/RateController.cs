@@ -52,7 +52,7 @@ namespace ServerSite.Controllers
 
             return rateVm;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [Authorize(Roles = "user")]
         public async Task<ActionResult<RateVm>> GetRateByUserId(string userId)
         {
@@ -75,7 +75,7 @@ namespace ServerSite.Controllers
             return rateVm;
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{userId}")]
         [Authorize(Roles = "user")]
         public async Task<IActionResult> UpdateRateByUserId(string userId, RateVm rateVm)
         {

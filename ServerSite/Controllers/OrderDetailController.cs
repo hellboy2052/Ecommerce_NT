@@ -57,7 +57,7 @@ namespace ServerSite.Controllers
 
             return orderDetailVm;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{orderId}")]
         [Authorize(Roles = "user")]
         public async Task<ActionResult<OrderDetailVm>> GetOrderByOrderId(int orderId)
         {

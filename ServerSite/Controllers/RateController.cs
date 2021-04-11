@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class RateController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,16 +23,16 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<RateVm>>> Get()
+        public async Task<ActionResult<IEnumerable<RateVm>>> GetAllRate()
         {
             return await _context.Rates
-                .Select(x => new RateVm { Id = x.Id, ProductId = x.ProductId, totalStar = x.totalStar, UserId = x.UserId })
+                .Select(x => new RateVm { Id = x.Id, ProductId = x.ProductId, Star = x.Star, UserId = x.UserId })
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles ="admin")]
-        public async Task<ActionResult<RateVm>> GetId(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<RateVm>> GetRateById(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
 
@@ -44,38 +44,62 @@ namespace ServerSite.Controllers
             var rateVm = new RateVm
             {
                 UserId = rate.UserId,
-                totalStar = rate.totalStar,
+                Star = rate.Star,
                 ProductId = rate.ProductId,
-                Id = rate.Id
+                Id = rate.Id,
+                Average=rate.Average
             };
 
             return rateVm;
         }
-
-        [HttpPut("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, RateVm rateVm)
+        [HttpGet("{id}")]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<RateVm>> GetRateByUserId(string userId)
         {
-            var rate = await _context.Rates.FindAsync(id);
+            var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (rate == null)
             {
                 return NotFound();
             }
 
-            rate.totalStar = rateVm.totalStar;
+            var rateVm = new RateVm
+            {
+                UserId = rate.UserId,
+                Star = rate.Star,
+                ProductId = rate.ProductId,
+                Id = rate.Id,
+                Average = rate.Average
+            };
+
+            return rateVm;
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> UpdateRateByUserId(string userId, RateVm rateVm)
+        {
+            var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (rate == null)
+            {
+                return NotFound();
+            }
+
+            rate.Star = rateVm.Star;
+            rate.Average = rateVm.Average;
             await _context.SaveChangesAsync();
 
             return Accepted();
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<RateVm>> Post(RateVm rateVm)
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<RateVm>> CreateRate(RateVm rateVm)
         {
             var rate = new Rate
             {
-                totalStar = rateVm.totalStar,
+                Star = rateVm.Star,
                 Id = rateVm.Id,
                 ProductId = rateVm.ProductId,
                 UserId = rateVm.UserId
@@ -84,17 +108,17 @@ namespace ServerSite.Controllers
             _context.Rates.Add(rate);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRate", new { id = rate.Id }, new RateVm
+            return CreatedAtAction("GetRateById", new { id = rate.Id }, new RateVm
             {
                 Id = rate.Id,
-                totalStar = rate.totalStar,
+                Star = rate.Star,
                 ProductId = rate.ProductId,
                 UserId = rate.UserId
             });
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var rate = await _context.Rates.FindAsync(id);

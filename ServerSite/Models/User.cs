@@ -13,6 +13,6 @@ namespace ServerSite.Models
 
         }
         [PersonalData]
-        public string fullName { get; set; }
+        public string FullName { get; set; }
     }
 }

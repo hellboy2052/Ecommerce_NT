@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServerSite.Data;
@@ -17,19 +18,17 @@ namespace ServerSite.Controllers
     //[Authorize("Bearer")]
     public class ImageController : ControllerBase
     {
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly ApplicationDbContext _context;
         private readonly IStorageService _storageService;
-        public ImageController(IWebHostEnvironment hostEnvironment, ApplicationDbContext context, IStorageService storageService)
+        public ImageController(ApplicationDbContext context, IStorageService storageService)
         {
             _context = context;
-            webHostEnvironment = hostEnvironment;
             _storageService = storageService;
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult> Post(IFormFile file, ImageVm imageVm)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> PostImage(IFormFile file, ImageVm imageVm)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";

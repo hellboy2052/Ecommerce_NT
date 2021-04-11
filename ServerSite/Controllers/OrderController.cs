@@ -23,25 +23,23 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<OrderVm>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderVm>>> GetOrder()
         {
             return await _context.Orders
                 .Select(x => new OrderVm
                 {
                     UserId = x.UserId,
-                    Address = x.Address,
                     CraeteDate = x.CraeteDate,
                     Id = x.Id,
                     Status = x.Status,
-                    totalPrice = x.totalPrice,
-                    UserPhone = x.UserPhone
+                    TotalPrice=x.TotalPrice
                 })
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles ="admin")]
-        public async Task<ActionResult<OrderVm>> GetId(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<OrderVm>> GetOderById(int id)
         {
             var order = await _context.Orders.FindAsync(id);
 
@@ -52,21 +50,40 @@ namespace ServerSite.Controllers
 
             var orderVm = new OrderVm
             {
-                UserPhone = order.UserPhone,
-                totalPrice = order.totalPrice,
                 Status = order.Status,
                 Id = order.Id,
-                Address = order.Address,
                 CraeteDate = order.CraeteDate,
-                UserId = order.UserId
+                UserId = order.UserId,
+                TotalPrice=order.TotalPrice
             };
 
             return orderVm;
         }
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<OrderVm>> GetOderByUserId(string userId)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.UserId == userId);
 
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var orderVm = new OrderVm
+            {
+                Status = order.Status,
+                Id = order.Id,
+                CraeteDate = order.CraeteDate,
+                UserId = order.UserId,
+                TotalPrice = order.TotalPrice
+            };
+
+            return orderVm;
+        }
         [HttpPut("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, OrderVm orderVm)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> UpdateOrder(int id, OrderVm orderVm)
         {
             var order = await _context.Orders.FindAsync(id);
 
@@ -75,50 +92,44 @@ namespace ServerSite.Controllers
                 return NotFound();
             }
 
-            order.UserId = orderVm.UserId;
-            order.totalPrice = orderVm.totalPrice;
+            order.TotalPrice = orderVm.TotalPrice;
             order.Status = orderVm.Status;
-            order.Address = orderVm.Address;
             order.CraeteDate = orderVm.CraeteDate;
-
+            
             await _context.SaveChangesAsync();
 
             return Accepted();
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<OrderVm>> Post(OrderVm orderVm)
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<OrderVm>> CreateOrder(OrderVm orderVm)
         {
             var order = new Order
             {
                 UserId = orderVm.UserId,
-                totalPrice = orderVm.totalPrice,
+                TotalPrice = orderVm.TotalPrice,
                 Status = orderVm.Status,
-                Address = orderVm.Address,
                 CraeteDate = orderVm.CraeteDate,
-                Id = orderVm.Id,
-                UserPhone = orderVm.UserPhone
+                Id = orderVm.Id
             };
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOD", new { id = order.Id }, new OrderVm
+            return CreatedAtAction("GetOderById", new { id = order.Id }, new OrderVm
             {
                 UserId = orderVm.UserId,
-                totalPrice = orderVm.totalPrice,
+                TotalPrice = orderVm.TotalPrice,
                 Status = orderVm.Status,
-                Address = orderVm.Address,
                 CraeteDate = orderVm.CraeteDate,
                 Id = orderVm.Id,
-                UserPhone = orderVm.UserPhone
             });
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)

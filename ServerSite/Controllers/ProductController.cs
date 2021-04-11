@@ -26,10 +26,10 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<IEnumerable<ProductVm>>> Get()
         {
             var products = await _context.Products.Include(p => p.Images).ToListAsync();
-            List<ProductVm> productListVm = new List<ProductVm>();
+            List<ProductVm> productListVm = new();
             foreach (var product in products)
             {
-                ProductVm productVm = new ProductVm
+                ProductVm productVm = new()
                 {
 
                     BrandId = product.BrandId,
@@ -41,7 +41,7 @@ namespace ServerSite.Controllers
                     Price = product.Price,
                     ImageLocation = new List<string>()
                 };
-                for (int i = 0; i < product.Images.Count(); i++)
+                for (int i = 0; i < product.Images.Count; i++)
                 {
                     productVm.ImageLocation.Add(product.Images.ElementAt(i).ImagePath);
                 }
@@ -72,7 +72,7 @@ namespace ServerSite.Controllers
                 Price = product.Price,
                 ImageLocation = new List<string>()
             };
-            for (int i = 0; i < product.Images.Count(); i++)
+            for (int i = 0; i < product.Images.Count; i++)
             {
                 productVm.ImageLocation.Add(product.Images.ElementAt(i).ImagePath);
             }

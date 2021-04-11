@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace ServerSite.Models
 {
@@ -6,7 +7,7 @@ namespace ServerSite.Models
     {
         public int Id { get; set; }
         public double TotalPrice { get; set; }
-        public ICollection Product { get; set; }
+        public ICollection<Product> Product { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
     }

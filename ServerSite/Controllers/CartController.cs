@@ -136,15 +136,14 @@ namespace ServerSite.Controllers
                 TotalPrice = cartVm.TotalPrice,
                 UserId = cartVm.UserId
             };
-            var pVm = new ProductVm();
-            List<ProductVm> lstProducts = new();
-            foreach (Product p in cart.Product)
+            var pVm = new Product();
+            List<Product> lstProducts = new();
+            foreach (ProductVm p in cartVm.ProductVms)
             {
                 pVm.BrandId = p.BrandId;
                 pVm.CategoryId = p.CategoryId;
                 pVm.Description = p.Description;
                 pVm.Id = p.Id;
-                pVm.ImageLocation = new List<string>();
                 pVm.Inventory = p.Inventory;
                 pVm.Name = p.Name;
                 pVm.Price = p.Price;

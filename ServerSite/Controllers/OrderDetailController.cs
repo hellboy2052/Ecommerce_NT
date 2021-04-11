@@ -132,7 +132,6 @@ namespace ServerSite.Controllers
                 Content = p.Content,
                 Description = p.Description,
                 Id = p.Id,
-                ImageLocation = new List<string>(),
                 Inventory = p.Inventory,
                 Name = p.Name,
                 Quantity = p.Quantity

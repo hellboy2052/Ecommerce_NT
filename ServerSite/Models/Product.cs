@@ -16,6 +16,6 @@ namespace ServerSite.Models
         public Category Category { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public int Quantity { get; set; }
-        public List<string> ImageLocation { get; internal set; }
+
     }
 }

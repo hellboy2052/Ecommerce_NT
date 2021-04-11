@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class BrandController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,16 +23,16 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BrandVm>>> Get()
+        public async Task<ActionResult<IEnumerable<BrandVm>>> GetAllBrand()
         {
             return await _context.Brands
-                .Select(x => new BrandVm { Name = x.Name })
+                .Select(x => new BrandVm { Name = x.Name, Id=x.Id })
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles ="admin")]
-        public async Task<ActionResult<BrandVm>> GetId(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BrandVm>> GetBrandById(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
 
@@ -44,17 +44,17 @@ namespace ServerSite.Controllers
             var brandVm = new BrandVm
             {
                 Id = brand.Id,
-                Name = brand.Name
+                Name = brand.Name,
             };
 
             return brandVm;
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, BrandVm brandVm)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> UpdateBrand(int id, BrandVm brandVm)
         {
-            var brand = await _context.Categories.FindAsync(id);
+            var brand = await _context.Brands.FindAsync(id);
 
             if (brand == null)
             {
@@ -64,12 +64,12 @@ namespace ServerSite.Controllers
             brand.Name = brandVm.Name;
             await _context.SaveChangesAsync();
 
-            return Accepted();
+            return NoContent();
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> Post(BrandVm brandVm)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BrandVm>> CreateBrand(BrandVm brandVm)
         {
             var brand = new Brand
             {
@@ -79,11 +79,11 @@ namespace ServerSite.Controllers
             _context.Brands.Add(brand);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBR", new { id = brand.Id }, new BrandVm { Id = brand.Id, Name = brand.Name });
+            return CreatedAtAction("GetBrandById", new { id = brand.Id }, new BrandVm { Id = brand.Id, Name = brand.Name });
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
@@ -95,7 +95,7 @@ namespace ServerSite.Controllers
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
 
-            return Accepted();
+            return NoContent();
         }
 
     }

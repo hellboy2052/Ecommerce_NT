@@ -57,7 +57,6 @@ namespace ServerSite.Controllers
             var banner = new Banner
             {
                 ImagePath = bannerVm.ImagePath,
-                Id=bannerVm.Id,
                 ProductID=bannerVm.ProductID
             };
 
@@ -73,7 +72,7 @@ namespace ServerSite.Controllers
         }
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> PutBanner(int id, BannerVm bannerVm)
+        public async Task<IActionResult> UpdateBanner(int id, BannerVm bannerVm)
         {
             var banner = await _context.Banners.FindAsync(id);
 
@@ -91,7 +90,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteBanner(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
 

@@ -9,26 +9,29 @@ using System.Threading.Tasks;
 
 namespace CustomerSite.Controllers
 {
-    public class RateController
+    public class RateController:Controller
     {
-        public class RatingController : Controller
-        {
+
             private readonly IRateApiClient _ratingApiClient;
 
-            public RatingController(IRateApiClient ratingApiClient)
+            public RateController(IRateApiClient ratingApiClient)
             {
                 _ratingApiClient = ratingApiClient;
             }
-
+            public async Task<IActionResult> Index()
+            {
+                
+                return View("hello");
+            }
             [HttpPost]
-            public IActionResult CreateRate(int ProductId, int Star)
+            public IActionResult CreateRate(int Id, int Star)
             {
                 //if (!User.Identity.IsAuthenticated)
                 //    return RedirectToAction(actionName: "SignIn", controllerName: "Account");
 
                 RateVm x = new RateVm();
                 x.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                x.ProductId = ProductId;
+                x.ProductId = Id;
                 x.Star = Star;
                 _ratingApiClient.CreateRate(x);
 
@@ -36,6 +39,6 @@ namespace CustomerSite.Controllers
                 return Redirect(referer);
 
             }
-        }
+        
     }
 }

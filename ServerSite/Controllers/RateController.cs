@@ -92,26 +92,51 @@ namespace ServerSite.Controllers
 
             return Accepted();
         }
-
+        bool CheckIfExist(int idPro, string idUser)
+        {
+            var x = _context.Rates.Where(x => x.ProductId == idPro && x.UserId == idUser).FirstOrDefault();
+            if (x == null)
+                return false;
+            return true;
+        }
         [HttpPost]
         //[Authorize(Roles = "User")]
-        public async Task<ActionResult<RateVm>> CreateRate(int ProductId,int Star)
+        public async Task<ActionResult<Rate>> CreateRate(RateVm rateVm)
         {
-            var rate = new Rate
+            if (CheckIfExist(rateVm.ProductId, rateVm.UserId) == true)
             {
-                Star = Star,
-      
-                ProductId = ProductId
+                var x = await _context.Rates.Where(x => x.ProductId == rateVm.ProductId && x.UserId == rateVm.UserId).FirstOrDefaultAsync();
+
+                if (x == null)
+                {
+                    return NotFound();
+                }
+
+                x.Star = rateVm.Star;
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+
+            
+            var nRating = new Rate
+            {
+                Star= rateVm.Star,
+                
+                UserId = rateVm.UserId,
+                ProductId = rateVm.ProductId
             };
 
-            _context.Rates.Add(rate);
+            _context.Rates.Add(nRating);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRateById", new { id = rate.Id }, new RateVm
-            {
-                Star = rate.Star,
-                ProductId = rate.ProductId
-            });
+            return CreatedAtAction("GetAllRate",
+                new { id = nRating.Id },
+                new RateVm
+                {
+                    Star = nRating.Star,
+                   
+                });
         }
 
         [HttpDelete("{id}")]

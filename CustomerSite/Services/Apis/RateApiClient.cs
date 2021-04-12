@@ -30,7 +30,7 @@ namespace CustomerSite.Services.Apis
             var client = _httpClientFactory.CreateClient();
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(rateVm),
                 Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Rating", httpContent);
+            var response = await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Rate", httpContent);
 
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<RateVm>();

@@ -17,7 +17,7 @@ namespace CustomerSite.Controllers
             _productApiClient = productApiClient;
             _configuration = configuration;
         }
-        //add Session
+
         public IActionResult Index()
         {
             List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");

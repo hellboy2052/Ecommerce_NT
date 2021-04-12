@@ -64,6 +64,7 @@ namespace CustomerSite
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<IBannerApiClient, BannerApiClient>();
+            services.AddTransient<IRateApiClient, RateApiClient>();
             services.AddControllersWithViews();
         }
 
@@ -88,6 +89,7 @@ namespace CustomerSite
             app.UseSession();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

@@ -40,7 +40,7 @@ namespace CustomerSite.Controllers
             return View(product);
         }
         [HttpPost("{id}")]
-        public async Task<IActionResult> AddsSession(int id)
+        public async Task<IActionResult> AddsSession(int id,int quantity)
         {
             List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
 
@@ -59,7 +59,7 @@ namespace CustomerSite.Controllers
             ProductVm x = new ProductVm();
             x.ImageLocation = product.ImageLocation;
             x.Name = product.Name;
-            //x.Quantity = quantity;
+            x.Quantity = quantity;
             x.Price = product.Price;
             ListProduct.Add(x);
             HttpContext.Session.Set("SessionCart", ListProduct);

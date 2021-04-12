@@ -95,14 +95,13 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "User")]
-        public async Task<ActionResult<RateVm>> CreateRate(RateVm rateVm)
+        public async Task<ActionResult<RateVm>> CreateRate(int ProductId,int Star)
         {
             var rate = new Rate
             {
-                Star = rateVm.Star,
-                Id = rateVm.Id,
-                ProductId = rateVm.ProductId,
-                UserId = rateVm.UserId
+                Star = Star,
+      
+                ProductId = ProductId
             };
 
             _context.Rates.Add(rate);
@@ -110,10 +109,8 @@ namespace ServerSite.Controllers
 
             return CreatedAtAction("GetRateById", new { id = rate.Id }, new RateVm
             {
-                Id = rate.Id,
                 Star = rate.Star,
-                ProductId = rate.ProductId,
-                UserId = rate.UserId
+                ProductId = rate.ProductId
             });
         }
 

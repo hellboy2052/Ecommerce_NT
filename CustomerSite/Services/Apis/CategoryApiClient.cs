@@ -19,10 +19,10 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
         }
 
-        public async Task<IList<CategoryVm>> Get()
+        public async Task<IList<CategoryVm>> GetCategoryById(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Category");
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Category/"+id);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsAsync<IList<CategoryVm>>();
         }

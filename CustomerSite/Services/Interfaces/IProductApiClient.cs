@@ -1,4 +1,5 @@
-﻿using SharedVm;
+﻿using Microsoft.AspNetCore.Mvc;
+using SharedVm;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace CustomerSite.Services.Interfaces
     {
         Task<IList<ProductVm>> GetAllProduct();
         Task<ProductVm> GetProductById(int id);
+        Task<IList<ProductVm>> GetProductByCategory(int idCategory);
     }
 }

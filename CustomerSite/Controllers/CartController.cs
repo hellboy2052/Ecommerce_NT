@@ -26,8 +26,7 @@ namespace CustomerSite.Controllers
                 return NotFound();
             }
             return View(ListProduct);
-            }
-
-
         }
+
+    }
 }

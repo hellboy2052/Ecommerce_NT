@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using SharedVm;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace CustomerSite.Services.Apis
@@ -32,6 +33,13 @@ namespace CustomerSite.Services.Apis
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + id);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsAsync<ProductVm>();
+        }
+        public async Task<IList<ProductVm>> GetProductByCategory(int idCategory)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/product/GetByCategory/" + idCategory);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<IList<ProductVm>>();
         }
     }
 }

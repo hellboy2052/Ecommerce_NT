@@ -80,7 +80,34 @@ namespace ServerSite.Controllers
 
             return productVm;
         }
+        [HttpGet("GetByCategory/{idCategory}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<ProductVm>>> GetProductByCategory(int idCategory)
+        {
+            var products = await _context.Products.Include(p => p.Images).Where(p => p.CategoryId == idCategory).ToListAsync();
+            List<ProductVm> productListVm = new();
+            foreach (var product in products)
+            {
+                ProductVm productVm = new()
+                {
 
+                    BrandId = product.BrandId,
+                    CategoryId = product.CategoryId,
+                    Description = product.Description,
+                    Id = product.Id,
+                    Inventory = product.Inventory,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ImageLocation = new List<string>()
+                };
+                for (int i = 0; i < product.Images.Count; i++)
+                {
+                    productVm.ImageLocation.Add(product.Images.ElementAt(i).ImagePath);
+                }
+                productListVm.Add(productVm);
+            }
+            return productListVm;
+        }
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Put(int id, ProductVm productVm)

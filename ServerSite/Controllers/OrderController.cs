@@ -59,7 +59,7 @@ namespace ServerSite.Controllers
 
             return orderVm;
         }
-        [HttpGet("{userId}")]
+        [HttpGet("getOderByUserId/{userId}")]
         //[Authorize(Roles = "admin")]
         public async Task<ActionResult<OrderVm>> GetOderByUserId(string userId)
         {

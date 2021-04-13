@@ -3,7 +3,10 @@ using CustomerSite.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SharedVm;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CustomerSite.Controllers
@@ -21,12 +24,12 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IList<ProductVm> produc)
         {
-            var products = await _productApiClient.GetAllProduct();
 
-            //Set url backend for image
-            foreach (var x in products)
+                produc = await _productApiClient.GetAllProduct();
+
+            foreach (var x in produc)
             {
                 for (int i = 0; i < x.ImageLocation.Count; i++)
                 {
@@ -36,7 +39,8 @@ namespace CustomerSite.Controllers
                 }
 
             }
-            return View(products);
+
+            return View(produc);
         }
 
         public IActionResult Privacy()

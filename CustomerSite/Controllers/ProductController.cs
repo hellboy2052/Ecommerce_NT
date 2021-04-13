@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SharedVm;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -27,6 +28,20 @@ namespace CustomerSite.Controllers
 
         //    return View(products);
         //}
+        public async Task<IActionResult> GetProductByCategory(int idCategory)
+        {
+            var products = await _productApiClient.GetProductByCategory(idCategory);
+            foreach (var x in products)
+            {
+                for (int i = 0; i < x.ImageLocation.Count; i++)
+                {
+                    string setUrl = _configuration["BackendUrl:Default"] + x.ImageLocation[i];
+                    x.ImageLocation[i] = setUrl;
+                }
+            }
+            return View(products);
+            
+        }
         public async Task<IActionResult> Detail(int id)
         {
             var product = await _productApiClient.GetProductById(id);

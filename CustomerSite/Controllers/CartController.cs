@@ -5,16 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SharedVm;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CustomerSite.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IProductApiClient _productApiClient;
+        private readonly ICartApiClient _cartApiClient;
         private readonly IConfiguration _configuration;
-        public CartController(IProductApiClient productApiClient, IConfiguration configuration)
+        public CartController(ICartApiClient cartApiClient, IConfiguration configuration)
         {
-            _productApiClient = productApiClient;
+            _cartApiClient = cartApiClient;
             _configuration = configuration;
         }
 
@@ -26,6 +27,14 @@ namespace CustomerSite.Controllers
                 return NotFound();
             }
             return View(ListProduct);
+        }
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddsCart(CartVm cartVm)
+        {
+            var cart = await _cartApiClient.CreateCart(cartVm);
+
+            string referer = Request.Headers["Referer"].ToString();
+            return RedirectToAction(referer);
         }
 
     }

@@ -6,6 +6,7 @@ using ServerSite.Models;
 using SharedVm;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ServerSite.Controllers
@@ -68,6 +69,7 @@ namespace ServerSite.Controllers
 
             return cartVm;
         }
+        
         [HttpGet("{userId}")]
         //[Authorize(Roles = "User")]
         public async Task<ActionResult<CartVm>> GetCartByUserId(string userId)
@@ -104,26 +106,34 @@ namespace ServerSite.Controllers
             cartVm.ProductVms = lstProducts;
             return cartVm;
         }
-        [HttpPost]
+        [HttpPost("userId")]
         //[Authorize(Roles = "admin")]
         public async Task<ActionResult<CartVm>> CreateCart(CartVm cartVm)
         {
-            var cart = new Cart
+            if (GetCartByUserId(ClaimTypes.NameIdentifier) == null)
             {
-                Id = cartVm.Id,
-                TotalPrice = cartVm.TotalPrice,
-                UserId = cartVm.UserId
-            };
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
+                var cart = new Cart
+                {
+                    Id = cartVm.Id,
+                    TotalPrice = cartVm.TotalPrice,
+                    UserId = userId
+                };
+                _context.Carts.Add(cart);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCartById", new { id = cart.Id }, new Cart
+                return CreatedAtAction("GetCartById", new { id = cart.Id }, new Cart
+                {
+                    Id = cart.Id,
+                    TotalPrice = cart.TotalPrice,
+                    UserId = userId
+
+                });
+            }
+            else
             {
-                Id = cart.Id,
-                TotalPrice = cart.TotalPrice,
-                UserId = cart.UserId
-
-            });
+                UpdateCart(cartVm, ClaimTypes.NameIdentifier);
+                return cartVm;
+            }
         }
         [HttpPut("userId")]
         //[Authorize(Roles = "User")]

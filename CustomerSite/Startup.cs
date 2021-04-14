@@ -66,6 +66,7 @@ namespace CustomerSite
             services.AddTransient<IBannerApiClient, BannerApiClient>();
             services.AddTransient<IRateApiClient, RateApiClient>();
             services.AddTransient<IOrderApiClient, OrderApiClient>();
+            services.AddTransient<ICartApiClient, CartApiClient>();
             services.AddControllersWithViews();
         }
 

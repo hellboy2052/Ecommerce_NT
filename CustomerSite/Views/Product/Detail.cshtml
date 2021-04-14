@@ -41,52 +41,74 @@
                 <li class="list-group-item">@Model.BrandId</li>
                 <li class="list-group-item">@Model.Price</li>
 
-                @*@if (User.Identity.IsAuthenticated)
-                    {
+                @{
+//if (User.Identity.IsAuthenticated)
+//{
+                        <form action="" method="post">
+                            <li class="list-group-item">
+                                <button type="button" class="btn btn-warning">Mua Ngay</button>
+                                <button type="button" class="btn btn-success" asp-controller="Cart" asp-action="AddsCart" asp-route-id="@Model.Id">Thêm Vào Giỏ Hàng</button>
+                            </li>
+                            </form>
+                            @*}
+                            else
+                            {
+
+                            <form action="" method="post">
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
+                                                -
+                                            </button>
+                                        </span>
+                                        <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
+                                                +
+                                            </button>
+                                        </span>
+                                    </div><br />
+                                    <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
+                                </li>
+                            </form>
+                            }*@
+                            }
+
+                            @*<form action="" method="post">
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-warning">Mua Ngay</button>
-                            <button type="button" class="btn btn-success" asp-controller="Cart" asp-action="">Thêm Vào Giỏ Hàng</button>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
+                                        -
+                                    </button>
+                                </span>
+                                <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
+                                        +
+                                    </button>
+                                </span>
+                            </div><br />
+                            <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
                         </li>
-                    }
-                    else
-                    {*@
-                <form action="" method="post">
-                    <li class="list-group-item">
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
-                                    -
-                                </button>
-                            </span>
-                            <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
-                                    +
-                                </button>
-                            </span>
-                        </div><br />
-                        <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
-                    </li>
-                </form>
+                    </form>*@
+                            <li class="list-group-item">
+                                @using (Html.BeginForm("CreateRate", "Rate"))
+                                {
+                                    @Html.HiddenFor(x => x.Id)
+                                    <select id="Star" name="Star">
+                                        <option selected value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <button type="submit" class="badge badge-warning" style="width:100px; color:white">Đánh giá</button>
+                                }
+                            </li>
 
-
-
-                <li class="list-group-item">
-                    @using (Html.BeginForm("CreateRate", "Rate"))
-                    {
-                        @Html.HiddenFor(x => x.Id)
-                        <select id="Star" name="Star">
-                            <option selected value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <button type="submit" class="badge badge-warning" style="width:100px; color:white">Đánh giá</button>
-                    }
-                </li>
-
-            </ul>
+                    </ul>
         </div>
 
     </div>

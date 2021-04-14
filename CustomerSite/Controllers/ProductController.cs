@@ -54,7 +54,7 @@ namespace CustomerSite.Controllers
 
             return View(product);
         }
-        [HttpPost("{id}")]
+        //[HttpPost("{id}")]
         public async Task<IActionResult> AddsSession(int id,int quantity)
         {
             List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");

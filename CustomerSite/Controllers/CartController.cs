@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using SharedVm;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace CustomerSite.Controllers
 {
@@ -28,9 +29,12 @@ namespace CustomerSite.Controllers
             }
             return View(ListProduct);
         }
-        [HttpPost("{id}")]
-        public async Task<IActionResult> AddsCart(CartVm cartVm)
+        //[HttpPost("{id}")]
+        public async Task<IActionResult> AddsCart( int id,CartVm cartVm)
         {
+            cartVm.UserId =  User.FindFirstValue(ClaimTypes.NameIdentifier);
+            cartVm.ProductId = id;
+            cartVm.TotalPrice = 0;
             var cart = await _cartApiClient.CreateCart(cartVm);
 
             string referer = Request.Headers["Referer"].ToString();

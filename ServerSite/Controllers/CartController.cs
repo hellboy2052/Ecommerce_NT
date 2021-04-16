@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
 using ServerSite.Models;
@@ -106,33 +105,83 @@ namespace ServerSite.Controllers
             cartVm.ProductVms = lstProducts;
             return cartVm;
         }
-        [HttpPost("userId")]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<CartVm>> CreateCart(CartVm cartVm)
+        async Task<bool> checkCartExits(string userId)
         {
-            if (GetCartByUserId(ClaimTypes.NameIdentifier) == null)
+            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (cart == null)
             {
-                var cart = new Cart
-                {
-                    Id = cartVm.Id,
-                    TotalPrice = cartVm.TotalPrice,
-                    UserId = userId
-                };
-                _context.Carts.Add(cart);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetCartById", new { id = cart.Id }, new Cart
-                {
-                    Id = cart.Id,
-                    TotalPrice = cart.TotalPrice,
-                    UserId = userId
-
-                });
+                return false;
             }
             else
             {
-                UpdateCart(cartVm, ClaimTypes.NameIdentifier);
-                return cartVm;
+                return true;
+            }
+        }
+        [HttpPost()]
+        //[Authorize(Roles = "admin")]
+        public async Task<ActionResult> CreateCart(CartVm cartVm)
+        {
+            if (await checkCartExits(cartVm.UserId) ==false)
+            {
+                var cart = new Cart
+                {
+                    TotalPrice=0,
+                    
+                    UserId = cartVm.UserId,
+                    Product = new List<Product>()
+                };
+                var product =await _context.Products.FirstOrDefaultAsync(x => x.Id == cartVm.ProductId);
+                var product1 = new Product
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price
+            ,
+                    Inventory = product.Inventory,
+                    Description = product.Description,
+                    BrandId = product.BrandId,
+                    CategoryId = product.CategoryId
+                };
+                cart.Product.Add(product1);
+                _context.Carts.Add(cart);
+                await _context.SaveChangesAsync();
+
+                //return CreatedAtAction("GetCartById", new { id = cart.Id }, new CartVm
+                //{
+                //    Id = cart.Id,
+                //    TotalPrice = cart.TotalPrice,
+                //    UserId = ClaimTypes.NameIdentifier
+
+                //});
+                return StatusCode(201);
+            }
+
+            else
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == cartVm.ProductId);
+                var cartVm1 = new CartVm
+                {
+                    
+                };
+                var productVm1 = new ProductVm
+                {
+
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price
+            ,
+                    Inventory = product.Inventory,
+                    Description = product.Description,
+                    BrandId = product.BrandId,
+                    CategoryId = product.CategoryId
+
+                };
+                cartVm1.ProductVms.Add(productVm1);
+
+                _ = UpdateCart(cartVm1, cartVm.UserId);
+                //return cartVm1;
+                return StatusCode(201);
             }
         }
         [HttpPut("userId")]

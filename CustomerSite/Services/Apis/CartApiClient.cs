@@ -23,7 +23,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<ActionResult<CartVm>> CreateCart(CartVm cartVm)
+        public async Task<CartVm> CreateCart(CartVm cartVm)
         {
             //Send access token 
             var client = _httpClientFactory.CreateClient();
@@ -31,10 +31,11 @@ namespace CustomerSite.Services.Apis
             //Send json with body
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(cartVm),
                 Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Cart/",httpContent);
+            var response = await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Cart",httpContent);
 
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<CartVm>();
+     
         }
     }
 }

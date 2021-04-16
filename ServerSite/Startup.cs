@@ -27,7 +27,13 @@ namespace ServerSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -50,6 +56,22 @@ namespace ServerSite
            .AddAspNetIdentity<User>()
            .AddDeveloperSigningCredential();
 
+            services.AddAuthentication()
+                .AddLocalApi("Bearer", option =>
+                {
+                    option.ExpectedScope = "rookieshop.api";
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Bearer", policy =>
+                {
+                    policy.AddAuthenticationSchemes("Bearer");
+                    policy.RequireAuthenticatedUser();
+                });
+            });
+
+            
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
@@ -100,6 +122,7 @@ namespace ServerSite
 
             app.UseRouting();
 
+            app.UseCors("AllowAnyOrigin");
             app.UseIdentityServer();
             app.UseAuthorization();
 

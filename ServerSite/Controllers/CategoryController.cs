@@ -79,7 +79,8 @@ namespace ServerSite.Controllers
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategoryById", new { id = category.Id }, new BrandVm { Id = category.Id, Name = category.Name });
+            return CreatedAtAction("GetAllCategory", new { id = category.Id }, 
+                new CategoryVm { Id = category.Id, Name = category.Name });
         }
 
         [HttpDelete("{id}")]

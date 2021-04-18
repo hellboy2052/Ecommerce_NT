@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class OrderDetailController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -22,8 +22,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<OrderDetailVm>>> GetAllOrderDetail()
+        [Authorize(Roles ="admin")]
+        public async Task<ActionResult<IEnumerable<OrderDetailVm>>> Get()
         {
             return await _context.OrderDetails
                 .Select(x => new OrderDetailVm
@@ -37,8 +37,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<OrderDetailVm>> GetOrderById(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<OrderDetailVm>> Get(int id)
         {
             var order = await _context.OrderDetails.FindAsync(id);
 
@@ -58,8 +58,8 @@ namespace ServerSite.Controllers
             return orderDetailVm;
         }
         [HttpGet("{orderId}")]
-        //[Authorize(Roles = "User")]
-        public async Task<ActionResult<OrderDetailVm>> GetOrderByOrderId(int orderId)
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<OrderDetailVm>> Get1(int orderId)
         {
             var orderdetail = await _context.OrderDetails.FirstOrDefaultAsync(x => x.OrderId == orderId);
 
@@ -101,8 +101,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "User")]
-        public async Task<IActionResult> UpdateOrderDetail(int id, OrderDetailVm orderDetailVm)
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> Put(int id, OrderDetailVm orderDetailVm)
         {
             var orderDetail = await _context.OrderDetails.FindAsync(id);
 
@@ -120,8 +120,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<OrderVm>> CreateOrderDetail(OrderDetailVm orderDetailVm)
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<OrderVm>> Post(OrderDetailVm orderDetailVm)
         {
             var p = orderDetailVm.Product;
             var p1 = new Product
@@ -149,7 +149,7 @@ namespace ServerSite.Controllers
             _context.OrderDetails.Add(orderDetail);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrderById", new { id = orderDetail.Id }, new OrderDetailVm
+            return CreatedAtAction("Get", new { id = orderDetail.Id }, new OrderDetailVm
             {
                 Id = orderDetailVm.Id,
                 OrderId = orderDetailVm.OrderId,
@@ -161,8 +161,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteOrderDetail(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(int id)
         {
             var orderDetail = await _context.OrderDetails.FindAsync(id);
             if (orderDetail == null)
@@ -173,7 +173,7 @@ namespace ServerSite.Controllers
             _context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
 
-            return Accepted();
+            return NoContent();
         }
 
     }

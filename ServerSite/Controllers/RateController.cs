@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class RateController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<RateVm>>> GetAllRate()
+        public async Task<ActionResult<IEnumerable<RateVm>>> Get()
         {
             return await _context.Rates
                 .Select(x => new RateVm { Id = x.Id, ProductId = x.ProductId, Star = x.Star, UserId = x.UserId })
@@ -31,8 +31,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<RateVm>> GetRateById(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<RateVm>> Get(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
 
@@ -53,8 +53,8 @@ namespace ServerSite.Controllers
             return rateVm;
         }
         [HttpGet("{userId}")]
-        //[Authorize(Roles = "User")]
-        public async Task<ActionResult<RateVm>> GetRateByUserId(string userId)
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<RateVm>> Get1(string userId)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
 
@@ -76,7 +76,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{userId}")]
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateRateByUserId(string userId, RateVm rateVm)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -100,8 +100,8 @@ namespace ServerSite.Controllers
             return true;
         }
         [HttpPost]
-        //[Authorize(Roles = "User")]
-        public async Task<ActionResult<Rate>> CreateRate(RateVm rateVm)
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<Rate>> Post(RateVm rateVm)
         {
             if (CheckIfExist(rateVm.ProductId, rateVm.UserId) == true)
             {
@@ -140,7 +140,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
@@ -152,7 +152,7 @@ namespace ServerSite.Controllers
             _context.Rates.Remove(rate);
             await _context.SaveChangesAsync();
 
-            return Accepted();
+            return NoContent();
         }
 
     }

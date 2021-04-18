@@ -7,7 +7,7 @@ namespace ServerSite.Models
     {
         public int Id { get; set; }
         public double TotalPrice { get; set; }
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }
     }

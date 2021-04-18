@@ -23,7 +23,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<CartVm> CreateCart(CartVm cartVm)
+        public async Task<CartVm> Post(CartVm cartVm)
         {
             //Send access token 
             var client = _httpClientFactory.CreateClient();

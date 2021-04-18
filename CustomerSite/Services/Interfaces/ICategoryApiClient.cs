@@ -6,6 +6,6 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface ICategoryApiClient
     {
-        Task<IList<CategoryVm>> GetCategoryById(int id);
+        Task<IList<CategoryVm>> Get(int id);
     }
 }

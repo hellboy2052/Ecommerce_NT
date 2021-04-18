@@ -24,12 +24,12 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index(IList<ProductVm> produc)
+        public async Task<IActionResult> Index(IList<ProductVm> product)
         {
 
-                produc = await _productApiClient.GetAllProduct();
+                product = await _productApiClient.Get();
 
-            foreach (var x in produc)
+            foreach (var x in product)
             {
                 for (int i = 0; i < x.ImageLocation.Count; i++)
                 {
@@ -40,7 +40,7 @@ namespace CustomerSite.Controllers
 
             }
 
-            return View(produc);
+            return View(product);
         }
 
         public IActionResult Privacy()

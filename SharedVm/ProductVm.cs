@@ -14,6 +14,7 @@ namespace SharedVm
         public int CategoryId { get; set; }
         public string Content { get; set; }
         public int Quantity { get; set; }
+       
         
     }
 }

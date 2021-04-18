@@ -9,6 +9,6 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface ICartApiClient
     {
-        Task<CartVm> CreateCart(CartVm cartVm);
+        Task<CartVm> Post(CartVm cartVm);
     }
 }

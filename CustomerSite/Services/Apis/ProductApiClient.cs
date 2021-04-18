@@ -19,7 +19,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
         }
 
-        public async Task<IList<ProductVm>> GetAllProduct()
+        public async Task<IList<ProductVm>> Get()
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product");
@@ -27,14 +27,14 @@ namespace CustomerSite.Services.Apis
             return await response.Content.ReadAsAsync<IList<ProductVm>>();
         }
 
-        public async Task<ProductVm> GetProductById(int id)
+        public async Task<ProductVm> Get(int id)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + id);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsAsync<ProductVm>();
         }
-        public async Task<IList<ProductVm>> GetProductByCategory(int idCategory)
+        public async Task<IList<ProductVm>> Get1(int idCategory)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/product/GetByCategory/" + idCategory);

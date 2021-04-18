@@ -8,6 +8,6 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface IRateApiClient
     {
-        Task<RateVm> CreateRate(RateVm rateVm);
+        Task<RateVm> Post(RateVm rateVm);
     }
 }

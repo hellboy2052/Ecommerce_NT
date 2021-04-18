@@ -24,7 +24,7 @@ namespace CustomerSite.Controllers
                 return View("hello");
             }
             [HttpPost]
-            public IActionResult CreateRate(int Id, int Star)
+            public IActionResult Post(int Id, int Star)
             {
                 //if (!User.Identity.IsAuthenticated)
                 //    return RedirectToAction(actionName: "SignIn", controllerName: "Account");
@@ -33,7 +33,7 @@ namespace CustomerSite.Controllers
                 x.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 x.ProductId = Id;
                 x.Star = Star;
-                _ratingApiClient.CreateRate(x);
+                _ratingApiClient.Post(x);
 
                 string referer = Request.Headers["Referer"].ToString();
                 return Redirect(referer);

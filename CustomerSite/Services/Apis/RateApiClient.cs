@@ -24,7 +24,7 @@ namespace CustomerSite.Services.Apis
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
         }
-        public async Task<RateVm> CreateRate(RateVm rateVm)
+        public async Task<RateVm> Post(RateVm rateVm)
         {
         
             var client = _httpClientFactory.CreateClient();

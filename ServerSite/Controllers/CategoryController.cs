@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<CategoryVm>>> GetAllCategory()
+        public async Task<ActionResult<IEnumerable<CategoryVm>>> Get()
         {
             return await _context.Categories
                 .Select(x => new CategoryVm { Name = x.Name,Id=x.Id })
@@ -31,8 +31,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<CategoryVm>> GetCategoryById(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<CategoryVm>> Get(int id)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -51,7 +51,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateCategory(int id, CategoryVm categoryVm)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -64,12 +64,12 @@ namespace ServerSite.Controllers
             category.Name = categoryVm.Name;
             await _context.SaveChangesAsync();
 
-            return Accepted();
+            return NoContent();
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<CategoryVm>> CreateCategory(CategoryVm categoryVm)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<CategoryVm>> Post(CategoryVm categoryVm)
         {
             var category = new Category
             {
@@ -79,12 +79,12 @@ namespace ServerSite.Controllers
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAllCategory", new { id = category.Id }, 
+            return CreatedAtAction("Get", new { id = category.Id }, 
                 new CategoryVm { Id = category.Id, Name = category.Name });
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -96,7 +96,7 @@ namespace ServerSite.Controllers
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
-            return Accepted();
+            return NoContent();
         }
 
     }

@@ -30,16 +30,16 @@ namespace CustomerSite.Controllers
             return View(ListProduct);
         }
         //[HttpPost("{id}")]
-        public async Task<IActionResult> AddsCart( int id,CartVm cartVm)
-        {
-            cartVm.UserId =  User.FindFirstValue(ClaimTypes.NameIdentifier);
-            cartVm.ProductId = id;
-            cartVm.TotalPrice = 0;
-            var cart = await _cartApiClient.CreateCart(cartVm);
+        //public async Task<IActionResult> AddsCart( int id,CartVm cartVm)
+        //{
+        //    cartVm.UserId =  User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    cartVm.ProductId = id;
+        //    cartVm.TotalPrice = 0;
+        //    var cart = await _cartApiClient.CreateCart(cartVm);
 
-            string referer = Request.Headers["Referer"].ToString();
-            return RedirectToAction(referer);
-        }
+        //    string referer = Request.Headers["Referer"].ToString();
+        //    return RedirectToAction(referer);
+        //}
 
     }
 }

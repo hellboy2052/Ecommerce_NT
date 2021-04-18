@@ -15,33 +15,37 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    ////[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class ImageController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IStorageService _storageService;
-        public ImageController(ApplicationDbContext context, IStorageService storageService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ImageController(ApplicationDbContext context, IWebHostEnvironment webhostEnvironment)
         {
             _context = context;
-            _storageService = storageService;
+            _webHostEnvironment = webhostEnvironment;
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult> PostImage(IFormFile file, ImageVm imageVm)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Post([FromForm] ImageVm image)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
-            imageVm.ImagePath = fileName;
-            var image = new Image
+            var image1 = new Image();
+            string path = _webHostEnvironment.WebRootPath + "\\images\\";
+            if (!Directory.Exists(path))
             {
-                Id = imageVm.Id,
-                ProductId = imageVm.ProductId,
-                ImagePath = imageVm.ImagePath
-            };
-            _context.Images.Add(image);
-            return Accepted();
+                Directory.CreateDirectory(path);
+            }
+            using (FileStream fileStream=System.IO.File.Create(path+image.ImageFile.FileName))
+            {
+                image.ImageFile.CopyTo(fileStream);
+                fileStream.Flush();
+                image1.ImagePath = "/images/" + image.ImageFile.FileName.ToString();
+            }
+            image1.ProductId = image.ProductId;
+            _context.Images.Add(image1);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
     }

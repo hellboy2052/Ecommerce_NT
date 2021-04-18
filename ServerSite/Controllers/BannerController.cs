@@ -13,7 +13,7 @@ namespace ServerSite.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class BannerController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -24,15 +24,15 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BannerVm>>> GetAllBanner()
+        public async Task<ActionResult<IEnumerable<BannerVm>>> Get()
         {
             return await _context.Banners
                 .Select(x => new BannerVm { Id = x.Id, ImagePath = x.ImagePath, ProductID = x.ProductID })
                 .ToListAsync();
         }
         [HttpGet("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BannerVm>> GetBannerById(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BannerVm>> Get(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
 
@@ -51,8 +51,8 @@ namespace ServerSite.Controllers
             return bannerVm;
         }
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> CreateBanner(BannerVm bannerVm)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BrandVm>> Post(BannerVm bannerVm)
         {
             var banner = new Banner
             {
@@ -63,7 +63,7 @@ namespace ServerSite.Controllers
             _context.Banners.Add(banner);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBannerById", new { id = banner.Id }, new BannerVm
+            return CreatedAtAction("Get", new { id = banner.Id }, new BannerVm
             {
                 Id = banner.Id,
                 ImagePath = banner.ImagePath,
@@ -71,8 +71,8 @@ namespace ServerSite.Controllers
             });
         }
         [HttpPut("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> UpdateBanner(int id, BannerVm bannerVm)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Put(int id, BannerVm bannerVm)
         {
             var banner = await _context.Banners.FindAsync(id);
 
@@ -89,8 +89,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteBanner(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
 
@@ -101,7 +101,7 @@ namespace ServerSite.Controllers
 
             _context.Banners.Remove(banner);
             await _context.SaveChangesAsync();
-            return Accepted();
+            return Ok(banner);
         }
 
     }

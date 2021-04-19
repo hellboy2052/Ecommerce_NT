@@ -1,24 +1,28 @@
 
-import './App.css';
-import React,{useState,useEffect} from 'react';
-import Axios from 'axios';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
 
+} from "react-router-dom";
+import TopMenu from "./components/TopMenu.js";
+import Home from "./containers/Home";
+import Banner from "./containers/Banner.js";
 
 export default function App() {
-  const [res1,setRes]=useState([]);
-  useEffect(async()=>{
-    await Axios.get('https://localhost:44309/api/Category').then((res) => res.data)
-    .then((res)=>setRes(
-      res))
-    },[])
-  console.log(res1);
   return (
-    <div className="App">
-      <ul>
-      
-      </ul>
-    </div>
+    <Router>
+      <TopMenu />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/banner">
+          <Banner />
+        </Route>
+      </Switch>
+    </Router>
   );
-
 }
-

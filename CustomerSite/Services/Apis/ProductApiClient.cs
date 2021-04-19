@@ -24,15 +24,15 @@ namespace CustomerSite.Services.Apis
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product");
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<IList<ProductVm>>();
+            return await response.Content.ReadFromJsonAsync<IList<ProductVm>>();
         }
 
         public async Task<ProductVm> Get(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + id);
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/getById/" + id);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<ProductVm>();
+            return await response.Content.ReadFromJsonAsync<ProductVm>();
         }
         public async Task<IList<ProductVm>> Get1(int idCategory)
         {

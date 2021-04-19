@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -31,7 +31,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<CategoryVm>> Get(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -51,8 +51,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> UpdateCategory(int id, CategoryVm categoryVm)
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Update(int id, CategoryVm categoryVm)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -68,12 +68,12 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<CategoryVm>> Post(CategoryVm categoryVm)
         {
             var category = new Category
             {
-                Name = categoryVm.Name
+                Name = categoryVm.Name,
             };
 
             _context.Categories.Add(category);
@@ -84,7 +84,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _context.Categories.FindAsync(id);

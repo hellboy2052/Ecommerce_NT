@@ -54,6 +54,7 @@ namespace ServerSite
            .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
            .AddInMemoryClients(IdentityServerConfig.Clients)
            .AddAspNetIdentity<User>()
+           .AddProfileService<CustomProfileService>()
            .AddDeveloperSigningCredential();
 
             services.AddAuthentication()
@@ -123,6 +124,7 @@ namespace ServerSite
             app.UseRouting();
 
             app.UseCors("AllowAnyOrigin");
+             
             app.UseIdentityServer();
             app.UseAuthorization();
 

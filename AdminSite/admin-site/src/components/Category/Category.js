@@ -16,7 +16,7 @@ import {
 
 const Category = (props) => {
   const Delete=(id)=> {
-     Axios.delete(`https://localhost:44309/api/Category/${id}`).then(
+     Axios.delete(`https://hngtiendng.azurewebsites.net/api/Category/${id}`).then(
       (res) => {
         console.log(res);
         console.log(res.data);
@@ -31,7 +31,7 @@ const Category = (props) => {
     bodyFormData.append('name',)
     await Axios.post(
 
-      `https://localhost:44309/api/Category`,
+      `https://hngtiendng.azurewebsites.net/api/Category`,
       {
         name:name1
       }

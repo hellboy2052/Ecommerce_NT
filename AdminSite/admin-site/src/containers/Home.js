@@ -7,7 +7,7 @@ export default function Home() {
   const [res1, setRes] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      await Axios.get(`https://localhost:44309/api/Category`)
+      await Axios.get(`https://hngtiendng.azurewebsites.net/api/Category`)
         .then((res) => res.data)
         .then((res) => setRes(res));
     }

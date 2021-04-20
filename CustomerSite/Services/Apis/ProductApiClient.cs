@@ -37,7 +37,7 @@ namespace CustomerSite.Services.Apis
         public async Task<IList<ProductVm>> Get1(int idCategory)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/product/GetByCategory/" + idCategory);
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/product/" + idCategory);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<IList<ProductVm>>();
         }

@@ -41,9 +41,12 @@ namespace ServerSite.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://hngtiendngnt.azurewebsites.net/signin-oidc" },
+                    //RedirectUris = { "https://hngtiendngnt.azurewebsites.net/signin-oidc" },
 
-                    PostLogoutRedirectUris = { "https://hngtiendngnt.azurewebsites.net/signout-callback-oidc" },
+                    //PostLogoutRedirectUris = { "https://hngtiendngnt.azurewebsites.net/signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:44347/signin-oidc" },
+
+                    PostLogoutRedirectUris = { "https://localhost:44347/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
@@ -61,9 +64,12 @@ namespace ServerSite.IdentityServer
                     RequireConsent = false,
                     RequirePkce = true,
 
-                    RedirectUris =           { $"https://hngtiendng.azurewebsites.net/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"https://hngtiendng.azurewebsites.net/swagger/oauth2-redirect.html" },
-                    AllowedCorsOrigins =     { $"https://hngtiendng.azurewebsites.net/" },
+                    //RedirectUris =           { $"https://hngtiendng.azurewebsites.net/swagger/oauth2-redirect.html" },
+                    //PostLogoutRedirectUris = { $"https://hngtiendng.azurewebsites.net/swagger/oauth2-redirect.html" },
+                    //AllowedCorsOrigins =     { $"https://hngtiendng.azurewebsites.net/" },
+                    RedirectUris =           { $"https://localhost:44309/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"https://localhost:44309/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { $"https://localhost:44309/" },
 
                     AllowedScopes = new List<string>
                     {

@@ -40,7 +40,7 @@ namespace XUniteTest
             };
 
             var controller = new CategoryController(_dbContext);
-            var result = await controller.CreateCategory(category);
+            var result = await controller.Post(category);
 
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
             var returnValue = Assert.IsType<CategoryVm>(createdAtActionResult.Value);
@@ -58,7 +58,7 @@ namespace XUniteTest
             await _dbContext.SaveChangesAsync();
 
             var controller = new CategoryController(_dbContext);
-            var result = await controller.GetAllCategory();
+            var result = await controller.Get();
 
             var actionResult = Assert.IsType<ActionResult<IEnumerable<CategoryVm>>>(result);
             Assert.NotEmpty(actionResult.Value);

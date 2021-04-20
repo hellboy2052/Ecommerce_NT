@@ -28,6 +28,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult> Post([FromForm] ImageVm image)
         {
             var image1 = new Image();

@@ -10,8 +10,8 @@ using ServerSite.Data;
 namespace ServerSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210415183605_UpdateCartModel")]
-    partial class UpdateCartModel
+    [Migration("20210420144507_FirstPublish")]
+    partial class FirstPublish
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -258,6 +258,38 @@ namespace ServerSite.Migrations
                     b.ToTable("Carts");
                 });
 
+            modelBuilder.Entity("ServerSite.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageFirst")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Inventory")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("ServerSite.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -300,9 +332,6 @@ namespace ServerSite.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Product")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -317,63 +346,54 @@ namespace ServerSite.Migrations
                         {
                             Id = 1,
                             ImagePath = "/images/Phone/p1.png",
-                            Product = 0,
                             ProductId = 1
                         },
                         new
                         {
                             Id = 2,
                             ImagePath = "/images/Phone/p2.png",
-                            Product = 0,
                             ProductId = 2
                         },
                         new
                         {
                             Id = 3,
                             ImagePath = "/images/Phone/p3.png",
-                            Product = 0,
                             ProductId = 3
                         },
                         new
                         {
                             Id = 4,
                             ImagePath = "/images/Tablet/tl1.png",
-                            Product = 0,
                             ProductId = 4
                         },
                         new
                         {
                             Id = 5,
                             ImagePath = "/images/Tablet/tl2.png",
-                            Product = 0,
                             ProductId = 5
                         },
                         new
                         {
                             Id = 6,
                             ImagePath = "/images/Tablet/tl3.png",
-                            Product = 0,
                             ProductId = 6
                         },
                         new
                         {
                             Id = 7,
                             ImagePath = "/images/Laptop/lt1.png",
-                            Product = 0,
                             ProductId = 7
                         },
                         new
                         {
                             Id = 8,
                             ImagePath = "/images/Laptop/lt2.png",
-                            Product = 0,
                             ProductId = 8
                         },
                         new
                         {
                             Id = 9,
                             ImagePath = "/images/Laptop/lt3.png",
-                            Product = 0,
                             ProductId = 9
                         });
                 });
@@ -442,9 +462,6 @@ namespace ServerSite.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -469,8 +486,6 @@ namespace ServerSite.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("CartId");
 
                     b.HasIndex("CategoryId");
 
@@ -745,6 +760,17 @@ namespace ServerSite.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ServerSite.Models.CartItem", b =>
+                {
+                    b.HasOne("ServerSite.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("ServerSite.Models.Image", b =>
                 {
                     b.HasOne("ServerSite.Models.Product", null)
@@ -788,10 +814,6 @@ namespace ServerSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ServerSite.Models.Cart", null)
-                        .WithMany("Product")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("ServerSite.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
@@ -827,7 +849,7 @@ namespace ServerSite.Migrations
 
             modelBuilder.Entity("ServerSite.Models.Cart", b =>
                 {
-                    b.Navigation("Product");
+                    b.Navigation("CartItems");
                 });
 
             modelBuilder.Entity("ServerSite.Models.Category", b =>

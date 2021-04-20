@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ServerSite.Migrations
 {
-    public partial class addNewSeedDB : Migration
+    public partial class FirstPublish : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,7 @@ namespace ServerSite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    fullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -180,12 +180,35 @@ namespace ServerSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Carts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    CraeteDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,30 +222,6 @@ namespace ServerSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    totalPrice = table.Column<double>(type: "float", nullable: false),
-                    CraeteDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserPhone = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetails", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -230,11 +229,12 @@ namespace ServerSite.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Inventory = table.Column<int>(type: "int", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,12 +251,30 @@ namespace ServerSite.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Inventory = table.Column<int>(type: "int", nullable: false),
+                    ImageFirst = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
+                        name: "FK_CartItems_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -300,15 +318,42 @@ namespace ServerSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UnitPrice = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rates",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    totalStar = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Star = table.Column<int>(type: "int", nullable: false),
+                    Average = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -352,18 +397,18 @@ namespace ServerSite.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "BrandId", "CategoryId", "Description", "Inventory", "Name", "OrderId", "Price" },
+                columns: new[] { "Id", "BrandId", "CategoryId", "Content", "Description", "Inventory", "Name", "Price", "Quantity" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "Samsung Galaxy A32 4G là chiếc điện thoại thuộc phân khúc tầm trung nhưng sở hữu nhiều ưu điểm vượt trội về màn hình lớn sắc nét, bộ bốn camera 64 MP cùng vi xử lý hiệu năng cao và được bán ra với mức giá vô cùng tốt.", 100, "Samsung Galaxy A32", null, 6690000.0 },
-                    { 2, 2, 1, "Trong những tháng cuối năm 2020 Apple đã chính thức giới thiệu đến người dùng cũng như iFan thế hệ iPhone 12 series mới với hàng loạt tính năng bức phá, thiết kế được lột xác hoàn toàn, hiệu năng đầy mạnh mẽ và một trong số đó chính là iPhone 12 64GB.", 100, "iPhone 12 64GB", null, 21990000.0 },
-                    { 3, 3, 1, "Xiaomi đã trình làng chiếc điện thoại mang tên gọi là Xiaomi Redmi Note 10 với điểm nhấn chính là cụm 4 camera 48 MP, chip rồng Snapdragon 678 mạnh mẽ cùng nhiều nâng cấp như dung lượng pin 5.000 mAh và hỗ trợ sạc nhanh 33 W tiện lợi.", 100, "Xiaomi Redmi Note 10", null, 5370000.0 },
-                    { 4, 5, 2, "Chiếc máy tính bảng giá rẻ đáng mong chờ của Huawei, Huawei MatePad T10s cuối cùng cũng đã chính thức ra mắt. Với vi xử lý 8 nhân mở ra một thế giới giải trí mượt mà, sống động từng khoảnh khắc với màn hình cực lớn, hé lộ một chiếc máy tính bảng tốt trong tầm giá mà bất kỳ ai cũng đều yêu thích.", 100, "Huawei MatePad T10s", null, 5290000.0 },
-                    { 5, 1, 2, "Samsung Galaxy Tab A7 (2020) là một chiếc máy tính bảng có thiết kế đẹp, cấu hình khá, nhiều tính năng tiện ích, một công cụ đắc lực hỗ trợ bạn trong công việc cũng như trong học tập hay giải trí.", 100, "Samsung Galaxy Tab A7", null, 6390000.0 },
-                    { 6, 4, 2, "Từ việc sử dụng các thiết bị điện tử đa dạng của các gia đình hiện nay, Lenovo đã nắm bắt được nhu cầu thiết yếu này và cho ra mắt chiếc máy tính bảng Lenovo Tab M10 - FHD Plus với những tính năng tiện ích ấn tượng, “khoác chiếc áo” của thời đại và có mức giá siêu ưu đãi.", 100, "Lenovo Tab M10", null, 5190000.0 },
-                    { 7, 4, 3, "Lenovo IdeaPad S340 14IIL (81VV003VVN) sở hữu cấu hình khá, hiệu năng ổn định và thiết kế tinh tế đẹp mắt. Đây sẽ là chiếc laptop văn phòng phù hợp với đối tượng sinh viên, dân văn phòng thường xuyên xử lý các tác vụ văn phòng, học tập và chỉnh sửa hình ảnh cơ bản.", 100, "Lenovo IdeaPad S340", null, 13990000.0 },
-                    { 8, 4, 3, "Với bộ xử lý Intel Core i3 thế hệ thứ 10 tiên tiến cũng như các tùy chọn ổ cứng siêu nhanh, lưu trữ rộng lớn, Lenovo IdeaPad Flex 5 14IIL05 i3 chắc chắn là một lựa chọn tuyệt vời để bạn sử dụng hàng ngày.", 100, "Lenovo IdeaPad Flex 5", null, 16490000.0 },
-                    { 9, 4, 3, "Laptop Lenovo ThinkBook 15IIL i3 (20SM00D9VN) sở hữu thiết kế từ kim loại toát lên vẻ sang trọng, sắc sảo, cấu hình lí tưởng cho học tập, trình duyệt web khi trang bị bộ vi xử lý Intel thế hệ thứ 10 mới và ổ cứng SSD cực nhanh", 100, "Lenovo ThinkBook 15IIL", null, 11690000.0 }
+                    { 1, 1, 1, null, "Samsung Galaxy A32 4G là chiếc điện thoại thuộc phân khúc tầm trung nhưng sở hữu nhiều ưu điểm vượt trội về màn hình lớn sắc nét, bộ bốn camera 64 MP cùng vi xử lý hiệu năng cao và được bán ra với mức giá vô cùng tốt.", 100, "Samsung Galaxy A32", 6690000.0, 0 },
+                    { 2, 2, 1, null, "Trong những tháng cuối năm 2020 Apple đã chính thức giới thiệu đến người dùng cũng như iFan thế hệ iPhone 12 series mới với hàng loạt tính năng bức phá, thiết kế được lột xác hoàn toàn, hiệu năng đầy mạnh mẽ và một trong số đó chính là iPhone 12 64GB.", 100, "iPhone 12 64GB", 21990000.0, 0 },
+                    { 3, 3, 1, null, "Xiaomi đã trình làng chiếc điện thoại mang tên gọi là Xiaomi Redmi Note 10 với điểm nhấn chính là cụm 4 camera 48 MP, chip rồng Snapdragon 678 mạnh mẽ cùng nhiều nâng cấp như dung lượng pin 5.000 mAh và hỗ trợ sạc nhanh 33 W tiện lợi.", 100, "Xiaomi Redmi Note 10", 5370000.0, 0 },
+                    { 4, 5, 2, null, "Chiếc máy tính bảng giá rẻ đáng mong chờ của Huawei, Huawei MatePad T10s cuối cùng cũng đã chính thức ra mắt. Với vi xử lý 8 nhân mở ra một thế giới giải trí mượt mà, sống động từng khoảnh khắc với màn hình cực lớn, hé lộ một chiếc máy tính bảng tốt trong tầm giá mà bất kỳ ai cũng đều yêu thích.", 100, "Huawei MatePad T10s", 5290000.0, 0 },
+                    { 5, 1, 2, null, "Samsung Galaxy Tab A7 (2020) là một chiếc máy tính bảng có thiết kế đẹp, cấu hình khá, nhiều tính năng tiện ích, một công cụ đắc lực hỗ trợ bạn trong công việc cũng như trong học tập hay giải trí.", 100, "Samsung Galaxy Tab A7", 6390000.0, 0 },
+                    { 6, 4, 2, null, "Từ việc sử dụng các thiết bị điện tử đa dạng của các gia đình hiện nay, Lenovo đã nắm bắt được nhu cầu thiết yếu này và cho ra mắt chiếc máy tính bảng Lenovo Tab M10 - FHD Plus với những tính năng tiện ích ấn tượng, “khoác chiếc áo” của thời đại và có mức giá siêu ưu đãi.", 100, "Lenovo Tab M10", 5190000.0, 0 },
+                    { 7, 4, 3, null, "Lenovo IdeaPad S340 14IIL (81VV003VVN) sở hữu cấu hình khá, hiệu năng ổn định và thiết kế tinh tế đẹp mắt. Đây sẽ là chiếc laptop văn phòng phù hợp với đối tượng sinh viên, dân văn phòng thường xuyên xử lý các tác vụ văn phòng, học tập và chỉnh sửa hình ảnh cơ bản.", 100, "Lenovo IdeaPad S340", 13990000.0, 0 },
+                    { 8, 4, 3, null, "Với bộ xử lý Intel Core i3 thế hệ thứ 10 tiên tiến cũng như các tùy chọn ổ cứng siêu nhanh, lưu trữ rộng lớn, Lenovo IdeaPad Flex 5 14IIL05 i3 chắc chắn là một lựa chọn tuyệt vời để bạn sử dụng hàng ngày.", 100, "Lenovo IdeaPad Flex 5", 16490000.0, 0 },
+                    { 9, 4, 3, null, "Laptop Lenovo ThinkBook 15IIL i3 (20SM00D9VN) sở hữu thiết kế từ kim loại toát lên vẻ sang trọng, sắc sảo, cấu hình lí tưởng cho học tập, trình duyệt web khi trang bị bộ vi xử lý Intel thế hệ thứ 10 mới và ổ cứng SSD cực nhanh", 100, "Lenovo ThinkBook 15IIL", 11690000.0, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -437,6 +482,16 @@ namespace ServerSite.Migrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CartItems_CartId",
+                table: "CartItems",
+                column: "CartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_UserId",
+                table: "Carts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_ProductId",
                 table: "Images",
                 column: "ProductId");
@@ -445,6 +500,11 @@ namespace ServerSite.Migrations
                 name: "IX_OrderDetails_OrderId",
                 table: "OrderDetails",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_ProductId",
+                table: "OrderDetails",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -460,11 +520,6 @@ namespace ServerSite.Migrations
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_OrderId",
-                table: "Products",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rates_ProductId",
@@ -498,6 +553,9 @@ namespace ServerSite.Migrations
                 name: "Banners");
 
             migrationBuilder.DropTable(
+                name: "CartItems");
+
+            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
@@ -510,19 +568,22 @@ namespace ServerSite.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Carts");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

@@ -20,9 +20,18 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string userId)
         {
-            List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
+            List<ProductVm> ListProduct = new List<ProductVm>();
+            if (!User.Identity.IsAuthenticated)
+            {
+                ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
+            }
+            else
+            {
+                
+                
+            }
             if (ListProduct == null)
             {
                 return NotFound();

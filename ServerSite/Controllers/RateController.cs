@@ -54,9 +54,9 @@ namespace ServerSite.Controllers
         }
         [HttpGet("{userId}")]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<RateVm>> Get1(string userId)
+        public async Task<ActionResult<RateVm>> Get1(int productId)
         {
-            var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
+            var rate = await _context.Rates.FirstOrDefaultAsync(x => x.ProductId == productId);
 
             if (rate == null)
             {

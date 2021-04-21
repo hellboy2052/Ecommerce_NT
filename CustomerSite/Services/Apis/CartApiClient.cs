@@ -37,5 +37,12 @@ namespace CustomerSite.Services.Apis
             return await response.Content.ReadFromJsonAsync<CartVm>();
      
         }
+        public async Task<CartVm> Get(string userId)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/"+userId);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<CartVm>();
+        }
     }
 }

@@ -35,5 +35,12 @@ namespace CustomerSite.Services.Apis
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<RateVm>();
         }
+        public async Task<RateVm> Get1(int productId)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Rate/"+ productId);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<RateVm>();
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace CustomerSite.Services.Interfaces
     public interface ICartApiClient
     {
         Task<CartVm> Post(CartVm cartVm);
+        Task<CartVm> Get(string userId);
     }
 }

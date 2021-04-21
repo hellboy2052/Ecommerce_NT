@@ -44,6 +44,7 @@ namespace CustomerSite.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
+
             var product = await _productApiClient.Get(id);
 
             for (int i = 0; i < product.ImageLocation.Count; i++)

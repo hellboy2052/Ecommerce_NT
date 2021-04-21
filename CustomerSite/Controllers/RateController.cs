@@ -18,10 +18,10 @@ namespace CustomerSite.Controllers
             {
                 _ratingApiClient = ratingApiClient;
             }
-            public async Task<IActionResult> Index()
+            public async Task<IActionResult> Index(int productId)
             {
-                
-                return View("hello");
+            var rate=_ratingApiClient.Get1(productId);
+                return View(rate);
             }
             [HttpPost]
             public IActionResult Post(int Id, int Star)

@@ -40,7 +40,8 @@ namespace CustomerSite
                 .AddCookie("Cookies")
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://hngtiendng.azurewebsites.net/";
+                    //options.Authority = "https://hngtiendng.azurewebsites.net/";
+                    options.Authority = "https://localhost:44309/";
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = true;
 

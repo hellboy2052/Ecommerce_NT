@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<OrderVm>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderVm>>> GetAllOrder()
         {
             return await _context.Orders.Include(o=>o.OrderDetails)
                 .Select(x => new OrderVm
@@ -39,7 +39,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<OrderVm>> Get(int id)
+        public async Task<ActionResult<OrderVm>> GetOrderById(int id)
         {
             var order = await _context.Orders.FindAsync(id);
 
@@ -61,7 +61,7 @@ namespace ServerSite.Controllers
         }
         [HttpGet("{userId}")]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<OrderVm>> Get(string userId)
+        public async Task<ActionResult<OrderVm>> GetOrderByUser(string userId)
         {
             var order = await _context.Orders.Include(o=>o.OrderDetails).FirstOrDefaultAsync(x => x.UserId == userId);
 
@@ -84,7 +84,7 @@ namespace ServerSite.Controllers
         }
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, OrderVm orderVm)
+        public async Task<IActionResult> UpdateOrder(int id, OrderVm orderVm)
         {
             var order = await _context.Orders.FindAsync(id);
 
@@ -104,7 +104,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<OrderVm>> Post(OrderVm orderVm)
+        public async Task<ActionResult<OrderVm>> CreateOrder(OrderVm orderVm)
         {
             var order = new Order
             {
@@ -130,7 +130,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)

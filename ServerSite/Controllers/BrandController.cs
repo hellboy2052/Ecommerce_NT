@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BrandVm>>> Get()
+        public async Task<ActionResult<IEnumerable<BrandVm>>> GetAllBrand()
         {
             return await _context.Brands
                 .Select(x => new BrandVm { Name = x.Name, Id=x.Id })
@@ -32,7 +32,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> Get(int id)
+        public async Task<ActionResult<BrandVm>> GetBrandById(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
 
@@ -52,7 +52,7 @@ namespace ServerSite.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, BrandVm brandVm)
+        public async Task<IActionResult> UpdateBrand(int id, BrandVm brandVm)
         {
             var brand = await _context.Brands.FindAsync(id);
 
@@ -69,7 +69,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> Post(BrandVm brandVm)
+        public async Task<ActionResult<BrandVm>> CreateBrand(BrandVm brandVm)
         {
             var brand = new Brand
             {
@@ -84,7 +84,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteBrand(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
             if (brand == null)

@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [Authorize(Roles ="admin")]
-        public async Task<ActionResult<IEnumerable<OrderDetailVm>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderDetailVm>>> GetAllOrderdetail()
         {
             return await _context.OrderDetails
                 .Select(x => new OrderDetailVm
@@ -38,7 +38,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<OrderDetailVm>> Get(int id)
+        public async Task<ActionResult<OrderDetailVm>> GetOrderdetailById(int id)
         {
             var order = await _context.OrderDetails.FindAsync(id);
 
@@ -59,7 +59,7 @@ namespace ServerSite.Controllers
         }
         [HttpGet("{orderId}")]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<OrderDetailVm>> Get1(int orderId)
+        public async Task<ActionResult<OrderDetailVm>> GetOrderdetailByOrder(int orderId)
         {
             var orderdetail = await _context.OrderDetails.FirstOrDefaultAsync(x => x.OrderId == orderId);
 
@@ -102,7 +102,7 @@ namespace ServerSite.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "user")]
-        public async Task<IActionResult> Put(int id, OrderDetailVm orderDetailVm)
+        public async Task<IActionResult> UpdateOrderdetail(int id, OrderDetailVm orderDetailVm)
         {
             var orderDetail = await _context.OrderDetails.FindAsync(id);
 
@@ -121,7 +121,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<OrderVm>> Post(OrderDetailVm orderDetailVm)
+        public async Task<ActionResult<OrderVm>> CreateOrderdetail(OrderDetailVm orderDetailVm)
         {
             var p = orderDetailVm.Product;
             var p1 = new Product
@@ -162,7 +162,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteOrderdetail(int id)
         {
             var orderDetail = await _context.OrderDetails.FindAsync(id);
             if (orderDetail == null)

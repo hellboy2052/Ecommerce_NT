@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<ProductVm>>> Get()
+        public async Task<ActionResult<IEnumerable<ProductVm>>> GetAllProduct()
         {
             var products = await _context.Products.Include(p => p.Images).ToListAsync();
             List<ProductVm> productListVm = new();
@@ -52,7 +52,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("getById/{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<ProductVm>> Get(int id)
+        public async Task<ActionResult<ProductVm>> GetProductById(int id)
         {
             var product = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
 
@@ -82,7 +82,7 @@ namespace ServerSite.Controllers
         }
         [HttpGet("{idCategory}")]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<ProductVm>>> Get1(int idCategory)
+        public async Task<ActionResult<IEnumerable<ProductVm>>> GetProductByCategory(int idCategory)
         {
             var products = await _context.Products.Include(p => p.Images).Where(p => p.CategoryId == idCategory).ToListAsync();
             List<ProductVm> productListVm = new();
@@ -110,7 +110,7 @@ namespace ServerSite.Controllers
         }
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, ProductVm productVm)
+        public async Task<IActionResult> UpdateProduct(int id, ProductVm productVm)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -132,7 +132,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<ProductVm>> Post(ProductVm productVm)
+        public async Task<ActionResult<ProductVm>> CreateProduct(ProductVm productVm)
         {
             var product = new Product
             {
@@ -163,7 +163,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)

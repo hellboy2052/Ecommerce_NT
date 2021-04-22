@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<RateVm>>> Get()
+        public async Task<ActionResult<IEnumerable<RateVm>>> GetAllRate()
         {
             return await _context.Rates
                 .Select(x => new RateVm { Id = x.Id, ProductId = x.ProductId, Star = x.Star, UserId = x.UserId })
@@ -32,7 +32,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<RateVm>> Get(int id)
+        public async Task<ActionResult<RateVm>> GetRateById(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
 
@@ -54,7 +54,7 @@ namespace ServerSite.Controllers
         }
         [HttpGet("{userId}")]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<RateVm>> Get1(int productId)
+        public async Task<ActionResult<RateVm>> GetRateByProduct(int productId)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.ProductId == productId);
 
@@ -101,7 +101,7 @@ namespace ServerSite.Controllers
         }
         [HttpPost]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<Rate>> Post(RateVm rateVm)
+        public async Task<ActionResult<Rate>> CreateRate(RateVm rateVm)
         {
             if (CheckIfExist(rateVm.ProductId, rateVm.UserId) == true)
             {
@@ -141,7 +141,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteRate(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
             if (rate == null)

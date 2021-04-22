@@ -7,7 +7,7 @@ namespace SharedVm
         public int Id { get; set; }
         public double TotalPrice { get; set; }
         public string UserId { get; set; }
-        public List<CartItemVm> cartItemVms { get; set; }
+        public List<ProductVm> productVms { get; set; }
         //public int ProductId { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace ServerSite.Controllers
         [HttpPost]
         //[Authorize(Roles = "admin")]
         [AllowAnonymous]
-        public async Task<ActionResult> Post([FromForm] ImageVm image)
+        public async Task<ActionResult> CreateImage([FromForm] ImageVm image)
         {
             var image1 = new Image();
             string path = _webHostEnvironment.WebRootPath + "\\images\\";

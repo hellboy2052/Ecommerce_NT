@@ -24,7 +24,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BannerVm>>> Get()
+        public async Task<ActionResult<IEnumerable<BannerVm>>> GetAllBanner()
         {
             return await _context.Banners
                 .Select(x => new BannerVm { Id = x.Id, ImagePath = x.ImagePath, ProductID = x.ProductID })
@@ -32,7 +32,7 @@ namespace ServerSite.Controllers
         }
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BannerVm>> Get(int id)
+        public async Task<ActionResult<BannerVm>> GetBannerById(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
 
@@ -52,7 +52,7 @@ namespace ServerSite.Controllers
         }
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<BrandVm>> Post(BannerVm bannerVm)
+        public async Task<ActionResult<BrandVm>> CreateBanner(BannerVm bannerVm)
         {
             var banner = new Banner
             {
@@ -72,7 +72,7 @@ namespace ServerSite.Controllers
         }
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Put(int id, BannerVm bannerVm)
+        public async Task<IActionResult> UpdateBanner(int id, BannerVm bannerVm)
         {
             var banner = await _context.Banners.FindAsync(id);
 
@@ -90,7 +90,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteBanner(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
 

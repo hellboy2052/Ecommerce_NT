@@ -23,7 +23,7 @@ namespace ServerSite.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<CategoryVm>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryVm>>> GetAllCategory()
         {
             return await _context.Categories
                 .Select(x => new CategoryVm { Name = x.Name,Id=x.Id })
@@ -32,7 +32,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<CategoryVm>> Get(int id)
+        public async Task<ActionResult<CategoryVm>> GetCategoryById(int id)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -52,7 +52,7 @@ namespace ServerSite.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Update(int id, CategoryVm categoryVm)
+        public async Task<IActionResult> UpdateCategory(int id, CategoryVm categoryVm)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -69,7 +69,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<CategoryVm>> Post(CategoryVm categoryVm)
+        public async Task<ActionResult<CategoryVm>> CreateCategory(CategoryVm categoryVm)
         {
             var category = new Category
             {
@@ -85,7 +85,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
             if (category == null)

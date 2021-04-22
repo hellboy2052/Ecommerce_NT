@@ -24,7 +24,7 @@ namespace CustomerSite.Services.Apis
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
         }
-        public async Task<RateVm> Post(RateVm rateVm)
+        public async Task<RateVm> CreateRate(RateVm rateVm)
         {
         
             var client = _httpClientFactory.CreateClient();
@@ -35,7 +35,7 @@ namespace CustomerSite.Services.Apis
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<RateVm>();
         }
-        public async Task<RateVm> Get1(int productId)
+        public async Task<RateVm> GetRateByProduct(int productId)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Rate/"+ productId);

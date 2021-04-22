@@ -27,7 +27,7 @@ namespace CustomerSite.Controllers
         public async Task<IActionResult> Index(IList<ProductVm> product)
         {
 
-                product = await _productApiClient.Get();
+                product = await _productApiClient.GetAllProduct();
 
             foreach (var x in product)
             {

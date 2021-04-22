@@ -18,22 +18,22 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var products = await _productApiClient.Get();
+        //public async Task<IActionResult> Index()
+        //{
+        //    var products = await _productApiClient.Get();
 
-            //Set url backend for image
-            foreach (var x in products)
-            {
-                for (int i = 0; i < x.ImageLocation.Count; i++)
-                {
-                    string setUrl = _configuration["BackendUrl:Default"] + x.ImageLocation[i];
-                    x.ImageLocation[i] = setUrl;
+        //    //Set url backend for image
+        //    foreach (var x in products)
+        //    {
+        //        for (int i = 0; i < x.ImageLocation.Count; i++)
+        //        {
+        //            string setUrl = _configuration["BackendUrl:Default"] + x.ImageLocation[i];
+        //            x.ImageLocation[i] = setUrl;
 
-                }
+        //        }
 
-            }
-            return View(products);
-        }
+        //    }
+        //    return View(products);
+        //}
     }
 }

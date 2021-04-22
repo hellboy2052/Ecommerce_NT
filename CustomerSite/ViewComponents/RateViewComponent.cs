@@ -16,7 +16,7 @@ namespace CustomerSite.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(RateVm rateVm)
         {
-            var rate = await _rateApiClient.Post(rateVm);
+            var rate = await _rateApiClient.CreateRate(rateVm);
 
             return View(rate);
         }

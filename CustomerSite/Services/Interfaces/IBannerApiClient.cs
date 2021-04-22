@@ -6,6 +6,6 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface IBannerApiClient
     {
-        Task<IList<BannerVm>> Get();
+        Task<IList<BannerVm>> GetAllBanner();
     }
 }

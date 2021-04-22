@@ -23,7 +23,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<CartVm> Post(CartVm cartVm)
+        public async Task<CartVm> CreateCart(CartVm cartVm)
         {
             //Send access token 
             var client = _httpClientFactory.CreateClient();
@@ -37,7 +37,7 @@ namespace CustomerSite.Services.Apis
             return await response.Content.ReadFromJsonAsync<CartVm>();
      
         }
-        public async Task<CartVm> Get(string userId)
+        public async Task<CartVm> GetCartByUser(string userId)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/"+userId);

@@ -21,7 +21,7 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Index(string userId)
+        public async Task<IActionResult> Index(string userId)
         {
             List<ProductVm> ListProduct = new List<ProductVm>();
             CartVm cartVm = new CartVm();
@@ -31,7 +31,7 @@ namespace CustomerSite.Controllers
             }
             else
             {
-                cartVm = _cartApiClient.Get();
+                cartVm =await _cartApiClient.GetCartByUser(userId);
                 var lstProduct = cartVm.productVms.ToList();
                 foreach(var x in lstProduct)
                 {

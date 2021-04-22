@@ -22,7 +22,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
         }
 
-        public async Task<ActionResult<OrderVm>> Get(string userId)
+        public async Task<ActionResult<OrderVm>> GetOrderByUser(string userId)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Order/getOrderByUserId/" + userId);

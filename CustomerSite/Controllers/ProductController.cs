@@ -30,7 +30,7 @@ namespace CustomerSite.Controllers
         //}
         public async Task<IActionResult> GetProductByCategory(int idCategory)
         {
-            var products = await _productApiClient.Get1(idCategory);
+            var products = await _productApiClient.GetProductByCategory(idCategory);
             foreach (var x in products)
             {
                 for (int i = 0; i < x.ImageLocation.Count; i++)
@@ -45,7 +45,7 @@ namespace CustomerSite.Controllers
         public async Task<IActionResult> Detail(int id)
         {
 
-            var product = await _productApiClient.Get(id);
+            var product = await _productApiClient.GetProductById(id);
 
             for (int i = 0; i < product.ImageLocation.Count; i++)
             {
@@ -65,7 +65,7 @@ namespace CustomerSite.Controllers
                 ListProduct = new List<ProductVm>();
             }
 
-            var product = await _productApiClient.Get(id);
+            var product = await _productApiClient.GetProductById(id);
             for (int i = 0; i < product.ImageLocation.Count; i++)
             {
                 string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];

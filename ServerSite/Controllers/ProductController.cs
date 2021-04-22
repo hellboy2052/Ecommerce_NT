@@ -26,6 +26,10 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<IEnumerable<ProductVm>>> GetAllProduct()
         {
             var products = await _context.Products.Include(p => p.Images).ToListAsync();
+            if (products == null)
+            {
+                return NotFound();
+            }
             List<ProductVm> productListVm = new();
             foreach (var product in products)
             {

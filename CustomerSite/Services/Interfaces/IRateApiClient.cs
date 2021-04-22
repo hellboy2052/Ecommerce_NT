@@ -8,7 +8,7 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface IRateApiClient
     {
-        Task<RateVm> Post(RateVm rateVm);
-        Task<RateVm> Get1(int productId);
+        Task<RateVm> CreateRate(RateVm rateVm);
+        Task<RateVm> GetRateByProduct(int productId);
     }
 }

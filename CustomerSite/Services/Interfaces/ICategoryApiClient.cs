@@ -6,7 +6,7 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface ICategoryApiClient
     {
-        Task<IList<CategoryVm>> Get(int id);
+        Task<IList<CategoryVm>> GetAllBanner(int id);
 
     }
 }

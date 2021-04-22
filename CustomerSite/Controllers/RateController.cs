@@ -20,7 +20,7 @@ namespace CustomerSite.Controllers
             }
             public async Task<IActionResult> Index(int productId)
             {
-            var rate=_ratingApiClient.Get1(productId);
+            var rate=await _ratingApiClient.GetRateByProduct(productId);
                 return View(rate);
             }
             [HttpPost]
@@ -33,7 +33,7 @@ namespace CustomerSite.Controllers
                 x.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 x.ProductId = Id;
                 x.Star = Star;
-                _ratingApiClient.Post(x);
+                _ratingApiClient.CreateRate(x);
 
                 string referer = Request.Headers["Referer"].ToString();
                 return Redirect(referer);

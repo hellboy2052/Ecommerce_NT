@@ -15,7 +15,7 @@ namespace CustomerSite.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var banners = await _bannerApiClient.Get();
+            var banners = await _bannerApiClient.GetAllBanner();
 
             return View(banners);
         }

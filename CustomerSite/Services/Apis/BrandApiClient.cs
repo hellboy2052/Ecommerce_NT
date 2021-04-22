@@ -19,7 +19,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
         }
 
-        public async Task<IList<BrandVm>> Get()
+        public async Task<IList<BrandVm>> GetAllBanner()
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Brand");

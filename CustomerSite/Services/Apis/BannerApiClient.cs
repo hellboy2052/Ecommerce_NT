@@ -18,7 +18,7 @@ namespace CustomerSite.Services.Apis
             _configuration = configuration;
         }
 
-        public async Task<IList<BannerVm>> Get()
+        public async Task<IList<BannerVm>> GetAllBanner()
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Banner");

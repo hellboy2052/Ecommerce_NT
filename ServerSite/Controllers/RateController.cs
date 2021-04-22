@@ -12,7 +12,7 @@ namespace ServerSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Bearer")]
+    [Authorize("Bearer")]
     public class RateController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -32,6 +32,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<RateVm>> GetRateById(int id)
         {
             var rate = await _context.Rates.FindAsync(id);
@@ -52,8 +53,9 @@ namespace ServerSite.Controllers
 
             return rateVm;
         }
-        [HttpGet("{userId}")]
+        [HttpGet("getRateByUserId/{userId}")]
         //[Authorize(Roles = "user")]
+        [AllowAnonymous]
         public async Task<ActionResult<RateVm>> GetRateByProduct(int productId)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.ProductId == productId);
@@ -76,7 +78,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpPut("{userId}")]
-        //[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateRateByUserId(string userId, RateVm rateVm)
         {
             var rate = await _context.Rates.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -101,6 +104,7 @@ namespace ServerSite.Controllers
         }
         [HttpPost]
         //[Authorize(Roles = "user")]
+        [AllowAnonymous]
         public async Task<ActionResult<Rate>> CreateRate(RateVm rateVm)
         {
             if (CheckIfExist(rateVm.ProductId, rateVm.UserId) == true)
@@ -141,6 +145,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteRate(int id)
         {
             var rate = await _context.Rates.FindAsync(id);

@@ -22,7 +22,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="admin")]
+        //[Authorize(Roles ="admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<OrderDetailVm>>> GetAllOrderdetail()
         {
             return await _context.OrderDetails
@@ -38,6 +39,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<OrderDetailVm>> GetOrderdetailById(int id)
         {
             var order = await _context.OrderDetails.FindAsync(id);
@@ -57,8 +59,9 @@ namespace ServerSite.Controllers
 
             return orderDetailVm;
         }
-        [HttpGet("{orderId}")]
+        [HttpGet("getOrderDetailByOrderId/{orderId}")]
         //[Authorize(Roles = "user")]
+        [AllowAnonymous]
         public async Task<ActionResult<OrderDetailVm>> GetOrderdetailByOrder(int orderId)
         {
             var orderdetail = await _context.OrderDetails.FirstOrDefaultAsync(x => x.OrderId == orderId);
@@ -102,6 +105,7 @@ namespace ServerSite.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Roles = "user")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateOrderdetail(int id, OrderDetailVm orderDetailVm)
         {
             var orderDetail = await _context.OrderDetails.FindAsync(id);
@@ -121,6 +125,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "user")]
+        [AllowAnonymous]
         public async Task<ActionResult<OrderVm>> CreateOrderdetail(OrderDetailVm orderDetailVm)
         {
             var p = orderDetailVm.Product;
@@ -162,6 +167,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteOrderdetail(int id)
         {
             var orderDetail = await _context.OrderDetails.FindAsync(id);

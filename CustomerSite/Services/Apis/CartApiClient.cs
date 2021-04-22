@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,7 +41,23 @@ namespace CustomerSite.Services.Apis
         public async Task<CartVm> GetCartByUser(string userId)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/"+userId);
+            var response1 = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/getCartByUser/"+userId);
+            if (response1.StatusCode==System.Net.HttpStatusCode.NotFound)
+            {
+                CartVm cartVm = new CartVm
+                {
+                    UserId = userId,
+                    cartItemVms=new List<CartItemVm>(),
+                    TotalPrice=0
+            };
+               
+
+                //Send json with body
+                HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(cartVm),
+                    Encoding.UTF8, "application/json");
+                var res2=await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Cart", httpContent);
+            }
+            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/getCartByUser/" + userId);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<CartVm>();
         }

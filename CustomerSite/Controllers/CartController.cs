@@ -21,35 +21,47 @@ namespace CustomerSite.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index(string userId)
+        public async Task<IActionResult> Index()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<ProductVm> ListProduct = new List<ProductVm>();
-            CartVm cartVm = new CartVm();
+            CartVm cartVm = new CartVm
+            {
+                UserId = userId
+            };
             if (!User.Identity.IsAuthenticated)
             {
                 ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
             }
             else
             {
-                cartVm =await _cartApiClient.GetCartByUser(userId);
-                var lstProduct = cartVm.productVms.ToList();
-                foreach(var x in lstProduct)
-                {
-                    var pd = new ProductVm
+               
+                    cartVm = await _cartApiClient.GetCartByUser(userId);
+                    var lstCartItem = cartVm.cartItemVms.ToList();
+                    var lstProduct = new List<CartItemVm>();
+                    if (lstCartItem.Count > 0) { 
+                    
+                    foreach (var x in lstCartItem)
                     {
-                        BrandId = x.BrandId,
-                        CategoryId=x.CategoryId,
-                        Content=x.Content,
-                        Description=x.Description,
-                        Id=x.Id,
-                        ImageLocation=x.ImageLocation,
-                        Inventory=x.Inventory,
-                        Name=x.Name,
-                        Price=x.Price,
-                        Quantity=x.Quantity
+                        var pVm = new CartItemVm();
+                        
+                         
+
+                        pVm.productVm.BrandId = x.productVm.BrandId;
+                        pVm.productVm.CategoryId = x.productVm.CategoryId;
+                        pVm.productVm.Content = x.productVm.Content;
+                        pVm.productVm.Description = x.productVm.Description;
+                        pVm.productVm.Id = x.Id;
+
+                        pVm.productVm.Inventory = x.productVm.Inventory;
+                        pVm.productVm.Name = x.productVm.Name;
+                        pVm.productVm.Price = x.productVm.Price;
+                        pVm.productVm.Quantity = x.productVm.Quantity;
+                        lstProduct.Add(pVm);
                     };
-                    ListProduct.Add(pd);
-                }
+                    }
+                    return View(lstProduct);
+                    RedirectToAction("Index");
                 
 
             }

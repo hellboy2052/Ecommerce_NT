@@ -39,6 +39,7 @@ namespace ServerSite.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<OrderVm>> GetOrderById(int id)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -59,7 +60,7 @@ namespace ServerSite.Controllers
 
             return orderVm;
         }
-        [HttpGet("{userId}")]
+        [HttpGet("getOrderByUser/{userId}")]
         //[Authorize(Roles = "user")]
         public async Task<ActionResult<OrderVm>> GetOrderByUser(string userId)
         {
@@ -84,6 +85,7 @@ namespace ServerSite.Controllers
         }
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateOrder(int id, OrderVm orderVm)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -104,6 +106,7 @@ namespace ServerSite.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "user")]
+        [AllowAnonymous]
         public async Task<ActionResult<OrderVm>> CreateOrder(OrderVm orderVm)
         {
             var order = new Order
@@ -130,6 +133,7 @@ namespace ServerSite.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);

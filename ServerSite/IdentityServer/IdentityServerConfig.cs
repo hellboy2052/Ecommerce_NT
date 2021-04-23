@@ -1,11 +1,27 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace ServerSite.IdentityServer
 {
     public static class IdentityServerConfig
     {
+        private static IConfiguration _configuration;
+
+        public static IConfiguration Configuration
+        {
+            get
+            {
+                return _configuration;
+            }
+        }
+
+        public static void InitConfiguration(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public static IEnumerable<IdentityResource> IdentityResources =>
             new List<IdentityResource>
             {
@@ -41,9 +57,9 @@ namespace ServerSite.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44347/signin-oidc" },
+                    RedirectUris = { _configuration["CustomerSiteUri:Default"] +"/signin-oidc" },
 
-                    PostLogoutRedirectUris = { "https://localhost:44347/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { _configuration["CustomerSiteUri:Default"] +"/signout-callback-oidc" },
 
 
                     AllowedScopes = new List<string>
@@ -62,9 +78,9 @@ namespace ServerSite.IdentityServer
                     RequireConsent = false,
                     RequirePkce = true,
 
-                    RedirectUris =           { $"https://localhost:44309/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"https://localhost:44309/swagger/oauth2-redirect.html" },
-                    AllowedCorsOrigins =     { $"https://localhost:44309" },
+                    RedirectUris =           { _configuration["BackendUrl:Default"] +"/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { _configuration["BackendUrl:Default"] +"/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     {_configuration["BackendUrl:Default"]  },
 
 
                     AllowedScopes = new List<string>

@@ -42,6 +42,7 @@ namespace ServerSite
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            IdentityServerConfig.InitConfiguration(Configuration);
             services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;

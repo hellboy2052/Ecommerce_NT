@@ -38,7 +38,8 @@ namespace ServerSite.Controllers
             var lstProductVm = new List<ProductVm>();
             foreach (var x in lstCartItem)
             {
-
+                x.Product = new Product();
+              
                 var c = new ProductVm
                 {
 
@@ -47,17 +48,14 @@ namespace ServerSite.Controllers
                     Content = x.Product.Content,
                     Description = x.Product.Description,
                     Id = x.Id,
-
+                   
                     Inventory = x.Product.Inventory,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
                     Quantity = x.Product.Quantity,
                 };
-                foreach (var y in c.ImageLocation)
-                {
-                    lstImage.Add(y);
-                }
-                c.ImageLocation = lstImage;
+               
+                cartItemVm.productVm = new ProductVm();
                 cartItemVm.productVm = c;
                 lstCartItemVm.Add(cartItemVm);
             }
@@ -210,7 +208,34 @@ namespace ServerSite.Controllers
 
 
         }
+        [HttpPut("addCartItem/{userId}/{productId}")]
+        //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
+        public async Task<ActionResult<CartVm>> AddCartItem(string userId, int productId)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+            var cartItem = new CartItem
+            {
+                Product=product
+            };
+            cart.CartItems = new List<CartItem>();
+            cart.CartItems.Add(cartItem);
+            if (cart == null)
+            {
+                return NotFound();
+            }
+            await _context.SaveChangesAsync();
 
+            return CreatedAtAction("Get", new { id = cart.Id }, new CartVm
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                TotalPrice = cart.TotalPrice,
+               
+            });
+
+        }
         //[HttpPut("removeItem/{userId}/{productId}")]
         ////[Authorize(Roles = "admin")]
         //[AllowAnonymous]

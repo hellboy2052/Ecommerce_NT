@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import Category from "../components/Category/Category";
+import Category from "../components/Category";
 
 export default function Home() {
   

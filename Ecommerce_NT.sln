@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerSite", "CustomerSit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedVm", "SharedVm\SharedVm.csproj", "{0BE62D40-35FD-47A9-AABB-F0A030EABA18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUniteTest", "XUniteTest\XUniteTest.csproj", "{F3EFD73A-825C-4B71-B8E6-54A1A3673CE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUniteTest", "XUniteTest\XUniteTest.csproj", "{F3EFD73A-825C-4B71-B8E6-54A1A3673CE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

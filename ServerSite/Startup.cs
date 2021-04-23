@@ -113,6 +113,7 @@ namespace ServerSite
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
+                app.UseMigrationsEndPoint();
             }
             else
             {

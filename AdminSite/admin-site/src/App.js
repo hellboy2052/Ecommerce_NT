@@ -10,6 +10,7 @@ import {
 import TopMenu from "./components/TopMenu.js";
 import Home from "./containers/Home";
 import Banner from "./containers/Banner.js";
+import Product from "./containers/Product.js";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
         </Route>
         <Route exact path="/banner">
           <Banner />
+        </Route>
+        <Route exact path="/product">
+          <Product />
         </Route>
       </Switch>
     </Router>

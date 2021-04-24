@@ -13,7 +13,10 @@ export default (state = initialState, { type, payload }) => {
             return { ...state };
 
         }
-        
+        case product.CREATE_PRODUCT:{
+            state.productList = payload;
+            return { ...state };
+        }       
         default:
             return state;
     }

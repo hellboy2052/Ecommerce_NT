@@ -22,7 +22,7 @@ export default function TopMenu() {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar color="light" light expand="md">
+    <Navbar color="light" light expand="md" fixed="top">
       <NavbarBrand><Link to='/'>Home</Link></NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>

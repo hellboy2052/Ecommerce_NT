@@ -1,7 +1,8 @@
 import React from "react";
+import { Table,Button } from 'reactstrap';
 export default function ProductList(props) {
   return (
-    <table class="table">
+    <Table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -20,10 +21,16 @@ export default function ProductList(props) {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td><img style={{height:"50px"}} src={`https://localhost:44309${item.imageLocation[0]}`} alt="product image"/></td>
+                <td>
+                <Button color="info">Update</Button>{" "}
+                <Button color="danger" >
+                  Delete
+                </Button>
+              </td>
               </tr>
             );
           })}
       </tbody>
-    </table>
+    </Table>
   );
 }

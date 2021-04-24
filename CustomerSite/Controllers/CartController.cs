@@ -43,7 +43,11 @@ namespace CustomerSite.Controllers
                     
                     foreach (var x in lstCartItem)
                     {
-                        var pVm = new CartItemVm();
+                        var pVm = new CartItemVm()
+                        {
+                            productVm = new ProductVm(),
+                        };
+                            
                         
                          
 
@@ -52,7 +56,7 @@ namespace CustomerSite.Controllers
                         pVm.productVm.Content = x.productVm.Content;
                         pVm.productVm.Description = x.productVm.Description;
                         pVm.productVm.Id = x.Id;
-
+                        pVm.productVm.ImageLocation = x.productVm.ImageLocation;
                         pVm.productVm.Inventory = x.productVm.Inventory;
                         pVm.productVm.Name = x.productVm.Name;
                         pVm.productVm.Price = x.productVm.Price;
@@ -61,7 +65,7 @@ namespace CustomerSite.Controllers
                     };
                     }
                     return View(lstProduct);
-                    RedirectToAction("Index");
+                   
                 
 
             }

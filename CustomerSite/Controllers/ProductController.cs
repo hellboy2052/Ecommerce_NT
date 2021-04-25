@@ -56,33 +56,7 @@ namespace CustomerSite.Controllers
             return View(product);
         }
         //[HttpPost("{id}")]
-        public async Task<IActionResult> AddsSession(int id,int quantity)
-        {
-            List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
-
-            if (ListProduct == null)
-            {
-                ListProduct = new List<ProductVm>();
-            }
-
-            var product = await _productApiClient.GetProductById(id);
-            for (int i = 0; i < product.ImageLocation.Count; i++)
-            {
-                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
-                product.ImageLocation[i] = setUrl;
-            }
-
-            ProductVm x = new ProductVm();
-            x.ImageLocation = product.ImageLocation;
-            x.Name = product.Name;
-            x.Quantity = quantity;
-            x.Price = product.Price;
-            ListProduct.Add(x);
-            HttpContext.Session.Set("SessionCart", ListProduct);
-
-            string referer = Request.Headers["Referer"].ToString();
-            return Redirect(referer);
-        }
+       
 
 
 

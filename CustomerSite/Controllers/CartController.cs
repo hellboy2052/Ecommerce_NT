@@ -15,23 +15,25 @@ namespace CustomerSite.Controllers
     {
         private readonly ICartApiClient _cartApiClient;
         private readonly IConfiguration _configuration;
-        public CartController(ICartApiClient cartApiClient, IConfiguration configuration)
+        private readonly IProductApiClient _productApiClient;
+        public CartController(ICartApiClient cartApiClient, IConfiguration configuration, IProductApiClient productApiClient)
         {
             _cartApiClient = cartApiClient;
             _configuration = configuration;
+            _productApiClient = productApiClient;
         }
 
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<ProductVm> ListProduct = new List<ProductVm>();
+            List<CartItemVm> ListProduct = new List<CartItemVm>();
             CartVm cartVm = new CartVm
             {
                 UserId = userId
             };
             if (!User.Identity.IsAuthenticated)
             {
-                ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
+                ListProduct = HttpContext.Session.Get<List<CartItemVm>>("SessionCart");
             }
             else
             {
@@ -60,7 +62,7 @@ namespace CustomerSite.Controllers
                         pVm.productVm.Inventory = x.productVm.Inventory;
                         pVm.productVm.Name = x.productVm.Name;
                         pVm.productVm.Price = x.productVm.Price;
-                        pVm.productVm.Quantity = x.productVm.Quantity;
+                        pVm.Quantity = x.Quantity;
                         lstProduct.Add(pVm);
                     };
                     }
@@ -75,11 +77,43 @@ namespace CustomerSite.Controllers
             }
             return View(ListProduct);
         }
-        public async Task<IActionResult> AddCartItem(string userId,int productId)
+        public async Task<IActionResult> AddCartItem(string userId,int productId,int quantity)
         {
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var cartVm= await _cartApiClient.AddCartItem(userId, productId);
+            var cartVm= await _cartApiClient.AddCartItem(userId, productId, quantity);
             return Redirect("Index");
+        }
+        public async Task<IActionResult> AddsSession(int id, int quantity)
+        {
+            //List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
+            List<CartItemVm> ListCartItemVm = HttpContext.Session.Get<List<CartItemVm>>("SessionCart");
+
+            if (ListCartItemVm == null)
+            {
+                ListCartItemVm = new List<CartItemVm>();
+            }
+
+            var product = await _productApiClient.GetProductById(id);
+            for (int i = 0; i < product.ImageLocation.Count; i++)
+            {
+                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
+                product.ImageLocation[i] = setUrl;
+            }
+
+            ProductVm x = new ProductVm();
+            x.ImageLocation = product.ImageLocation;
+            x.Name = product.Name;
+
+            x.Price = product.Price;
+            CartItemVm cartItemVm = new CartItemVm();
+            cartItemVm.productVm = x;
+            cartItemVm.Quantity = quantity;
+            ListCartItemVm.Add(cartItemVm);
+
+            HttpContext.Session.Set("SessionCart", ListCartItemVm);
+
+            string referer = Request.Headers["Referer"].ToString();
+            return Redirect(referer);
         }
         //[HttpPost("{id}")]
         //public async Task<IActionResult> AddsCart( int id,CartVm cartVm)

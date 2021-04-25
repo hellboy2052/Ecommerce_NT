@@ -83,7 +83,7 @@ namespace ServerSite.Controllers
                 ImageLocation = new List<string>(),
                 Inventory =p.Inventory,
                 Name=p.Name,
-                Quantity=p.Quantity
+                
             };
             for (int i = 0; i < p.Images.Count; i++)
             {
@@ -139,7 +139,7 @@ namespace ServerSite.Controllers
                 Id = p.Id,
                 Inventory = p.Inventory,
                 Name = p.Name,
-                Quantity = p.Quantity
+                
 
             };
             var orderDetail = new OrderDetail

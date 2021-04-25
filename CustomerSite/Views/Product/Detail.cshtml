@@ -42,82 +42,80 @@
                 <li class="list-group-item disabled"><h4>@Model.Description</h4></li>
                 <li class="list-group-item">@Model.BrandId</li>
                 <li class="list-group-item">@Model.Price</li>
+                <div>
+                    <form action="" method="post">
+                        <ul>
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
+                                            -
+                                        </button>
+                                    </span>
+                                    <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
+                                            +
+                                        </button>
+                                    </span>
+                                </div><br />
 
-                @{
-                    var userId = User.Claims.ElementAt(2).Value;
-                    if (User.Identity.IsAuthenticated)
-                    {
-
-                        <li class="list-group-item">
-                            
-                            <a type="button" class="btn btn-success" asp-controller="Cart" asp-action="AddCartItem" asp-route-userId="@userId" asp-route-productId="@Model.Id">Thêm Vào Giỏ Hàng</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <div>
-                            <form action="" method="post">
-                                <ul>
+                                @{if (User.Identity.IsAuthenticated)
+                                    {
+                                        var userId = User.Claims.ElementAt(2).Value;
                                     <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
-                                                    -
-                                                </button>
-                                            </span>
-                                            <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
-                                                    +
-                                                </button>
-                                            </span>
-                                        </div><br />
-                                        <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
+
+                                        <button typeof="submit" class="btn btn-success" asp-controller="Cart" asp-action="AddCartItem" asp-route-userId="@userId" asp-route-productId="@Model.Id">Thêm Vào Giỏ Hàng</button>
                                     </li>
-                                </ul>
-                            </form>
-                        </div>
-                    }
-                }
+                                }
+                                else
+                                {
 
-                @*<form action="" method="post">
-                        <li class="list-group-item">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
-                                        -
-                                    </button>
-                                </span>
-                                <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
-                                        +
-                                    </button>
-                                </span>
-                            </div><br />
-                            <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
-                        </li>
-                    </form>*@
-                <li class="list-group-item">
-                    @*<span class="item-title">
-                            Đánh giá: @for (int i = 0; i < Math.Floor(Model.RateAvg()); i++)
-                            {
-                                <i class="fas fa-star" style="color:yellow;"></i>
-                            }
-                            @if (Model.RateAvg() - Math.Floor(Model.RateAvg()) != 0)
-                            {
-                                <i class="fas fa-star-half-alt" style="color:yellow;"></i>
-                            }
-                            @for (int j = (int)Math.Ceiling(Model.RateAvg()); j < 5; j++)
-                            {
-                                <i class="far fa-star" style="color:yellow;"></i>
-                            }
-                            &nbsp; ( Có @Model.Rates.Count đánh giá )
-                        </span>*@
-                </li>
+                                    <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Cart" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
+                                }}
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
 
-            </ul>
+                    @*<form action="" method="post">
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-light" onclick="Minus()" style="font-size:large">
+                                            -
+                                        </button>
+                                    </span>
+                                    <input type="number" id="quantity" name="quantity" style="width:50px" value="1" min="1" max="100">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-light" onclick="Plus()" style="font-size:large">
+                                            +
+                                        </button>
+                                    </span>
+                                </div><br />
+                                <button type="submit" asp-route-id="@Model.Id" class="btn btn-success" asp-controller="Product" asp-action="AddsSession">Thêm Vào Giỏ Hàng</button>
+                            </li>
+                        </form>*@
+                    <li class="list-group-item">
+                        @*<span class="item-title">
+                                Đánh giá: @for (int i = 0; i < Math.Floor(Model.RateAvg()); i++)
+                                {
+                                    <i class="fas fa-star" style="color:yellow;"></i>
+                                }
+                                @if (Model.RateAvg() - Math.Floor(Model.RateAvg()) != 0)
+                                {
+                                    <i class="fas fa-star-half-alt" style="color:yellow;"></i>
+                                }
+                                @for (int j = (int)Math.Ceiling(Model.RateAvg()); j < 5; j++)
+                                {
+                                    <i class="far fa-star" style="color:yellow;"></i>
+                                }
+                                &nbsp; ( Có @Model.Rates.Count đánh giá )
+                            </span>*@
+                    </li>
+
+                </ul>
+            </div>
+
         </div>
-
     </div>
-</div>

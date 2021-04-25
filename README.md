@@ -1,10 +1,10 @@
 # Ecommerce_NT
-Full Name : Ecommerce For NashTech Assignment
-Author : Hoàng Tiến Dũng
-Contact :
+-Full Name : Ecommerce For NashTech Assignment
+-Author : Hoàng Tiến Dũng
+-Contact :
   - phone: 0384256135
   - email: hngtiendng@gmail.com
-Nuget Package:
+-Nuget Package:
   - Customer Site: <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />

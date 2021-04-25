@@ -1,5 +1,6 @@
 import axios from "axios";
-axios.defaults.baseURL = "https://localhost:44309";
+//axios.defaults.baseURL = "https://localhost:44309";
+axios.defaults.baseURL = "https://localhost:5001";
 
 
 const Product = {

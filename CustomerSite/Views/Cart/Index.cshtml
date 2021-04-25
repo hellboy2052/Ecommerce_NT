@@ -1,10 +1,10 @@
 ﻿@*<ul class="list-group">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-</ul>*@
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectetur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+    </ul>*@
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -17,19 +17,43 @@
         <th style="text-align:center">Số lượng</th>
         <th>Xóa</th>
     </tr>
-     @*from DB need another from Session*@
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td><img src="@item.productVm.ImageLocation[0]" alt="Card image cap" width=180 height=100></td>
-            <td>@item.productVm.Name</td>
-            <td style="color:red">@item.productVm.Price</td>
-            <td style="text-align:center">@item.productVm.Quantity</td>
+    @*from DB *@
+    @{ if (User.Identity.IsAuthenticated)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @{
+                        var imagePath = "https://localhost:44309" + @item.productVm.ImageLocation[0];
+                    }
+                    <td><img src=@imagePath alt=" Card image cap" width=180 height=100></td>
+                    <td>@item.productVm.Name</td>
+                    <td style="color:red">@item.productVm.Price</td>
+                    <td style="text-align:center">@item.productVm.Quantity</td>
 
-            <td>
-                <span class="badge badge-danger" style="width:50px">Xóa</span>
-            </td>
-        </tr>
+                    <td>
+                        <span class="badge badge-danger" style="width:50px">Xóa</span>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="@item.ImageLocation[0]" alt="Card image cap" width=180 height=100></td>
+                    <td>@item.Name</td>
+                    <td style="color:red">@item.Price</td>
+                    <td style="text-align:center">@item.Quantity</td>
+
+                    <td>
+                        <span class="badge badge-danger" style="width:50px">Xóa</span>
+                    </td>
+                </tr>
+}
+        }
     }
+
 
 </table>

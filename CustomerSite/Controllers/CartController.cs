@@ -75,6 +75,12 @@ namespace CustomerSite.Controllers
             }
             return View(ListProduct);
         }
+        public async Task<IActionResult> AddCartItem(string userId,int productId)
+        {
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cartVm= await _cartApiClient.AddCartItem(userId, productId);
+            return Redirect("Index");
+        }
         //[HttpPost("{id}")]
         //public async Task<IActionResult> AddsCart( int id,CartVm cartVm)
         //{

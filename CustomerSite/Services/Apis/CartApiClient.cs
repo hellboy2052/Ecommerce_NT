@@ -64,7 +64,10 @@ namespace CustomerSite.Services.Apis
         public async Task<CartVm> AddCartItem(string userId,int productId)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/addCartItem/" + userId+"/"+productId);
+            var response1 = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + productId);
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(response1),
+               Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(_configuration["BackendUrl:Default"] + "/api/Cart/addCartItem/" + userId + "/" + productId,httpContent);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<CartVm>();
         }

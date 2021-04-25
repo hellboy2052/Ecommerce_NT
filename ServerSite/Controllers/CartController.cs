@@ -39,7 +39,7 @@ namespace ServerSite.Controllers
             foreach (var x in lstCartItem)
             {
                 x.Product = new Product();
-              
+
                 var c = new ProductVm
                 {
 
@@ -48,18 +48,18 @@ namespace ServerSite.Controllers
                     Content = x.Product.Content,
                     Description = x.Product.Description,
                     Id = x.Id,
-                   
+
                     Inventory = x.Product.Inventory,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
                     Quantity = x.Product.Quantity,
                 };
-               
+
                 cartItemVm.productVm = new ProductVm();
                 cartItemVm.productVm = c;
                 lstCartItemVm.Add(cartItemVm);
             }
-            
+
             var cartVm = await _context.Carts
                            .Select(x => new CartVm { Id = x.Id, TotalPrice = x.TotalPrice, UserId = x.UserId, cartItemVms = lstCartItemVm })
                            .ToListAsync();
@@ -120,9 +120,9 @@ namespace ServerSite.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<CartVm>> GetCartByUser(string userId)
         {
-           
-            var cart = await _context.Carts.Include(x=>x.CartItems)
-                .ThenInclude(x=>x.Product).ThenInclude(x=>x.Images).FirstOrDefaultAsync(x => x.UserId == userId);
+
+            var cart = await _context.Carts.Include(x => x.CartItems)
+                .ThenInclude(x => x.Product).ThenInclude(x => x.Images).FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (cart == null)
             {
@@ -130,14 +130,15 @@ namespace ServerSite.Controllers
             }
 
             var lstProduct = cart.CartItems.ToList();
-            var lstImage = new List<string>();
+
             var cartItemVms = new List<CartItemVm>();
-            var cartItemVm = new CartItemVm();
+
             var c = new ProductVm();
-            
-            foreach (var x in lstProduct)
+
+            foreach (var x in lstProduct.ToList())
             {
-                
+                var cartItemVm = new CartItemVm();
+                var lstImage = new List<string>();
                 c = new ProductVm
                 {
 
@@ -146,7 +147,7 @@ namespace ServerSite.Controllers
                     Content = x.Product.Content,
                     Description = x.Product.Description,
                     Id = x.Id,
-                    
+
                     Inventory = x.Product.Inventory,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
@@ -156,13 +157,13 @@ namespace ServerSite.Controllers
                 {
                     lstImage.Add(y.ImagePath.ToString());
                 }
-                
+
                 c.ImageLocation = lstImage;
                 cartItemVm.productVm = c;
                 cartItemVms.Add(cartItemVm);
-                
+
             }
-            
+
             var cartVm = new CartVm { Id = cart.Id, TotalPrice = cart.TotalPrice, UserId = cart.UserId, cartItemVms = cartItemVms };
             return cartVm;
         }
@@ -180,10 +181,10 @@ namespace ServerSite.Controllers
                 pVm.Product.BrandId = x.productVm.BrandId;
                 pVm.Product.CategoryId = x.productVm.CategoryId;
                 pVm.Product.Content = x.productVm.Content;
-                    pVm.Product.Description = x.productVm.Description;
+                pVm.Product.Description = x.productVm.Description;
                 pVm.Product.Id = x.Id;
 
-                    pVm.Product.Inventory = x.productVm.Inventory;
+                pVm.Product.Inventory = x.productVm.Inventory;
                 pVm.Product.Name = x.productVm.Name;
                 pVm.Product.Price = x.productVm.Price;
                 pVm.Product.Quantity = x.productVm.Quantity;
@@ -217,12 +218,12 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<CartVm>> AddCartItem(string userId, int productId)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
-            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+            var cart = await _context.Carts.Include(x => x.CartItems).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.UserId == userId);
             var cartItem = new CartItem
             {
-                Product=product
+                Product = product
             };
-            cart.CartItems = new List<CartItem>();
+
             cart.CartItems.Add(cartItem);
             if (cart == null)
             {
@@ -235,7 +236,7 @@ namespace ServerSite.Controllers
                 Id = cart.Id,
                 UserId = cart.UserId,
                 TotalPrice = cart.TotalPrice,
-               
+
             });
 
         }

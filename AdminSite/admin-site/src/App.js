@@ -8,23 +8,37 @@ import {
 
 } from "react-router-dom";
 import TopMenu from "./components/TopMenu.js";
-import Home from "./containers/Home";
+import Oidc, { UserManager } from 'oidc-client'
 import Banner from "./containers/Banner.js";
 import Product from "./containers/Product.js";
+import Login from './components/Login/Login';
+import LoginCallback from './components/Login/LoginCallBack';
+require('dotenv').config()
 
 export default function App() {
+  const config = {
+    userStore:new Oidc.WebStorageStateStore({store:window.localStorage}),
+    authority: "https://localhost:44309/",
+    client_id: "react-admin",  
+    redirect_uri: "http://localhost:3000/signin-oidc",
+    // post_logout_redirect_uri: `${process.env.REACT_APP_ADMIN}/signout-oidc`,
+    response_type: "id_token token",
+    scope: "openid profile rookieshop.api",
+  }
+  var userManager = new Oidc.UserManager(config)
   return (
     <Router>
       <TopMenu />
       <br/><br/><br/>
       <Switch>
         <Route exact path="/">
-          <Product />
+        <Login userManager={userManager}/>
         </Route>
         <Route exact path="/banner">
           <Banner />
         </Route>
-        
+        <Route exact path="/product"><Product/></Route>
+          <Route exact path="/signin-oidc"><LoginCallback/></Route>
       </Switch>
     </Router>
   );

@@ -48,7 +48,7 @@ namespace ServerSite.Controllers
                 Star = rate.Star,
                 ProductId = rate.ProductId,
                 Id = rate.Id,
-                Average=rate.Average
+                
             };
 
             return rateVm;
@@ -71,7 +71,7 @@ namespace ServerSite.Controllers
                 Star = rate.Star,
                 ProductId = rate.ProductId,
                 Id = rate.Id,
-                Average = rate.Average
+                
             };
 
             return rateVm;
@@ -90,37 +90,22 @@ namespace ServerSite.Controllers
             }
 
             rate.Star = rateVm.Star;
-            rate.Average = rateVm.Average;
+            
             await _context.SaveChangesAsync();
 
             return Accepted();
         }
-        bool CheckIfExist(int idPro, string idUser)
-        {
-            var x = _context.Rates.Where(x => x.ProductId == idPro && x.UserId == idUser).FirstOrDefault();
-            if (x == null)
-                return false;
-            return true;
-        }
+       
+        
         [HttpPost]
         //[Authorize(Roles = "user")]
         [AllowAnonymous]
         public async Task<ActionResult<Rate>> CreateRate(RateVm rateVm)
         {
-            if (CheckIfExist(rateVm.ProductId, rateVm.UserId) == true)
-            {
-                var x = await _context.Rates.Where(x => x.ProductId == rateVm.ProductId && x.UserId == rateVm.UserId).FirstOrDefaultAsync();
+           
+                var x = await _context.Rates.Where(x => x.ProductId == rateVm.ProductId).FirstOrDefaultAsync();
 
-                if (x == null)
-                {
-                    return NotFound();
-                }
-
-                x.Star = rateVm.Star;
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
+              
 
             
             var nRating = new Rate

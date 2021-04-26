@@ -63,6 +63,9 @@ namespace CustomerSite.Controllers
                         pVm.productVm.Name = x.productVm.Name;
                         pVm.productVm.Price = x.productVm.Price;
                         pVm.Quantity = x.Quantity;
+                        int temp=0;
+
+                        pVm.productVm.AverageStar = x.productVm.AverageStar;
                         lstProduct.Add(pVm);
                     };
                     }

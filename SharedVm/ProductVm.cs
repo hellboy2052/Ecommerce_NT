@@ -13,8 +13,8 @@ namespace SharedVm
         public int BrandId { get; set; }
         public int CategoryId { get; set; }
         public string Content { get; set; }
-       
-       
-        
+        public decimal AverageStar { get; set; }
+        public List<RateVm> rateVms { get; set; }
+
     }
 }

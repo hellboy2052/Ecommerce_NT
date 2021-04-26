@@ -14,8 +14,9 @@ namespace ServerSite.Models
         public Brand Brand { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public decimal AverageStar { get; set; }
         public virtual ICollection<Image> Images { get; set; }
-      
+        public virtual ICollection<Rate> Rates { get; set; }
 
     }
 }

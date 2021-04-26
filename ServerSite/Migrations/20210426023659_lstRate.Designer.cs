@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServerSite.Data;
 
 namespace ServerSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210426023659_lstRate")]
+    partial class lstRate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -450,9 +452,6 @@ namespace ServerSite.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("AverageStar")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
@@ -486,7 +485,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 1,
-                            AverageStar = 0m,
                             BrandId = 1,
                             CategoryId = 1,
                             Description = "Samsung Galaxy A32 4G là chiếc điện thoại thuộc phân khúc tầm trung nhưng sở hữu nhiều ưu điểm vượt trội về màn hình lớn sắc nét, bộ bốn camera 64 MP cùng vi xử lý hiệu năng cao và được bán ra với mức giá vô cùng tốt.",
@@ -497,7 +495,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 2,
-                            AverageStar = 0m,
                             BrandId = 2,
                             CategoryId = 1,
                             Description = "Trong những tháng cuối năm 2020 Apple đã chính thức giới thiệu đến người dùng cũng như iFan thế hệ iPhone 12 series mới với hàng loạt tính năng bức phá, thiết kế được lột xác hoàn toàn, hiệu năng đầy mạnh mẽ và một trong số đó chính là iPhone 12 64GB.",
@@ -508,7 +505,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 3,
-                            AverageStar = 0m,
                             BrandId = 3,
                             CategoryId = 1,
                             Description = "Xiaomi đã trình làng chiếc điện thoại mang tên gọi là Xiaomi Redmi Note 10 với điểm nhấn chính là cụm 4 camera 48 MP, chip rồng Snapdragon 678 mạnh mẽ cùng nhiều nâng cấp như dung lượng pin 5.000 mAh và hỗ trợ sạc nhanh 33 W tiện lợi.",
@@ -519,7 +515,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 4,
-                            AverageStar = 0m,
                             BrandId = 5,
                             CategoryId = 2,
                             Description = "Chiếc máy tính bảng giá rẻ đáng mong chờ của Huawei, Huawei MatePad T10s cuối cùng cũng đã chính thức ra mắt. Với vi xử lý 8 nhân mở ra một thế giới giải trí mượt mà, sống động từng khoảnh khắc với màn hình cực lớn, hé lộ một chiếc máy tính bảng tốt trong tầm giá mà bất kỳ ai cũng đều yêu thích.",
@@ -530,7 +525,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 5,
-                            AverageStar = 0m,
                             BrandId = 1,
                             CategoryId = 2,
                             Description = "Samsung Galaxy Tab A7 (2020) là một chiếc máy tính bảng có thiết kế đẹp, cấu hình khá, nhiều tính năng tiện ích, một công cụ đắc lực hỗ trợ bạn trong công việc cũng như trong học tập hay giải trí.",
@@ -541,7 +535,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 6,
-                            AverageStar = 0m,
                             BrandId = 4,
                             CategoryId = 2,
                             Description = "Từ việc sử dụng các thiết bị điện tử đa dạng của các gia đình hiện nay, Lenovo đã nắm bắt được nhu cầu thiết yếu này và cho ra mắt chiếc máy tính bảng Lenovo Tab M10 - FHD Plus với những tính năng tiện ích ấn tượng, “khoác chiếc áo” của thời đại và có mức giá siêu ưu đãi.",
@@ -552,7 +545,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 7,
-                            AverageStar = 0m,
                             BrandId = 4,
                             CategoryId = 3,
                             Description = "Lenovo IdeaPad S340 14IIL (81VV003VVN) sở hữu cấu hình khá, hiệu năng ổn định và thiết kế tinh tế đẹp mắt. Đây sẽ là chiếc laptop văn phòng phù hợp với đối tượng sinh viên, dân văn phòng thường xuyên xử lý các tác vụ văn phòng, học tập và chỉnh sửa hình ảnh cơ bản.",
@@ -563,7 +555,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 8,
-                            AverageStar = 0m,
                             BrandId = 4,
                             CategoryId = 3,
                             Description = "Với bộ xử lý Intel Core i3 thế hệ thứ 10 tiên tiến cũng như các tùy chọn ổ cứng siêu nhanh, lưu trữ rộng lớn, Lenovo IdeaPad Flex 5 14IIL05 i3 chắc chắn là một lựa chọn tuyệt vời để bạn sử dụng hàng ngày.",
@@ -574,7 +565,6 @@ namespace ServerSite.Migrations
                         new
                         {
                             Id = 9,
-                            AverageStar = 0m,
                             BrandId = 4,
                             CategoryId = 3,
                             Description = "Laptop Lenovo ThinkBook 15IIL i3 (20SM00D9VN) sở hữu thiết kế từ kim loại toát lên vẻ sang trọng, sắc sảo, cấu hình lí tưởng cho học tập, trình duyệt web khi trang bị bộ vi xử lý Intel thế hệ thứ 10 mới và ổ cứng SSD cực nhanh",
@@ -590,6 +580,9 @@ namespace ServerSite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Average")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");

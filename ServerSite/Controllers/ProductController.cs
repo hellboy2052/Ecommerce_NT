@@ -59,7 +59,7 @@ namespace ServerSite.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ProductVm>> GetProductById(int id)
         {
-            var product = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
+                var product = await _context.Products.Include(p => p.Images).Include(p=>p.Rates).FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
             {
@@ -81,8 +81,18 @@ namespace ServerSite.Controllers
             {
                 productVm.ImageLocation.Add(product.Images.ElementAt(i).ImagePath);
             }
-
-
+            int temp = 0;
+            if (product.Rates.Count == 0)
+            {
+                productVm.AverageStar = 0;
+            }
+            else { 
+            foreach (var y in product.Rates)
+            {
+                temp += y.Star;
+            }
+            productVm.AverageStar = temp / product.Rates.Count();
+            }
             return productVm;
         }
         [HttpGet("getByCategoryId/{idCategory}")]

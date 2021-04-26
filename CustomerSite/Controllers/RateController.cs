@@ -24,7 +24,7 @@ namespace CustomerSite.Controllers
                 return View(rate);
             }
             [HttpPost]
-            public IActionResult Post(int Id, int Star)
+            public IActionResult CreateRate(int Id, int Star)
             {
                 //if (!User.Identity.IsAuthenticated)
                 //    return RedirectToAction(actionName: "SignIn", controllerName: "Account");

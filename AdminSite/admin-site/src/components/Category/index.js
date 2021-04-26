@@ -3,16 +3,9 @@ import Axios from "axios";
 import {
   Table,
   Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
+ 
 } from "reactstrap";
+
 
 const Category = (props) => {
   const Delete=(id)=> {
@@ -54,33 +47,7 @@ const Category = (props) => {
           <th>
             <Button color="success" onClick={toggle}>Create</Button>
           </th>
-          <Modal isOpen={modal} toggle={toggle} >
-            <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-            <ModalBody>
-              <Form>
-                <FormGroup>
-                  <Label for="exampleEmail">Name</Label>
-                  <Input
-                    type="text"
-                    name="email"
-                    id="exampleEmail"
-                    placeholder="Name of Category"
-                    onChange={setName1}
-                    value={name1}
-                  />
-                </FormGroup>
-                
-              </Form>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={toggle}>
-                Submit
-              </Button>{" "}
-              <Button color="secondary" onClick={toggle}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
+          <createModal modal={modal} toggle={toggle} />
         </tr>
       </thead>
       {props.item.map(function (e, i) {

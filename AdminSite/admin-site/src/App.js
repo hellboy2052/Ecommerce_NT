@@ -19,14 +19,12 @@ export default function App() {
       <br/><br/><br/>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Product />
         </Route>
         <Route exact path="/banner">
           <Banner />
         </Route>
-        <Route exact path="/product">
-          <Product />
-        </Route>
+        
       </Switch>
     </Router>
   );

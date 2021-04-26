@@ -62,6 +62,7 @@ namespace ServerSite
                 .AddLocalApi("Bearer", option =>
                 {
                     option.ExpectedScope = "rookieshop.api";
+                    option.ExpectedScope = "admin.api";
                 });
 
             services.AddAuthorization(options =>

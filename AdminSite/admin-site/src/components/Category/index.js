@@ -1,73 +1,110 @@
-import React,{useState} from "react";
-import Axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Button,
- 
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 
+import { useSelector, useDispatch } from "react-redux";
+import { get_category_list } from "../../actions/category";
+import { create_category } from "../../actions/category";
+export default function CategoryList(props) {
 
-const Category = (props) => {
-  const Delete=(id)=> {
-     Axios.delete(`https://hngtiendng.azurewebsites.net/api/Category/${id}`).then(
-      (res) => {
-        console.log(res);
-        console.log(res.data);
-      }
-    );
-  }
+ 
+  
+  useEffect(() => {
+    dispatch(get_category_list());
+    //checkVar();
+  },[]);
   const [modal, setModal] = useState(false);
-  const [name1,setName]=useState("");
+  const [category, setCategory] = useState({});
+  const dispatch = useDispatch();
   const toggle = () => setModal(!modal);
-  const Post=async()=>{
-    var bodyFormData = new FormData();
-    bodyFormData.append('name',)
-    await Axios.post(
+  const { categoryList } = useSelector((state) => state.category);
+  
 
-      `https://hngtiendng.azurewebsites.net/api/Category`,
-      {
-        name:name1
-      }
-      ) .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-  }
-  const setName1=(e)=>{
-    setName(e.target.value)
-  }
 
+  const postCategory = async() => {
+    dispatch(create_category(category))
+
+  };
+  var list_category = categoryList.data;
+
+  
+  const submit=()=>{
+
+    postCategory();
+    toggle()
+  }
   return (
-    <Table>
+    <Table class="table">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Option</th>
-          <th>
-            <Button color="success" onClick={toggle}>Create</Button>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">
+            <Button color="success" onClick={toggle}>
+              Create
+            </Button>
           </th>
-          <createModal modal={modal} toggle={toggle} />
+          <Modal isOpen={modal} toggle={toggle}>
+            <ModalHeader toggle={toggle}>Product</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <Label for="exampleEmail">Name</Label>
+                  <Input
+                    type="text"
+                    name="name"
+                    id="exampleEmail"
+                    placeholder="Name"
+                    onChange={(e)=>setCategory({...category,name:e.target.value})}
+                  />
+                
+                  <FormText color="muted">
+                    This is some placeholder block-level help text for the above
+                    input. It's a bit lighter and easily wraps to a new line.
+                  </FormText>
+                </FormGroup>
+
+
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="success" onClick={submit}>
+                Create
+              </Button>{" "}
+              <Button color="danger" onClick={toggle}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
         </tr>
       </thead>
-      {props.item.map(function (e, i) {
-        return (
-          <tbody>
-            <tr key={i}>
-              <th scope="row">{e.id}</th>
-              <td>{e.name}</td>
-              <td>
-                <Button color="info">Update</Button>{" "}
-                <Button color="danger" onClick={() => Delete(e.id)}>
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          </tbody>
-        );
-      })}
+      <tbody>
+        {props.list &&
+          props.list.map((item) => {
+            return (
+              <tr>
+                <th scope="row">{item.id}</th>
+                <td>{item.name}</td>
+                
+                <td>
+                  <Button color="info">Update</Button>{" "}
+                  <Button color="danger">Delete</Button>
+                </td>
+              </tr>
+            );
+          })}
+      </tbody>
     </Table>
   );
-};
-
-export default Category;
+}

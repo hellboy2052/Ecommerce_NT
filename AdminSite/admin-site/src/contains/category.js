@@ -1,1 +1,2 @@
 export const CATEGORY_LIST = "CATEGORY_LIST";
+export const CREATE_CATEGORY="CREATE_PRODUCT";

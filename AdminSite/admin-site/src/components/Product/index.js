@@ -149,14 +149,14 @@ export default function ProductList(props) {
                   </FormText>
                 </FormGroup>
 
-                <Button>Submit</Button>
+
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={submit}>
-                Do Something
+              <Button color="success" onClick={submit}>
+                Create
               </Button>{" "}
-              <Button color="secondary" onClick={toggle}>
+              <Button color="danger" onClick={toggle}>
                 Cancel
               </Button>
             </ModalFooter>

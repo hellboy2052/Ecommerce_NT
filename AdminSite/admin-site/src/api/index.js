@@ -10,7 +10,8 @@ const Product = {
 }
 
 const Category={
-    getAllCategory:async()=>await axios.get("/api/Category")
+    getAllCategory:async()=>await axios.get("/api/Category"),
+    createCategory:async(data)=>await axios.post(`api/Category`,data)
 }
 
 const Images={

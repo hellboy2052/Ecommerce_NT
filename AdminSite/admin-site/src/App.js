@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import TopMenu from "./components/TopMenu.js";
 import Oidc, { UserManager } from 'oidc-client'
-import Banner from "./containers/Banner.js";
+import Category from './containers/Category';
 import Product from "./containers/Product.js";
 import Login from './components/Login/Login';
 import LoginCallback from './components/Login/LoginCallBack';
@@ -34,8 +34,8 @@ export default function App() {
         <Route exact path="/">
         <Login userManager={userManager}/>
         </Route>
-        <Route exact path="/banner">
-          <Banner />
+        <Route exact path="/category">
+          <Category />
         </Route>
         <Route exact path="/user">
           <User />

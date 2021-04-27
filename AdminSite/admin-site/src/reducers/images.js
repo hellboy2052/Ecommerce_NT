@@ -7,7 +7,6 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
     switch (type) {
         case images.POST_IMAGES: {
-            console.log(payload);
             return { ...state };
 
         }

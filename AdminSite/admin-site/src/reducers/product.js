@@ -2,7 +2,8 @@ import * as product from "../contains/product";
 
 const initialState = {
     productList: [],
-    product_selected: {}
+    product_selected: {},
+    productId:0
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -14,6 +15,7 @@ export default (state = initialState, { type, payload }) => {
 
         }
         case product.CREATE_PRODUCT:{
+            state.productId=payload.data;
             console.log(payload);
             return { ...state };
         }       

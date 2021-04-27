@@ -166,17 +166,7 @@ namespace ServerSite.Controllers
             await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction("GetPR", new { id = product.Id }, new ProductVm
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price
-            ,
-                Inventory = product.Inventory,
-                Description = product.Description,
-                BrandId = product.BrandId,
-                CategoryId = product.CategoryId
-            });
+            return Ok(product.Id);
         }
 
         [HttpDelete("{id}")]

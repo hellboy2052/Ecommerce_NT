@@ -60,7 +60,7 @@ namespace CustomerSite
                         RoleClaimType = "role"
                     };
                 });
-            services.AddTransient<IBrandApiClient, BrandApiClient>();
+
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<IBannerApiClient, BannerApiClient>();

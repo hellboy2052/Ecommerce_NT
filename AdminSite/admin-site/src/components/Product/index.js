@@ -14,13 +14,16 @@ import {
 } from "reactstrap";
 import { post_images } from "../../actions/images";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { get_category_list } from "../../actions/category";
 import { create_product } from "../../actions/product";
 export default function ProductList(props) {
+
+ 
+  
   useEffect(() => {
     dispatch(get_category_list());
-  });
+    //checkVar();
+  },[]);
   const [modal, setModal] = useState(false);
   const [imageFile, setImageFile] = useState([]);
   const [fileName, setFileName] = useState([]);
@@ -28,7 +31,7 @@ export default function ProductList(props) {
   const dispatch = useDispatch();
   const toggle = () => setModal(!modal);
   const { categoryList } = useSelector((state) => state.category);
-
+  const { productList } = useSelector((state) => state.product);
   const saveFile = (e) => {
     let arr1 = [];
     let arr2 = [];
@@ -43,25 +46,36 @@ export default function ProductList(props) {
   };
 
   const postImage = async (e) => {
+    let count=productList.data.length+1;
     console.log(imageFile);
     console.log(fileName);
     let formData = new FormData();
     for (var i = 0; i < fileName.length; i++) {
       formData.append("ImageFile", imageFile[i]);
       formData.append("FileName", fileName[i]);
-      formData.append("ProductId", 5);
+      formData.append("ProductId", count);
       //axios.post("https://localhost:44309/api/Image",formData)
       dispatch(post_images(formData));
     }
     console.log(product)
   };
 
-  const postProduct = (e) => {
+  const postProduct = async() => {
     dispatch(create_product(product))
+
   };
   var list_category = categoryList.data;
+  const checkVar=()=>{
+    var countPD = productList.data.length;
+    console.log(countPD+ "check");
+  }
   
+  const submit=()=>{
 
+    postProduct();
+    postImage();
+    toggle()
+  }
   return (
     <Table class="table">
       <thead>
@@ -139,7 +153,7 @@ export default function ProductList(props) {
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={(toggle, postImage,postProduct)}>
+              <Button color="primary" onClick={submit}>
                 Do Something
               </Button>{" "}
               <Button color="secondary" onClick={toggle}>

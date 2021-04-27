@@ -6,6 +6,7 @@ const Product = {
     
     getAllProducts: async () => await axios.get("/api/Product"),
     createProduct:async(data)=>await axios.post(`api/Product`,data)
+   
 }
 
 const Category={

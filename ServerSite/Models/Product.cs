@@ -11,7 +11,6 @@ namespace ServerSite.Models
         public double Price { get; set; }
         public int Inventory { get; set; }
         public int BrandId { get; set; }
-        public Brand Brand { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public decimal AverageStar { get; set; }

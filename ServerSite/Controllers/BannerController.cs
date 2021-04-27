@@ -54,7 +54,7 @@ namespace ServerSite.Controllers
         [HttpPost]
         //[Authorize(Roles = "admin")]
         [AllowAnonymous]
-        public async Task<ActionResult<BrandVm>> CreateBanner(BannerVm bannerVm)
+        public async Task<ActionResult<BannerVm>> CreateBanner(BannerVm bannerVm)
         {
             var banner = new Banner
             {

@@ -12,7 +12,7 @@ namespace ServerSite.Data
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Brand> Brands { get; set; }
+
         public DbSet<Image> Images { get; set; }
         public DbSet<Rate> Rates { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -42,33 +42,7 @@ namespace ServerSite.Data
                 }
                 );
 
-            modelBuilder.Entity<Brand>().HasData(
-                new Brand
-                {
-                    Id = 1,
-                    Name = "Samsung"
-                },
-                 new Brand
-                 {
-                     Id = 3,
-                     Name = "Xiaomi"
-                 },
-                  new Brand
-                  {
-                      Id = 2,
-                      Name = "Iphone"
-                  },
-                   new Brand
-                   {
-                       Id = 4,
-                       Name = "Lenovo"
-                   },
-                    new Brand
-                    {
-                        Id = 5,
-                        Name = "Huwei"
-                    }
-                );
+            
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {

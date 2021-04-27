@@ -14,7 +14,7 @@ export default (state = initialState, { type, payload }) => {
 
         }
         case product.CREATE_PRODUCT:{
-            state.productList = payload;
+            console.log(payload);
             return { ...state };
         }       
         default:

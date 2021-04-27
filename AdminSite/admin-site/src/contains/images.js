@@ -1,0 +1,1 @@
+export const POST_IMAGES = "POST_IMAGES";

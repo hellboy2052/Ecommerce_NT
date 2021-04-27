@@ -154,16 +154,17 @@ namespace ServerSite.Controllers
             var product = new Product
             {
                 Name = productVm.Name,
-                Id = productVm.Id,
-                BrandId = productVm.BrandId,
+                //Id = productVm.Id,
+                //BrandId = productVm.BrandId,
                 CategoryId = productVm.CategoryId,
                 Description = productVm.Description,
-                Inventory = productVm.Inventory,
+                //Inventory = productVm.Inventory,
                 Price = productVm.Price
             };
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
 
             return CreatedAtAction("GetPR", new { id = product.Id }, new ProductVm
             {

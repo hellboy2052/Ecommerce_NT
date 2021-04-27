@@ -8,4 +8,12 @@ const Product = {
     createProduct:async(data)=>await axios.post(`api/Product`,data)
 }
 
-export default { Product};
+const Category={
+    getAllCategory:async()=>await axios.get("/api/Category")
+}
+
+const Images={
+    postImages:async(data)=>await axios.post("/api/Image",data)
+}
+
+export default { Product,Category,Images};

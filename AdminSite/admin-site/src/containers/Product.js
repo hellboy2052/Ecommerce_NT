@@ -11,10 +11,12 @@ export default function Product() {
   const { productList } = useSelector((state) => state.product);
 
   var list_product = productList.data;
+  
   console.log(list_product)
+
   return (
     <Fragment>
-      <ProductList list={list_product} />
+      <ProductList list={list_product}/>
     </Fragment>
   );
 }

@@ -13,7 +13,6 @@ import Banner from "./containers/Banner.js";
 import Product from "./containers/Product.js";
 import Login from './components/Login/Login';
 import LoginCallback from './components/Login/LoginCallBack';
-require('dotenv').config()
 
 export default function App() {
   const config = {

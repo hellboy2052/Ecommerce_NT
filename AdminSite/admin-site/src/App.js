@@ -13,6 +13,7 @@ import Banner from "./containers/Banner.js";
 import Product from "./containers/Product.js";
 import Login from './components/Login/Login';
 import LoginCallback from './components/Login/LoginCallBack';
+import User from "./containers/User.js";
 
 export default function App() {
   const config = {
@@ -35,6 +36,9 @@ export default function App() {
         </Route>
         <Route exact path="/banner">
           <Banner />
+        </Route>
+        <Route exact path="/user">
+          <User />
         </Route>
         <Route exact path="/product"><Product/></Route>
           <Route exact path="/signin-oidc"><LoginCallback/></Route>

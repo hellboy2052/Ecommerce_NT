@@ -27,10 +27,10 @@ export default function TopMenu() {
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto" navbar>
-          {/* <NavItem>
-            <NavLink ><Link to='/banner'>Banner</Link></NavLink>
+          <NavItem>
+            <NavLink ><Link to='/user'>View User</Link></NavLink>
           </NavItem>
-           */}
+          
         </Nav>
         <NavbarText>Simple Text</NavbarText>
       </Collapse>

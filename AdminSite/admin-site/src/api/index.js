@@ -17,4 +17,7 @@ const Images={
     postImages:async(data)=>await axios.post("/api/Image",data)
 }
 
-export default { Product,Category,Images};
+const User={
+    getAllUser:async()=>await axios.get("/api/User")
+}
+export default { Product,Category,Images,User};

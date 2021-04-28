@@ -48,7 +48,7 @@ namespace ServerSite.Controllers
                 Star = rate.Star,
                 ProductId = rate.ProductId,
                 Id = rate.Id,
-                
+
             };
 
             return rateVm;

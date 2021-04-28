@@ -45,14 +45,14 @@ namespace ServerSite.Controllers
 
                     BrandId = x.Product.BrandId,
                     CategoryId = x.Product.CategoryId,
-                    Content = x.Product.Content,
+                   
                     Description = x.Product.Description,
                     Id = x.Id,
 
                     Inventory = x.Product.Inventory,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
-                    
+
                 };
 
                 cartItemVm.productVm = new ProductVm();
@@ -91,14 +91,14 @@ namespace ServerSite.Controllers
 
                     BrandId = x.Product.BrandId,
                     CategoryId = x.Product.CategoryId,
-                    Content = x.Product.Content,
+                   
                     Description = x.Product.Description,
                     Id = x.Id,
 
                     Inventory = x.Product.Inventory,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
-                    
+
                 };
                 foreach (var y in c.ImageLocation)
                 {
@@ -144,7 +144,7 @@ namespace ServerSite.Controllers
 
                     BrandId = x.Product.BrandId,
                     CategoryId = x.Product.CategoryId,
-                    Content = x.Product.Content,
+                    
                     Description = x.Product.Description,
                     Id = x.Id,
 
@@ -181,7 +181,7 @@ namespace ServerSite.Controllers
 
                 pVm.Product.BrandId = x.productVm.BrandId;
                 pVm.Product.CategoryId = x.productVm.CategoryId;
-                pVm.Product.Content = x.productVm.Content;
+               
                 pVm.Product.Description = x.productVm.Description;
                 pVm.Product.Id = x.Id;
 

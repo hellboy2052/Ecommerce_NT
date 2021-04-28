@@ -1,5 +1,4 @@
-﻿
-using CustomerSite.Services.Apis;
+﻿using CustomerSite.Services.Apis;
 using CustomerSite.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,7 +39,7 @@ namespace CustomerSite
                 .AddCookie("Cookies")
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:44309";
+                    options.Authority = "https://localhost:44309/";
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = true;
 
@@ -92,7 +91,7 @@ namespace CustomerSite
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
 
             app.UseEndpoints(endpoints =>
             {

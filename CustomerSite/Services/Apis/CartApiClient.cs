@@ -44,7 +44,7 @@ namespace CustomerSite.Services.Apis
             var response1 = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/getCartByUser/"+userId);
             if (response1.StatusCode==System.Net.HttpStatusCode.NotFound)
             {
-                CartVm cartVm = new CartVm
+                CartVm cartVm = new()
                 {
                     UserId = userId,
                     cartItemVms=new List<CartItemVm>(),
@@ -55,7 +55,7 @@ namespace CustomerSite.Services.Apis
                 //Send json with body
                 HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(cartVm),
                     Encoding.UTF8, "application/json");
-                var res2=await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Cart", httpContent);
+                await client.PostAsync(_configuration["BackendUrl:Default"] + "/api/Cart", httpContent);
             }
             var response = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Cart/getCartByUser/" + userId);
             response.EnsureSuccessStatusCode();

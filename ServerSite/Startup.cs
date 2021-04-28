@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -74,7 +73,7 @@ namespace ServerSite
                 });
             });
 
-            
+
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
@@ -103,7 +102,7 @@ namespace ServerSite
                     }
                 });
             });
-            
+
 
         }
 
@@ -127,7 +126,7 @@ namespace ServerSite
 
             app.UseRouting();
 
-            app.UseCors("AllowAnyOrigin");
+            
             app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
             app.UseIdentityServer();

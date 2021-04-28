@@ -57,9 +57,10 @@ namespace ServerSite.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { _configuration["CustomerSiteUri:Default"] +"/signin-oidc" },
+                    RedirectUris = { _configuration["CustomerSiteUrl:Default"] + "/signin-oidc" },
 
-                    PostLogoutRedirectUris = { _configuration["CustomerSiteUri:Default"] +"/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { _configuration["CustomerSiteUrl:Default"] +"/signout-callback-oidc" },
+
 
 
                     AllowedScopes = new List<string>

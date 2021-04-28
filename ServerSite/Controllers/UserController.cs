@@ -34,11 +34,11 @@ namespace ServerSite.Controllers
                 return NotFound();
             }
 
-            List<UserVm> UserVmList = new List<UserVm>();
+            List<UserVm> UserVmList = new();
 
             foreach (var x in List)
             {
-                UserVm get = new UserVm();
+                UserVm get = new();
                 get.UserID = x.Id;
                 get.Email = x.Email;
                 get.Fullname = x.FullName;

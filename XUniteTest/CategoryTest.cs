@@ -14,8 +14,8 @@ namespace XUniteTest
 {
     public class CategoryTest:IDisposable
     {
-        private SqliteConnection _connection;
-        private ApplicationDbContext _dbContext;
+        private readonly SqliteConnection _connection;
+        private readonly ApplicationDbContext _dbContext;
         public CategoryTest()
         {
             _connection = new SqliteConnection("DataSource=:memory:");

@@ -26,8 +26,8 @@ namespace CustomerSite.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<CartItemVm> ListProduct = new List<CartItemVm>();
-            CartVm cartVm = new CartVm
+            List<CartItemVm> ListProduct = new();
+            CartVm cartVm = new()
             {
                 UserId = userId
             };
@@ -55,7 +55,7 @@ namespace CustomerSite.Controllers
 
                         pVm.productVm.BrandId = x.productVm.BrandId;
                         pVm.productVm.CategoryId = x.productVm.CategoryId;
-                        pVm.productVm.Content = x.productVm.Content;
+                        
                         pVm.productVm.Description = x.productVm.Description;
                         pVm.productVm.Id = x.Id;
                         pVm.productVm.ImageLocation = x.productVm.ImageLocation;
@@ -63,7 +63,7 @@ namespace CustomerSite.Controllers
                         pVm.productVm.Name = x.productVm.Name;
                         pVm.productVm.Price = x.productVm.Price;
                         pVm.Quantity = x.Quantity;
-                        int temp=0;
+                       
 
                         pVm.productVm.AverageStar = x.productVm.AverageStar;
                         lstProduct.Add(pVm);
@@ -103,12 +103,12 @@ namespace CustomerSite.Controllers
                 product.ImageLocation[i] = setUrl;
             }
 
-            ProductVm x = new ProductVm();
+            ProductVm x = new();
             x.ImageLocation = product.ImageLocation;
             x.Name = product.Name;
 
             x.Price = product.Price;
-            CartItemVm cartItemVm = new CartItemVm();
+            CartItemVm cartItemVm = new();
             cartItemVm.productVm = x;
             cartItemVm.Quantity = quantity;
             ListCartItemVm.Add(cartItemVm);

@@ -44,9 +44,9 @@ namespace ServerSite.Controllers
 
             var bannerVm = new BannerVm
             {
-                Id=banner.Id,
-                ImagePath=banner.ImagePath,
-                ProductID=banner.ProductID
+                Id = banner.Id,
+                ImagePath = banner.ImagePath,
+                ProductID = banner.ProductID
             };
 
             return bannerVm;

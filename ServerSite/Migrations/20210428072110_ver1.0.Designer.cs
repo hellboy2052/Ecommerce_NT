@@ -10,8 +10,8 @@ using ServerSite.Data;
 namespace ServerSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210427072355_removeBrand")]
-    partial class removeBrand
+    [Migration("20210428072110_ver1.0")]
+    partial class ver10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -247,6 +247,9 @@ namespace ServerSite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

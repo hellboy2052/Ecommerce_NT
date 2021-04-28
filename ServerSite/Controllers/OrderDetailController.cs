@@ -77,7 +77,7 @@ namespace ServerSite.Controllers
                 Price=p.Price,
                 BrandId=p.BrandId,
                 CategoryId=p.CategoryId,
-                Content=p.Content,
+                
                 Description=p.Description,
                 Id=p.Id,
                 ImageLocation = new List<string>(),
@@ -134,7 +134,7 @@ namespace ServerSite.Controllers
                 Price = p.Price,
                 BrandId = p.BrandId,
                 CategoryId = p.CategoryId,
-                Content = p.Content,
+                
                 Description = p.Description,
                 Id = p.Id,
                 Inventory = p.Inventory,

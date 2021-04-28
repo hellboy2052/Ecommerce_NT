@@ -25,14 +25,14 @@ namespace ServerSite.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<OrderVm>>> GetAllOrder()
         {
-            return await _context.Orders.Include(o=>o.OrderDetails)
+            return await _context.Orders.Include(o => o.OrderDetails)
                 .Select(x => new OrderVm
                 {
                     UserId = x.UserId,
                     CraeteDate = x.CraeteDate,
                     Id = x.Id,
                     Status = x.Status,
-                    TotalPrice=x.TotalPrice
+                    TotalPrice = x.TotalPrice
                 })
                 .ToListAsync();
         }
@@ -55,7 +55,7 @@ namespace ServerSite.Controllers
                 Id = order.Id,
                 CraeteDate = order.CraeteDate,
                 UserId = order.UserId,
-                TotalPrice=order.TotalPrice
+                TotalPrice = order.TotalPrice
             };
 
             return orderVm;

@@ -29,7 +29,7 @@ namespace CustomerSite.Controllers
                 //if (!User.Identity.IsAuthenticated)
                 //    return RedirectToAction(actionName: "SignIn", controllerName: "Account");
 
-                RateVm x = new RateVm();
+                RateVm x = new();
                 x.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 x.ProductId = Id;
                 x.Star = Star;

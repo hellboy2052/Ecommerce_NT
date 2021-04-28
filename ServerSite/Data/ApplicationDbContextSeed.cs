@@ -39,9 +39,9 @@ namespace ServerSite.Data
                 IdentityResult result = await userManager.CreateAsync(defaultUser, "Aaa!123");
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(defaultUser, "superadmin");
+                    
                     await userManager.AddToRoleAsync(defaultUser, "admin");
-                    await userManager.AddToRoleAsync(defaultUser, "user");
+                    
                 }
             }
         }

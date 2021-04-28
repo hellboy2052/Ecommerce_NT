@@ -23,7 +23,7 @@ export default function TopMenu() {
 
   return (
     <Navbar color="light" light expand="md" fixed="top">
-      <NavbarBrand><Link to='/'>Home</Link></NavbarBrand>
+      <NavbarBrand><Link to='/'>Product</Link></NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto" navbar>

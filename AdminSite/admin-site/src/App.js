@@ -14,7 +14,11 @@ import Product from "./containers/Product.js";
 import Login from './components/Login/Login';
 import LoginCallback from './components/Login/LoginCallBack';
 import User from "./containers/User.js";
-
+import CreateProduct from "./components/Product/create.js";
+import UpdateProduct from './components/Product/update'
+import { Container, Row, Col } from 'reactstrap';
+import CreateCategory from "./components/Category/create.js";
+import UpdateCategory from "./components/Category/update.js";
 export default function App() {
   const config = {
     userStore:new Oidc.WebStorageStateStore({store:window.localStorage}),
@@ -28,8 +32,11 @@ export default function App() {
   var userManager = new Oidc.UserManager(config)
   return (
     <Router>
+            <Container fluid="md">
       <TopMenu />
       <br/><br/><br/>
+
+      <Row >
       <Switch>
         <Route exact path="/">
         <Login userManager={userManager}/>
@@ -40,9 +47,18 @@ export default function App() {
         <Route exact path="/user">
           <User />
         </Route>
+        <Route exact path="/createProduct">
+          <CreateProduct />
+        </Route>
         <Route exact path="/product"><Product/></Route>
+        <Route exact path="/createCategory"><CreateCategory/></Route>
+        <Route exact path={["/updateCategory", "/updateCategory/:id"]} render={({ match }) => <UpdateCategory match={match} />}></Route>
           <Route exact path="/signin-oidc"><LoginCallback/></Route>
+          <Route exact path={["/updateProduct", "/updateProduct/:id"]} render={({ match }) => <UpdateProduct match={match} />} />
       </Switch>
+      </Row>
+      </Container>
+      
     </Router>
   );
 }

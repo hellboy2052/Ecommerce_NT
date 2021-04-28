@@ -51,11 +51,12 @@ namespace ServerSite.Controllers
             return categoryVm;
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         //[Authorize(Roles = "admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateCategory(int id, CategoryVm categoryVm)
+        public async Task<IActionResult> UpdateCategory(CategoryVm categoryVm)
         {
+            var id = categoryVm.Id;
             var category = await _context.Categories.FindAsync(id);
 
             if (category == null)

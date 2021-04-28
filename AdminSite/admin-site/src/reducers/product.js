@@ -19,6 +19,9 @@ export default (state = initialState, { type, payload }) => {
             console.log(payload);
             return { ...state };
         }       
+        case product.UPDATE_PRODUCT:{
+            return { ...state };
+        }
         default:
             return state;
     }

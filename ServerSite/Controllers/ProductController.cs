@@ -123,11 +123,12 @@ namespace ServerSite.Controllers
             }
             return productListVm;
         }
-        [HttpPut("{id}")]
+        [HttpPut]
         //[Authorize(Roles = "admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateProduct(int id, ProductVm productVm)
+        public async Task<IActionResult> UpdateProduct(ProductVm productVm)
         {
+            var id = productVm.Id;
             var product = await _context.Products.FindAsync(id);
 
             if (product == null)

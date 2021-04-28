@@ -1,16 +1,19 @@
 import axios from "axios";
+import { update_product } from "../actions/product";
 axios.defaults.baseURL = "https://localhost:44309";
 
 
 const Product = {
     
     getAllProducts: async () => await axios.get("/api/Product"),
-    createProduct:async(data)=>await axios.post(`api/Product`,data)
-   
+    createProduct:async(data)=>await axios.post(`api/Product`,data),
+    updateProduct:async(data)=>await axios.put('api/product',data),
+    deleteproduct:async(id)=>await axios.delete(`api/product/${id}`)
 }
 
 const Category={
     getAllCategory:async()=>await axios.get("/api/Category"),
+    updateCategory:async(category)=>await axios.put('api/Category',category),
     createCategory:async(data)=>await axios.post(`api/Category`,data)
 }
 

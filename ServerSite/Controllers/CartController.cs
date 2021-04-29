@@ -43,9 +43,9 @@ namespace ServerSite.Controllers
                 var c = new ProductVm
                 {
 
-                    
+
                     CategoryId = x.Product.CategoryId,
-                   
+
                     Description = x.Product.Description,
                     Id = x.Id,
 
@@ -89,9 +89,9 @@ namespace ServerSite.Controllers
                 var c = new ProductVm
                 {
 
-                    
+
                     CategoryId = x.Product.CategoryId,
-                   
+
                     Description = x.Product.Description,
                     Id = x.Id,
 
@@ -116,7 +116,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet("getCartByUser/{userId}")]
-        //[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "user")]
         [AllowAnonymous]
         public async Task<ActionResult<CartVm>> GetCartByUser(string userId)
         {
@@ -170,7 +170,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost()]
-        ////[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "user")]
         [AllowAnonymous]
         public async Task<ActionResult<CartVm>> CreateCart(CartVm cartVm)
         {
@@ -214,7 +214,7 @@ namespace ServerSite.Controllers
 
         }
         [HttpPut("addCartItem/{userId}/{productId}/{quantity}")]
-        //[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "user")]
         [AllowAnonymous]
         public async Task<ActionResult<CartVm>> AddCartItem(string userId, int productId,int quantity)
         {
@@ -227,11 +227,12 @@ namespace ServerSite.Controllers
                 
             };
 
-            cart.CartItems.Add(cartItem);
+            
             if (cart == null)
             {
                 return NotFound();
             }
+            cart.CartItems.Add(cartItem);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("Get", new { id = cart.Id }, new CartVm

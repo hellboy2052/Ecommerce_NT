@@ -12,10 +12,7 @@ namespace ServerSite.Data
         public static async Task SeedEssentialsAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             //Seed Roles
-            if (!roleManager.RoleExistsAsync("superadmin").Result)
-            {
-                await roleManager.CreateAsync(new IdentityRole("superadmin"));
-            }
+            
             if (!roleManager.RoleExistsAsync("admin").Result)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));
@@ -25,23 +22,39 @@ namespace ServerSite.Data
                 await roleManager.CreateAsync(new IdentityRole("user"));
             }
             //Seed Default User
-            var defaultUser = new User
+            var admin = new User
             {
-                UserName = "hngtiendng@gmail.com",
-                Email = "hngtiendng@gmail.com",
+                UserName = "admin@gmail.com",
+                Email = "admin@gmail.com",
                 EmailConfirmed = true,
-                PhoneNumber = "0867537750",
-                FullName = "Super Admin",
+                PhoneNumber = "0123456789",
+                FullName = "Admin",
                 PhoneNumberConfirmed = true
             };
-            if (userManager.Users.Count(u => u.Email == defaultUser.Email) == 0)
+            var user = new User
             {
-                IdentityResult result = await userManager.CreateAsync(defaultUser, "Aaa!123");
+                UserName = "user@gmail.com",
+                Email = "user@gmail.com",
+                EmailConfirmed = true,
+                PhoneNumber = "0123456789",
+                FullName = "User",
+                PhoneNumberConfirmed = true
+            };
+            if (userManager.Users.Count(u => u.Email == admin.Email) == 0)
+            {
+                IdentityResult result = await userManager.CreateAsync(admin, "Admin123!");
                 if (result.Succeeded)
                 {
                     
-                    await userManager.AddToRoleAsync(defaultUser, "admin");
+                    await userManager.AddToRoleAsync(admin, "admin");
                     
+                }
+                IdentityResult result1 = await userManager.CreateAsync(user, "User123!");
+                if (result1.Succeeded)
+                {
+
+                    await userManager.AddToRoleAsync(user, "user");
+
                 }
             }
         }

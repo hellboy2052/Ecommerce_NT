@@ -61,7 +61,7 @@ namespace ServerSite
                 .AddLocalApi("Bearer", option =>
                 {
                     option.ExpectedScope = "rookieshop.api";
-                    option.ExpectedScope = "admin.api";
+               
                 });
 
             services.AddAuthorization(options =>
@@ -70,6 +70,12 @@ namespace ServerSite
                 {
                     policy.AddAuthenticationSchemes("Bearer");
                     policy.RequireAuthenticatedUser();
+                });
+                options.AddPolicy("admin", policy =>
+                {
+                    policy.AddAuthenticationSchemes("Bearer");
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("admin");
                 });
             });
 

@@ -22,6 +22,7 @@ namespace ServerSite.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "admin")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ProductVm>>> GetAllProduct()
         {
@@ -148,8 +149,8 @@ namespace ServerSite.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
+        //[AllowAnonymous]
         public async Task<ActionResult<ProductVm>> CreateProduct(ProductVm productVm)
         {
             var product = new Product

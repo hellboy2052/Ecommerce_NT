@@ -38,6 +38,7 @@ namespace CustomerSite.Services.Apis
             return await response.Content.ReadFromJsonAsync<CartVm>();
      
         }
+
         public async Task<CartVm> GetCartByUser(string userId)
         {
             var client = _httpClientFactory.CreateClient();
@@ -49,7 +50,7 @@ namespace CustomerSite.Services.Apis
                     UserId = userId,
                     cartItemVms=new List<CartItemVm>(),
                     TotalPrice=0
-            };
+                };
                
 
                 //Send json with body
@@ -63,6 +64,7 @@ namespace CustomerSite.Services.Apis
         }
         public async Task<CartVm> AddCartItem(string userId,int productId,int quantity)
         {
+            await GetCartByUser(userId);
             var client = _httpClientFactory.CreateClient();
             var response1 = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + productId);
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(response1),

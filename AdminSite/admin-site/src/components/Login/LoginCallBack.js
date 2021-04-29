@@ -8,7 +8,8 @@ export default function LoginCallBack() {
                  userManager.signinCallback().then( res=>{
                     userManager.getUser()
                     .then(console.log(Oidc.UserManager))
-                    .then(user=>user.profile.role==="admin"?window.location.href="http://localhost:3000/product":window.location.href="https://localhost:3000")
+                    .then(user=>user.profile.role==="admin"?window.location.href=process.env.REACT_APP_ADMIN:
+                    window.location.href=process.env.REACT_APP_ADMIN)
                 })         
             }
         </div>

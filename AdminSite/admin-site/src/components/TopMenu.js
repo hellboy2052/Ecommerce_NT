@@ -7,11 +7,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
 import {
   Link
@@ -34,7 +29,9 @@ export default function TopMenu() {
             <NavLink ><Link to='/category'>Manage Category</Link></NavLink>
           </NavItem>
         </Nav>
-        <NavbarText>Simple Text</NavbarText>
+        <Nav className="sm-auto" navbar>
+          <NavLink><Link to='/logout'>Log Out</Link></NavLink>
+        </Nav>
       </Collapse>
     </Navbar>
   );

@@ -80,10 +80,12 @@ namespace CustomerSite.Controllers
             }
             return View(ListProduct);
         }
+
         public async Task<IActionResult> AddCartItem(string userId,int productId,int quantity)
         {
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var cartVm= await _cartApiClient.AddCartItem(userId, productId, quantity);
+
+            var cartVm = await _cartApiClient.AddCartItem(userId, productId, quantity);
             return Redirect("Index");
         }
         public async Task<IActionResult> AddsSession(int id, int quantity)

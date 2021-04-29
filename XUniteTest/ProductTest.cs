@@ -34,16 +34,16 @@ namespace XUniteTest
         [Fact]
         public async Task PostCategory_Success()
         {
-            
+
             var product = new ProductVm
             {
                 Name = "pdtest1",
-                AverageStar=5,
-                CategoryId=1,
-                Description="demo des 1",
-                
-                Inventory=100,
-                Price=100,
+                AverageStar = 5,
+                CategoryId = 1,
+                Description = "demo des 1",
+
+                Inventory = 100,
+                Price = 100,
 
             };
 
@@ -52,9 +52,7 @@ namespace XUniteTest
 
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
             var returnValue = Assert.IsType<ProductVm>(createdAtActionResult.Value);
-            Assert.Equal(product, new ProductVm{  Name=returnValue.Name,AverageStar=returnValue.AverageStar,CategoryId=returnValue.CategoryId
-                ,Description= returnValue.Description,Inventory= returnValue.Inventory,Price= returnValue.Price}
-                );
+            Assert.Equal(product.Name, returnValue.Name);
 
         }
     }

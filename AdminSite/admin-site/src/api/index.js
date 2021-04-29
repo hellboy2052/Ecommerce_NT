@@ -1,6 +1,7 @@
 import axios from "axios";
-import { update_product } from "../actions/product";
-axios.defaults.baseURL = "https://localhost:44309";
+require('dotenv').config()
+
+axios.defaults.baseURL =process.env.REACT_APP_SERVER;
 
 
 const Product = {

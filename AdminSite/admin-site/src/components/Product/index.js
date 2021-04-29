@@ -4,8 +4,8 @@ import {
   Button,
   
 } from "reactstrap";
-
 import {Link } from 'react-router-dom'
+console.log(process.env.REACT_APP_ADMIN)
 export default function ProductList(props) {
   return (
     <Table class="table">
@@ -35,7 +35,7 @@ export default function ProductList(props) {
                 <td>
                   <img
                     style={{ height: "50px" }}
-                    src={`https://localhost:44309${item.imageLocation[0]}`}
+                    src={`${process.env.REACT_APP_SERVER}${item.imageLocation[0]}`}
                     alt="product image"
                   />
                 </td>

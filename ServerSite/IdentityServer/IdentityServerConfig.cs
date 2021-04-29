@@ -93,19 +93,36 @@ namespace ServerSite.IdentityServer
                 },
                  new Client
                 {
-                    ClientId = "react-admin",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = { "http://localhost:3000/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:3000/signout-oidc" },
-                    AllowedCorsOrigins={"http://localhost:3000"},
+                    //ClientId = "react-admin",
+                    //AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    //ClientSecrets = { new Secret("secret".Sha256()) },
+                    //RedirectUris = { "http://localhost:3000/signin-oidc" },
+                    //PostLogoutRedirectUris = { "http://localhost:3000/signout-oidc" },
+                    //AllowedCorsOrigins={"http://localhost:3000"},
+                    //AllowedScopes = new List<string>
+                    //{
+                    //    IdentityServerConstants.StandardScopes.OpenId,
+                    //    IdentityServerConstants.StandardScopes.Profile,
+                    //    "rookieshop.api"
+                    //},
+                    //AllowAccessTokensViaBrowser=true,
+                    //RequireConsent=false,
+
+                    ClientName = "react_admin",
+                    ClientId = "react_admin",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
+
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "rookieshop.api"
+                        "ecommercewebsite.api"
                     },
-                    AllowAccessTokensViaBrowser=true,
-                    RequireConsent=false,
+
+                    AccessTokenLifetime = 86400,
+                    AllowOfflineAccess = true,
                 },
             };
     }

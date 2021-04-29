@@ -53,7 +53,7 @@ namespace CustomerSite.Controllers
                         
                          
 
-                        pVm.productVm.BrandId = x.productVm.BrandId;
+                       
                         pVm.productVm.CategoryId = x.productVm.CategoryId;
                         
                         pVm.productVm.Description = x.productVm.Description;

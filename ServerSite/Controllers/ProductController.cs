@@ -36,7 +36,7 @@ namespace ServerSite.Controllers
                 ProductVm productVm = new()
                 {
 
-                    BrandId = product.BrandId,
+                   
                     CategoryId = product.CategoryId,
                     Description = product.Description,
                     Id = product.Id,
@@ -70,7 +70,7 @@ namespace ServerSite.Controllers
             {
                 Name = product.Name,
                 Id = product.Id,
-                BrandId = product.BrandId,
+              
                 CategoryId = product.CategoryId,
                 Description = product.Description,
                 Inventory = product.Inventory,
@@ -106,7 +106,7 @@ namespace ServerSite.Controllers
                 ProductVm productVm = new()
                 {
 
-                    BrandId = product.BrandId,
+                   
                     CategoryId = product.CategoryId,
                     Description = product.Description,
                     Id = product.Id,
@@ -137,7 +137,7 @@ namespace ServerSite.Controllers
             }
 
             product.Name = productVm.Name;
-            product.BrandId = productVm.BrandId;
+            
             product.CategoryId = productVm.CategoryId;
             product.Description = productVm.Description;
             product.Inventory = productVm.Inventory;
@@ -156,18 +156,26 @@ namespace ServerSite.Controllers
             {
                 Name = productVm.Name,
                 //Id = productVm.Id,
-                //BrandId = productVm.BrandId,
+                AverageStar=productVm.AverageStar,
                 CategoryId = productVm.CategoryId,
                 Description = productVm.Description,
-                //Inventory = productVm.Inventory,
+                Inventory = productVm.Inventory,
                 Price = productVm.Price
             };
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-
-            return Ok(product.Id);
+            return CreatedAtAction("GetProduct", new { id = productVm.Id }, new ProductVm
+            {
+                Name = product.Name,
+                AverageStar = product.AverageStar,
+                CategoryId = product.CategoryId,
+                Description = product.Description,
+               
+                Inventory = product.Inventory,
+                Price = product.Price,
+            });
         }
 
         [HttpDelete("{id}")]

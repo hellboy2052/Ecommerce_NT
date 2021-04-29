@@ -75,7 +75,7 @@ namespace ServerSite.Controllers
             var pVm = new ProductVm
             {
                 Price=p.Price,
-                BrandId=p.BrandId,
+                
                 CategoryId=p.CategoryId,
                 
                 Description=p.Description,
@@ -132,7 +132,7 @@ namespace ServerSite.Controllers
             var p1 = new Product
             {
                 Price = p.Price,
-                BrandId = p.BrandId,
+               
                 CategoryId = p.CategoryId,
                 
                 Description = p.Description,

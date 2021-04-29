@@ -43,7 +43,7 @@ namespace ServerSite.Controllers
                 var c = new ProductVm
                 {
 
-                    BrandId = x.Product.BrandId,
+                    
                     CategoryId = x.Product.CategoryId,
                    
                     Description = x.Product.Description,
@@ -89,7 +89,7 @@ namespace ServerSite.Controllers
                 var c = new ProductVm
                 {
 
-                    BrandId = x.Product.BrandId,
+                    
                     CategoryId = x.Product.CategoryId,
                    
                     Description = x.Product.Description,
@@ -142,7 +142,7 @@ namespace ServerSite.Controllers
                 c = new ProductVm
                 {
 
-                    BrandId = x.Product.BrandId,
+                    
                     CategoryId = x.Product.CategoryId,
                     
                     Description = x.Product.Description,
@@ -179,7 +179,7 @@ namespace ServerSite.Controllers
             {
                 var pVm = new CartItem();
 
-                pVm.Product.BrandId = x.productVm.BrandId;
+                
                 pVm.Product.CategoryId = x.productVm.CategoryId;
                
                 pVm.Product.Description = x.productVm.Description;

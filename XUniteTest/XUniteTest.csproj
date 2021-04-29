@@ -30,4 +30,9 @@
     <ProjectReference Include="..\SharedVm\SharedVm.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\" />
+    <Folder Include="ViewComponent\" />
+  </ItemGroup>
+
 </Project>

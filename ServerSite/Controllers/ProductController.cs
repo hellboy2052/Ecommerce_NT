@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerSite.Data;
 using ServerSite.Models;
 using SharedVm;
+using System;
+
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +21,11 @@ namespace ServerSite.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public ProductController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -151,23 +158,44 @@ namespace ServerSite.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         //[AllowAnonymous]
-        public async Task<ActionResult<ProductVm>> CreateProduct(ProductVm productVm)
+        public async Task<ActionResult<ProductVm>> CreateProduct([FromForm] ProductFormVm productFormVm)
         {
             var product = new Product
             {
-                Name = productVm.Name,
+                Name = productFormVm.Name,
                 //Id = productVm.Id,
-                AverageStar=productVm.AverageStar,
-                CategoryId = productVm.CategoryId,
-                Description = productVm.Description,
-                Inventory = productVm.Inventory,
-                Price = productVm.Price
+                
+                CategoryId = productFormVm.CategoryId,
+                Description = productFormVm.Description,
+                Inventory = productFormVm.Inventory,
+                Price = productFormVm.Price
             };
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+            //Add image 
+            if ((productFormVm.Images != null) && (productFormVm.Images.Count > 0))
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                foreach (IFormFile file in productFormVm.Images)
+                {
+                    string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
 
-            return CreatedAtAction("GetProduct", new { id = productVm.Id }, new ProductVm
+                    Image nFile = new Image();
+                    nFile.ImagePath = $"/images/{fileName}";
+                   
+                    nFile.ProductId = product.Id;
+
+                    _context.Images.Add(nFile);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return CreatedAtAction("GetProduct", new { id = product.Id }, new ProductVm
             {
                 Name = product.Name,
                 AverageStar = product.AverageStar,

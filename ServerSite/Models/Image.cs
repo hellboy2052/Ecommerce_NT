@@ -9,6 +9,6 @@ namespace ServerSite.Models
         public int ProductId { get; set; }
         public string ImagePath { get; set; }
         [NotMapped]
-        public IFormFile File { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace CustomerSite.Services.Interfaces
 {
     public interface IOrderApiClient
     {
-        Task<ActionResult<OrderVm>> GetOrderByUser(string userId);
+        Task<IList<OrderVm>> GetOrderByUser(string userId);
+        Task<OrderVm> CreateOrder(string userId, List<OrderDetailVm> orderDetailVm1);
     }
 }

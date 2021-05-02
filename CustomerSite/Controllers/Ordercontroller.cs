@@ -4,36 +4,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Security.Claims;
 using System.Threading.Tasks;
 namespace CustomerSite.Controllers
 {
     public class Ordercontroller : Controller
     {
-        private readonly IProductApiClient _productApiClient;
+        private readonly IOrderApiClient _orderApiClient;
         private readonly IConfiguration _configuration;
+        private readonly ICartApiClient _cartApiClient;
 
-        public Ordercontroller( IProductApiClient productApiClient, IConfiguration configuration)
+        public Ordercontroller( IOrderApiClient orderApiClient, IConfiguration configuration)
         {
-            _productApiClient = productApiClient;
+            _orderApiClient = orderApiClient;
             _configuration = configuration;
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    var products = await _productApiClient.Get();
+        public async Task<IActionResult> Index()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var orders = await _orderApiClient.GetOrderByUser(userId);
+            //Set url backend for image
 
-        //    //Set url backend for image
-        //    foreach (var x in products)
-        //    {
-        //        for (int i = 0; i < x.ImageLocation.Count; i++)
-        //        {
-        //            string setUrl = _configuration["BackendUrl:Default"] + x.ImageLocation[i];
-        //            x.ImageLocation[i] = setUrl;
+            return View(orders);
 
-        //        }
-
-        //    }
-        //    return View(products);
-        //}
+        }
+        //AddCartItem(string userId, List<OrderDetailVm> orderDetailVm1)
     }
 }

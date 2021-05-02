@@ -12,7 +12,6 @@ const CreateProduct = (props) => {
     //checkVar();
   }, []);
 
-  
   const [product, setProduct] = useState({});
   const dispatch = useDispatch();
 
@@ -20,6 +19,36 @@ const CreateProduct = (props) => {
   const { productList } = useSelector((state) => state.product);
 
   var list_category = categoryList.data;
+  const PreviewImages=()=> {
+    var divImage = document.getElementById("preview");
+    divImage.innerHTML = '';
+    let images = document.getElementById("images").files;
+    if (images) {
+        for (let i = 0; i < images.length; i++) {
+            var image = document.createElement("img");
+            var spanImg = document.createElement("span");
+            var spanPlus = document.createElement("span");
+
+            //Set style
+            spanImg.style.cssText = 'position: relative ';
+            spanPlus.style.cssText = 'position: absolute; right: 10px';
+            image.style.cssText = 'width: 75px; height: 75px';
+
+            //Set class
+            spanPlus.className = 'badge badge-pill badge-success';
+            image.className = "mr-3 mb-2";
+
+            //Set data
+            image.src = URL.createObjectURL(images[i]);
+           
+
+            //Return
+            divImage.appendChild(spanImg);
+            spanImg.appendChild(image);
+            spanImg.appendChild(spanPlus);
+        }
+    }
+}
 
   const CreateProduct = async () => {
     //Set image list
@@ -97,18 +126,17 @@ const CreateProduct = (props) => {
 
         <FormGroup>
           <Label for="exampleFile">File</Label>
-          <Input
-            type="file"
-            multiple
-            name="file"
-            id="images"
-            
-          />
+          <Input type="file" multiple name="file" id="images" onChange={()=>PreviewImages()} />
           <FormText color="muted">
             This is some placeholder block-level help text for the above input.
             It's a bit lighter and easily wraps to a new line.
           </FormText>
         </FormGroup>
+        <FormGroup>
+          <Label for="preview">File</Label>
+          <div id="preview"></div>
+        </FormGroup>
+        
       </Form>
       {/* <Link to='/product'> </Link> */}
       <Button

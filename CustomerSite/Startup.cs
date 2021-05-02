@@ -1,9 +1,12 @@
-﻿using CustomerSite.Services.Apis;
+﻿using CustomerSite.Services;
+using CustomerSite.Services.Apis;
 using CustomerSite.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -66,6 +69,8 @@ namespace CustomerSite
             services.AddTransient<IRateApiClient, RateApiClient>();
             services.AddTransient<IOrderApiClient, OrderApiClient>();
             services.AddTransient<ICartApiClient, CartApiClient>();
+            services.AddTransient<IRequest, Request>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();  
             services.AddControllersWithViews();
         }
 

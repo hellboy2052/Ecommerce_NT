@@ -97,7 +97,7 @@ namespace ServerSite.Controllers
                 OrderId = orderdetail.OrderId,
                 Quantity = orderdetail.Quantity,
                 UnitPrice = orderdetail.UnitPrice,
-                Product=pVm
+
             };
 
             return orderDetailVm;
@@ -123,47 +123,47 @@ namespace ServerSite.Controllers
             return Accepted();
         }
 
-        [HttpPost]
-        //[Authorize(Roles = "user")]
-        [AllowAnonymous]
-        public async Task<ActionResult<OrderVm>> CreateOrderdetail(OrderDetailVm orderDetailVm)
-        {
-            var p = orderDetailVm.Product;
-            var p1 = new Product
-            {
-                Price = p.Price,
+        //[HttpPost]
+        ////[Authorize(Roles = "user")]
+        //[AllowAnonymous]
+        //public async Task<ActionResult<OrderVm>> CreateOrderdetail(OrderDetailVm orderDetailVm)
+        //{
+        //    var p = orderDetailVm.Product
+        //    var p1 = new Product
+        //    {
+        //        Price = p.Price,
                
-                CategoryId = p.CategoryId,
+        //        CategoryId = p.CategoryId,
                 
-                Description = p.Description,
-                Id = p.Id,
-                Inventory = p.Inventory,
-                Name = p.Name,
+        //        Description = p.Description,
+        //        Id = p.Id,
+        //        Inventory = p.Inventory,
+        //        Name = p.Name,
                 
 
-            };
-            var orderDetail = new OrderDetail
-            {
-                Id = orderDetailVm.Id,
-                OrderId = orderDetailVm.OrderId,
-                Quantity = orderDetailVm.Quantity,
-                UnitPrice = orderDetailVm.UnitPrice,
-                Product=p1
-            };
+        //    };
+        //    var orderDetail = new OrderDetail
+        //    {
+        //        Id = orderDetailVm.Id,
+        //        OrderId = orderDetailVm.OrderId,
+        //        Quantity = orderDetailVm.Quantity,
+        //        UnitPrice = orderDetailVm.UnitPrice,
+        //        Product=p1
+        //    };
 
-            _context.OrderDetails.Add(orderDetail);
-            await _context.SaveChangesAsync();
+        //    _context.OrderDetails.Add(orderDetail);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("Get", new { id = orderDetail.Id }, new OrderDetailVm
-            {
-                Id = orderDetailVm.Id,
-                OrderId = orderDetailVm.OrderId,
-                ProductId = orderDetailVm.ProductId,
-                Quantity = orderDetailVm.Quantity,
-                UnitPrice = orderDetailVm.UnitPrice,
-                Product= orderDetailVm.Product
-            });
-        }
+        //    return CreatedAtAction("Get", new { id = orderDetail.Id }, new OrderDetailVm
+        //    {
+        //        Id = orderDetailVm.Id,
+        //        OrderId = orderDetailVm.OrderId,
+        //        ProductId = orderDetailVm.ProductId,
+        //        Quantity = orderDetailVm.Quantity,
+        //        UnitPrice = orderDetailVm.UnitPrice,
+
+        //    });
+        //}
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "admin")]

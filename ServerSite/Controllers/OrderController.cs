@@ -6,6 +6,7 @@ using ServerSite.Models;
 using SharedVm;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ServerSite.Controllers
@@ -62,26 +63,45 @@ namespace ServerSite.Controllers
         }
         [HttpGet("getOrderByUser/{userId}")]
         //[Authorize(Roles = "user")]
-        public async Task<ActionResult<OrderVm>> GetOrderByUser(string userId)
+        public async Task<IEnumerable<OrderVm>> GetOrderByUser(string userId)
         {
-            var order = await _context.Orders.Include(o=>o.OrderDetails).FirstOrDefaultAsync(x => x.UserId == userId);
+            //var order = await _context.Orders.Include(o => o.OrderDetails).Where(x => x.UserId == userId)
+            //   .FirstOrDefaultAsync();
+            var order1 = await _context.Orders.Include(o => o.OrderDetails).Where(x => x.UserId == userId)
+               .ToListAsync();
+            //List<OrderVm> orderVms = new();
 
-            if (order == null)
+            List<OrderDetailVm> orderDetailVms = new();
+            List<OrderVm> lstOrder = new List<OrderVm>();
+            foreach(var order in order1)
             {
-                return NotFound();
+                foreach (var od in order.OrderDetails.ToList())
+                {
+                    var orderDetailVm = new OrderDetailVm
+                    {
+                        Id = od.Id,
+                        OrderId = od.OrderId,
+                        ProductId = od.ProductId,
+                        Quantity = od.Quantity,
+                        UnitPrice = od.UnitPrice
+                    };
+                    orderDetailVms.Add(orderDetailVm);
+                }
+                var orderVm = new OrderVm
+                {
+                    Status = order.Status,
+                    Id = order.Id,
+                    CraeteDate = order.CraeteDate,
+                    UserId = order.UserId,
+                    TotalPrice = order.TotalPrice,
+                    orderDetailVms = orderDetailVms
+                };
+                lstOrder.Add(orderVm);
             }
+            //    orderVms.Add(orderVm);
 
-            var orderVm = new OrderVm
-            {
-                Status = order.Status,
-                Id = order.Id,
-                CraeteDate = order.CraeteDate,
-                UserId = order.UserId,
-                TotalPrice = order.TotalPrice
-                
-            };
 
-            return orderVm;
+            return lstOrder;
         }
         [HttpPut("{id}")]
         //[Authorize(Roles = "admin")]
@@ -104,30 +124,39 @@ namespace ServerSite.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPost("{userId}")]
         //[Authorize(Roles = "user")]
         [AllowAnonymous]
-        public async Task<ActionResult<OrderVm>> CreateOrder(OrderVm orderVm)
+        public async Task<ActionResult<OrderVm>> CreateOrder(string userId,List<OrderDetailVm> orderDetailVm1)
         {
-            var order = new Order
+      
+            var Orders = new Order
             {
-                UserId = orderVm.UserId,
-                TotalPrice = orderVm.TotalPrice,
-                Status = orderVm.Status,
-                CraeteDate = orderVm.CraeteDate,
-                Id = orderVm.Id
+                UserId = userId,
             };
-
-            _context.Orders.Add(order);
+            _context.Orders.Add(Orders);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("Get", new { id = order.Id }, new OrderVm
+            OrderDetail oddt = new OrderDetail();
+            foreach (OrderDetailVm x in orderDetailVm1)
             {
-                UserId = orderVm.UserId,
-                TotalPrice = orderVm.TotalPrice,
-                Status = orderVm.Status,
-                CraeteDate = orderVm.CraeteDate,
-                Id = orderVm.Id,
+
+                oddt.Id = x.Id;
+                oddt.OrderId = Orders.Id;
+                oddt.ProductId = x.ProductId;
+                oddt.Quantity = x.Quantity;
+                oddt.UnitPrice = x.UnitPrice;
+                    
+                
+               
+                _context.OrderDetails.Add(oddt);
+                await _context.SaveChangesAsync();
+            }
+            
+            //await _context.Orders.FindAsync(Orders);
+            return CreatedAtAction("Get", new { id = Orders.Id }, new OrderVm
+            {
+                UserId = userId
             });
         }
 

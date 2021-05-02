@@ -16,11 +16,13 @@ namespace CustomerSite.Controllers
         private readonly ICartApiClient _cartApiClient;
         private readonly IConfiguration _configuration;
         private readonly IProductApiClient _productApiClient;
-        public CartController(ICartApiClient cartApiClient, IConfiguration configuration, IProductApiClient productApiClient)
+        private readonly IOrderApiClient _orderApiClient;
+        public CartController(ICartApiClient cartApiClient, IConfiguration configuration, IProductApiClient productApiClient,IOrderApiClient orderApiClient)
         {
             _cartApiClient = cartApiClient;
             _configuration = configuration;
             _productApiClient = productApiClient;
+            _orderApiClient = orderApiClient;
         }
 
         public async Task<IActionResult> Index()
@@ -88,49 +90,47 @@ namespace CustomerSite.Controllers
             var cartVm = await _cartApiClient.AddCartItem(userId, productId, quantity);
             return Redirect("Index");
         }
-        public async Task<IActionResult> AddsSession(int id, int quantity)
+        public async Task<IActionResult> RemoveItem(int Id)
         {
-            //List<ProductVm> ListProduct = HttpContext.Session.Get<List<ProductVm>>("SessionCart");
-            List<CartItemVm> ListCartItemVm = HttpContext.Session.Get<List<CartItemVm>>("SessionCart");
-
-            if (ListCartItemVm == null)
-            {
-                ListCartItemVm = new List<CartItemVm>();
-            }
-
-            var product = await _productApiClient.GetProductById(id);
-            for (int i = 0; i < product.ImageLocation.Count; i++)
-            {
-                string setUrl = _configuration["BackendUrl:Default"] + product.ImageLocation[i];
-                product.ImageLocation[i] = setUrl;
-            }
-
-            ProductVm x = new();
-            x.ImageLocation = product.ImageLocation;
-            x.Name = product.Name;
-
-            x.Price = product.Price;
-            CartItemVm cartItemVm = new();
-            cartItemVm.productVm = x;
-            cartItemVm.Quantity = quantity;
-            ListCartItemVm.Add(cartItemVm);
-
-            HttpContext.Session.Set("SessionCart", ListCartItemVm);
-
-            string referer = Request.Headers["Referer"].ToString();
-            return Redirect(referer);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _cartApiClient.RemoveItem(userId, Id);
+            return RedirectToAction("Index");
         }
-        //[HttpPost("{id}")]
-        //public async Task<IActionResult> AddsCart( int id,CartVm cartVm)
-        //{
-        //    cartVm.UserId =  User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    cartVm.ProductId = id;
-        //    cartVm.TotalPrice = 0;
-        //    var cart = await _cartApiClient.CreateCart(cartVm);
 
-        //    string referer = Request.Headers["Referer"].ToString();
-        //    return RedirectToAction(referer);
-        //}
+       
+        public async Task<IActionResult> clearCart()
+        {
+           var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           var cartVm = await _cartApiClient.GetCartByUser(userId);
+            var orderVm = await _orderApiClient.GetOrderByUser(userId);
+            
+            var lstProduct = new List<OrderDetailVm>();
+            OrderVm od = new();
+            int y = orderVm.Count();
+                var lstCartItem = cartVm.cartItemVms.ToList();
+                if (lstCartItem.Count > 0)
+                {
+
+                    foreach (var x in lstCartItem)
+                    {
+                        var pVm = new OrderDetailVm()
+                        {
+
+                        };
+                        pVm.ProductId = x.productVm.Id;
+                        pVm.Quantity = x.Quantity;
+                        pVm.UnitPrice = x.productVm.Price;
+                        pVm.OrderId = y+1;
+
+                        lstProduct.Add(pVm);
+                    };
+                
+            }
+            await _cartApiClient.clearCart(userId);
+            await _orderApiClient.CreateOrder(userId, lstProduct);
+            return RedirectToAction("Index", "Order");
+        }
+      
 
     }
 }

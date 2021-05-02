@@ -26,13 +26,9 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CustomerSite\CustomerSite.csproj" />
     <ProjectReference Include="..\ServerSite\ServerSite.csproj" />
     <ProjectReference Include="..\SharedVm\SharedVm.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Service\" />
-    <Folder Include="ViewComponent\" />
   </ItemGroup>
 
 </Project>

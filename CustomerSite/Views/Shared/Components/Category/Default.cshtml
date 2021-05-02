@@ -1,0 +1,11 @@
+﻿@model IList<SharedVm.CategoryVm>
+
+@{
+    var server = "https://localhost:44309/";
+}
+
+
+@foreach (var x in Model)
+{
+ <li class="page-item"><a class="page-link" asp-action="GetProductByCategory" asp-route-idCategory="@x.Id" asp-controller="Product">@x.Name</a></li>
+}

@@ -5,35 +5,32 @@
 @model IList<SharedVm.ProductVm>
 
 <div class="container">
-    <div class="row">
-        <div class="col-9">@await Component.InvokeAsync("Banner")</div>
-        <div class="col-3">
-            <div class="list-group">
-                <a  class="list-group-item list-group-item-action" asp-action="GetProductByCategory" asp-route-idCategory="1" asp-controller="Product">
-                    Phone
-                </a>
-                <a  class="list-group-item list-group-item-action"  asp-action="GetProductByCategory" asp-route-idCategory="2" asp-controller="Product">Tablet</a>
-                <a  class="list-group-item list-group-item-action"  asp-action="GetProductByCategory" asp-route-idCategory="3" asp-controller="Product">Laptop</a>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            @await Component.InvokeAsync("Category")
+        </ul>
+    </nav>
+            <div class="row">
+                <div class="col-9">@await Component.InvokeAsync("Banner")</div>
+                
             </div>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-3">
-                <div class="card mb-4 text-center" style="width: 16rem; height: 25rem">
-                    <img class="card-img-top" src="@product.ImageLocation[0]" alt="Card image cap" height=200 />
-                    <div class="card-body">
-                        <h6 class="card-title">@product.Name</h6>
-                        <b class="card-text" style="color:red">@product.Price</b>
+            <br />
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-3">
+                        <div class="card mb-4 text-center" style="width: 16rem; height: 25rem">
+                            <img class="card-img-top" src="@product.ImageLocation[0]" alt="Card image cap" height=200 />
+                            <div class="card-body">
+                                <h6 class="card-title">@product.Name</h6>
+                                <b class="card-text" style="color:red">@product.Price</b>
+                            </div>
+                            <div class="card-footer">
+
+                                <a class="btn btn-primary" asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">Xem chi tiết</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                       
-                        <a class="btn btn-primary" asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">Xem chi tiết</a>
-                    </div>
-                </div>
+                }
             </div>
-        }
-    </div>
-</div>B
+</div>

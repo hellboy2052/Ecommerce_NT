@@ -10,7 +10,7 @@ using ServerSite.Models;
 using SharedVm;
 using ServerSite.Data;
 
-namespace XUniteTest
+namespace XUniteTest.Controller
 {
     public class CategoryTest:IDisposable
     {

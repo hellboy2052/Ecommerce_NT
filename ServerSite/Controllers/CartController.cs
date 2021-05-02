@@ -146,7 +146,7 @@ namespace ServerSite.Controllers
                     CategoryId = x.Product.CategoryId,
                     
                     Description = x.Product.Description,
-                    Id = x.Id,
+                    Id = x.Product.Id,
 
                     Inventory = x.Product.Inventory,
                     Name = x.Product.Name,
@@ -219,11 +219,12 @@ namespace ServerSite.Controllers
         public async Task<ActionResult<CartVm>> AddCartItem(string userId, int productId,int quantity)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            
             var cart = await _context.Carts.Include(x => x.CartItems).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.UserId == userId);
             var cartItem = new CartItem
             {
                 Product = product,
-                Quantity=quantity
+                Quantity=quantity,
                 
             };
 
@@ -244,31 +245,55 @@ namespace ServerSite.Controllers
             });
 
         }
-        //[HttpPut("removeItem/{userId}/{productId}")]
-        ////[Authorize(Roles = "admin")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> RemoveItem(string userId, int productId)
-        //{
-        //    var cart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
-        //    foreach (Product p in cart.Products)
-        //    {
-        //        if (p.Id == productId)
-        //        {
-        //            p.Quantity--;
-        //            if (p.Quantity == 0)
-        //            {
-        //                cart.Products.Remove(p);
-        //            }
-        //        }
-        //    }
-        //    if (cart == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    await _context.SaveChangesAsync();
+        [HttpPut("removeItem/{userId}/{productId}")]
+        //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RemoveItem(string userId, int productId)
+        {
+            var cart = await _context.Carts.Include(c=>c.CartItems).FirstOrDefaultAsync(x => x.UserId == userId);
+            foreach (CartItem p in cart.CartItems)
+            {
+                if (p.Id == productId)
+                {
+                    cart.CartItems.Remove(p);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            if (cart == null)
+            {
+                return NotFound();
+            }
+            await _context.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+            return CreatedAtAction("Get", new { id = cart.Id }, new CartVm
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                TotalPrice = cart.TotalPrice,
+
+            });
+        }
+        [HttpPut("clearCart/{userId}")]
+        //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> clearCart(string userId)
+        {
+            var cart = await _context.Carts.Include(c => c.CartItems).FirstOrDefaultAsync(x => x.UserId == userId);
+            cart.CartItems.Clear();
+            if (cart == null)
+            {
+                return NotFound();
+            }
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("Get", new { id = cart.Id }, new CartVm
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                TotalPrice = cart.TotalPrice,
+
+            });
+        }
         //[HttpPut("addItem/{userId1}/{productId1}")]
         ////[Authorize(Roles = "admin")]
         //[AllowAnonymous]

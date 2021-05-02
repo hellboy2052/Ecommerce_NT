@@ -73,5 +73,22 @@ namespace CustomerSite.Services.Apis
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<CartVm>();
         }
+        public async Task<CartVm> RemoveItem(string userId, int productId)
+        {
+            await GetCartByUser(userId);
+            var client = _httpClientFactory.CreateClient();
+            var response1 = await client.GetAsync(_configuration["BackendUrl:Default"] + "/api/Product/" + productId);
+            var response = await client.PutAsync(_configuration["BackendUrl:Default"] + "/api/Cart/removeItem/" + userId + "/" + productId,null);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<CartVm>();
+        }
+        public async Task<CartVm> clearCart(string userId)
+        {
+            await GetCartByUser(userId);
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.PutAsync(_configuration["BackendUrl:Default"] + "/api/Cart/clearCart/" + userId , null);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<CartVm>();
+        }
     }
 }
